@@ -1,2 +1,4 @@
 # Bob-Cat-Runner
-Simple game with Bob the cat using SpriteKit
+Simple game with Bob the cat using SpriteKit.
+
+More soon...
