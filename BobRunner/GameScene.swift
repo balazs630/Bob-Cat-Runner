@@ -14,7 +14,7 @@ class GameScene: SKScene {
     var cloud: SKSpriteNode?
     var cat: SKSpriteNode?
 
-    var rainDropRate: TimeInterval = 0.5
+    var rainDropRate: TimeInterval = 1
     var timeSinceRainDrop: TimeInterval = 0
     var lastTime: TimeInterval = 0
 
@@ -66,16 +66,28 @@ class GameScene: SKScene {
         //return if it hasn't been enogh time to drop raindrop
         if timeSinceRainDrop < rainDropRate {
             return
+        } else {
+            dropRainDrop()
+            timeSinceRainDrop = 0
         }
-
-        dropRainDrop()
-        timeSinceRainDrop = 0
     }
 
     func dropRainDrop() {
         let scene: SKScene = SKScene(fileNamed: "Raindrop")!
         let raindrop = scene.childNode(withName: "raindrop")
-        raindrop?.position = cloud!.position
+        let cloudRadius: Int = Int(cloud!.size.width/2) - 20
+
+        var droppingPoint: CGPoint = cloud!.position
+        // drop raindrops randomly according to cloud width
+        droppingPoint.x += CGFloat(generateRandomNumber(range: -1*cloudRadius...cloudRadius))
+
+        raindrop?.position = droppingPoint
         raindrop?.move(toParent: self)
+    }
+
+    func generateRandomNumber(range: ClosedRange<Int>) -> Int {
+        let min = range.lowerBound
+        let max = range.upperBound
+        return Int(arc4random_uniform(UInt32(1 + max - min))) + min
     }
 }
