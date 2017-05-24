@@ -9,8 +9,9 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
 
+    var ground: SKSpriteNode?
     var cloud: SKSpriteNode?
     var cat: SKSpriteNode?
 
@@ -18,11 +19,63 @@ class GameScene: SKScene {
     var timeSinceRainDrop: TimeInterval = 0
     var lastTime: TimeInterval = 0
 
+    // Collision masks
+    let noCategory: UInt32 = 0
+    let rainDropCategory: UInt32 = 0b1
+    let catCategory: UInt32 = 0b1 << 1
+    let cloudCategory: UInt32 = 0b1 << 2
+    let umbrellaCategory: UInt32 = 0b1 << 3
+    let groundCategory: UInt32 = 0b1 << 4
+
     override func didMove(to view: SKView) {
         view.showsPhysics = true
-        cat = self.childNode(withName: "cat") as? SKSpriteNode
-        cloud = self.childNode(withName: "cloud") as? SKSpriteNode
+        self.physicsWorld.contactDelegate = self
 
+        ground = self.childNode(withName: "ground") as? SKSpriteNode
+        ground?.physicsBody?.categoryBitMask = groundCategory
+        ground?.physicsBody?.collisionBitMask = noCategory
+        ground?.physicsBody?.collisionBitMask = rainDropCategory
+
+        cloud = self.childNode(withName: "cloud") as? SKSpriteNode
+        cloud?.physicsBody?.categoryBitMask = cloudCategory
+        cloud?.physicsBody?.collisionBitMask = noCategory
+        cloud?.physicsBody?.contactTestBitMask = catCategory
+
+        cat = self.childNode(withName: "cat") as? SKSpriteNode
+        cat?.physicsBody?.categoryBitMask = catCategory
+        cat?.physicsBody?.collisionBitMask = groundCategory
+        cat?.physicsBody?.contactTestBitMask = cloudCategory | rainDropCategory
+    }
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        let cA: UInt32 = contact.bodyA.categoryBitMask
+        let cB: UInt32 = contact.bodyB.categoryBitMask
+        let otherNode: SKNode
+
+        if cA == catCategory || cB == catCategory {
+            otherNode = (cA == catCategory) ? contact.bodyB.node! : contact.bodyA.node!
+            catDidCollide(with: otherNode)
+        } else if cA == groundCategory || cB == groundCategory {
+            otherNode = (cA == groundCategory) ? contact.bodyB.node! : contact.bodyA.node!
+            groundDidCollide(with: otherNode)
+        }
+    }
+
+    func catDidCollide(with other: SKNode) {
+        let otherCategory = other.physicsBody?.categoryBitMask
+        if otherCategory == umbrellaCategory {
+            other.removeFromParent()
+        } else if otherCategory == rainDropCategory {
+            other.removeFromParent()
+            cat?.removeFromParent()
+        }
+    }
+
+    func groundDidCollide(with other: SKNode) {
+        let otherCategory = other.physicsBody?.categoryBitMask
+        if otherCategory == rainDropCategory {
+            other.removeFromParent()
+        }
     }
 
     func touchDown(atPoint pos: CGPoint) {
@@ -60,10 +113,10 @@ class GameScene: SKScene {
     }
 
     func checkRainDrop(_ frameRate: TimeInterval) {
-        // add time to timer
+        // Add time to timer
         timeSinceRainDrop += frameRate
 
-        //return if it hasn't been enogh time to drop raindrop
+        // Return if it hasn't been enogh time to drop raindrop
         if timeSinceRainDrop < rainDropRate {
             return
         } else {
@@ -75,10 +128,14 @@ class GameScene: SKScene {
     func dropRainDrop() {
         let scene: SKScene = SKScene(fileNamed: "Raindrop")!
         let raindrop = scene.childNode(withName: "raindrop")
+        raindrop?.physicsBody?.categoryBitMask = rainDropCategory
+        raindrop?.physicsBody?.collisionBitMask = noCategory
+        raindrop?.physicsBody?.contactTestBitMask = catCategory | groundCategory
+
         let cloudRadius: Int = Int(cloud!.size.width/2) - 20
 
         var droppingPoint: CGPoint = cloud!.position
-        // drop raindrops randomly according to cloud width
+        // Drop raindrops randomly according to cloud width
         droppingPoint.x += CGFloat(generateRandomNumber(range: -1*cloudRadius...cloudRadius))
 
         raindrop?.position = droppingPoint

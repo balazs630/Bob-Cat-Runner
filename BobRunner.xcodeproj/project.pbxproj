@@ -62,12 +62,12 @@
 		AC903D1A1ED31F150016910C /* BobRunner */ = {
 			isa = PBXGroup;
 			children = (
-				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
+				AC903D1F1ED31F150016910C /* Actions.sks */,
 				AC903D1D1ED31F150016910C /* GameScene.sks */,
 				AC6F35591ED3948D00522FFA /* Raindrop.sks */,
-				AC903D1F1ED31F150016910C /* Actions.sks */,
 				AC903D211ED31F150016910C /* GameScene.swift */,
 				AC903D231ED31F150016910C /* GameViewController.swift */,
+				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
 				AC903D251ED31F150016910C /* Main.storyboard */,
 				AC903D281ED31F150016910C /* Assets.xcassets */,
 				AC903D2A1ED31F150016910C /* LaunchScreen.storyboard */,
