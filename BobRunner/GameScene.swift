@@ -15,21 +15,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cloud: SKSpriteNode?
     var cat: SKSpriteNode?
 
+    var lifes: Int = 5
+    var lblLifeCounter: SKLabelNode?
+
     var rainDropRate: TimeInterval = 1
     var timeSinceRainDrop: TimeInterval = 0
     var lastTime: TimeInterval = 0
 
     // Collision masks
-    let noCategory: UInt32 = 0
-    let rainDropCategory: UInt32 = 0b1
-    let catCategory: UInt32 = 0b1 << 1
-    let cloudCategory: UInt32 = 0b1 << 2
-    let umbrellaCategory: UInt32 = 0b1 << 3
-    let groundCategory: UInt32 = 0b1 << 4
+    let noCategory: UInt32 = 0x00
+    let rainDropCategory: UInt32 = 0x01
+    let catCategory: UInt32 = 0x02
+    let cloudCategory: UInt32 = 0x03
+    let umbrellaCategory: UInt32 = 0x04
+    let groundCategory: UInt32 = 0x05
 
     override func didMove(to view: SKView) {
         view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
+
+        lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
 
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = groundCategory
@@ -66,8 +71,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if otherCategory == umbrellaCategory {
             other.removeFromParent()
         } else if otherCategory == rainDropCategory {
+            let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
+            rainDropExplosion.position = other.position
+            self.addChild(rainDropExplosion)
+
+            lifes -= 1
+            lblLifeCounter?.text = "Lifes: \(lifes)"
             other.removeFromParent()
-            cat?.removeFromParent()
+            if (lifes == 0) {
+                lblLifeCounter?.text = "Game Over!"
+                cat?.removeFromParent()
+            }
+
         }
     }
 

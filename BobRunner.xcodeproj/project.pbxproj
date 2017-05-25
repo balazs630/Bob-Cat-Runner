@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */; };
 		AC6F355A1ED3948D00522FFA /* Raindrop.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC6F35591ED3948D00522FFA /* Raindrop.sks */; };
 		AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D1B1ED31F150016910C /* AppDelegate.swift */; };
 		AC903D1E1ED31F150016910C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC903D1D1ED31F150016910C /* GameScene.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainDropExplosion.sks; sourceTree = "<group>"; };
 		AC6F35591ED3948D00522FFA /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Raindrop.sks; sourceTree = "<group>"; };
 		AC903D181ED31F150016910C /* BobRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC903D1B1ED31F150016910C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				AC903D1F1ED31F150016910C /* Actions.sks */,
 				AC903D1D1ED31F150016910C /* GameScene.sks */,
 				AC6F35591ED3948D00522FFA /* Raindrop.sks */,
+				AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */,
 				AC903D211ED31F150016910C /* GameScene.swift */,
 				AC903D231ED31F150016910C /* GameViewController.swift */,
 				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
@@ -140,6 +143,7 @@
 				AC903D1E1ED31F150016910C /* GameScene.sks in Resources */,
 				AC903D291ED31F150016910C /* Assets.xcassets in Resources */,
 				AC903D2C1ED31F150016910C /* LaunchScreen.storyboard in Resources */,
+				AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */,
 				AC903D201ED31F150016910C /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
