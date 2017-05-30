@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cat: SKSpriteNode?
 
     var lifes: Int = 5
+    var isCatAlive: Bool = true
     var lblLifeCounter: SKLabelNode?
 
     var rainDropRate: TimeInterval = 1
@@ -24,11 +25,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // Collision masks
     let noCategory: UInt32 = 0x00
-    let rainDropCategory: UInt32 = 0x01
+    let groundCategory: UInt32 = 0x01
     let catCategory: UInt32 = 0x02
     let cloudCategory: UInt32 = 0x03
-    let umbrellaCategory: UInt32 = 0x04
-    let groundCategory: UInt32 = 0x05
+    let rainDropCategory: UInt32 = 0x04
+    let umbrellaCategory: UInt32 = 0x05
+    let otherItemCategory: UInt32 = 0x06
 
     override func didMove(to view: SKView) {
         view.showsPhysics = true
@@ -71,19 +73,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if otherCategory == umbrellaCategory {
             other.removeFromParent()
         } else if otherCategory == rainDropCategory {
-            let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
-            rainDropExplosion.position = other.position
-            self.addChild(rainDropExplosion)
+            catWashed(by: other)
+        }
+    }
 
+    func catWashed(by other: SKNode) {
+        let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
+        rainDropExplosion.position = other.position
+        self.addChild(rainDropExplosion)
+        other.removeFromParent()
+
+        if lifes > 0 {
             lifes -= 1
             lblLifeCounter?.text = "Lifes: \(lifes)"
-            other.removeFromParent()
-            if (lifes == 0) {
-                lblLifeCounter?.text = "Game Over!"
-                cat?.removeFromParent()
-            }
-
         }
+
+        if lifes == 0  && isCatAlive == true {
+            gameOver()
+        }
+    }
+
+    func gameOver() {
+        isCatAlive = false
+        lblLifeCounter?.text = "Game Over!"
+        cat?.run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
     }
 
     func groundDidCollide(with other: SKNode) {
