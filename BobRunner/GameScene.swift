@@ -16,7 +16,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var cat: SKSpriteNode?
 
     var lifes: Int = 5
-    var isCatAlive: Bool = true
     var lblLifeCounter: SKLabelNode?
 
     var rainDropRate: TimeInterval = 1
@@ -85,16 +84,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         if lifes > 0 {
             lifes -= 1
-            lblLifeCounter?.text = "Lifes: \(lifes)"
-        }
 
-        if lifes == 0  && isCatAlive == true {
-            gameOver()
+            if lifes == 0 {
+                gameOver()
+            } else {
+                lblLifeCounter?.text = "Lifes: \(lifes)"
+            }
         }
     }
 
     func gameOver() {
-        isCatAlive = false
         lblLifeCounter?.text = "Game Over!"
         cat?.run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
     }
