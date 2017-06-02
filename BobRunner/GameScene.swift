@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -35,6 +36,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
 
+        setBackgroundMusic()
+        preloadSounds()
+
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
 
         ground = self.childNode(withName: "ground") as? SKSpriteNode
@@ -51,6 +55,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat?.physicsBody?.categoryBitMask = catCategory
         cat?.physicsBody?.collisionBitMask = groundCategory
         cat?.physicsBody?.contactTestBitMask = cloudCategory | rainDropCategory
+    }
+
+    func setBackgroundMusic() {
+        let bgMusic: SKAudioNode = SKAudioNode(fileNamed: "background_music.m4a")
+        bgMusic.autoplayLooped = true
+        self.addChild(bgMusic)
+    }
+
+    func preloadSounds() {
+        do {
+            let sounds: [String] = ["raindrop_explosion", "gameover"]
+            for sound in sounds {
+                let path: String = Bundle.main.path(forResource: sound, ofType: "m4a")!
+                let url: URL = URL(fileURLWithPath: path)
+                let audioPlayer: AVAudioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer.prepareToPlay()
+            }
+        } catch {
+            print("Error thrown in func preloadSounds(): \(error)")
+        }
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -80,6 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
         rainDropExplosion.position = other.position
         self.addChild(rainDropExplosion)
+        self.run(SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false))
         other.removeFromParent()
 
         if lifes > 0 {
@@ -95,7 +120,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func gameOver() {
         lblLifeCounter?.text = "Game Over!"
+        self.run(SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false))
         cat?.run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
+
     }
 
     func groundDidCollide(with other: SKNode) {
