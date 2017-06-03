@@ -8,7 +8,6 @@
 
 import SpriteKit
 import GameplayKit
-import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
@@ -36,8 +35,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
 
-        setBackgroundMusic()
-        preloadSounds()
+        Audio.setBackgroundMusic(for: self)
+        Audio.preloadSounds()
 
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
 
@@ -55,26 +54,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat?.physicsBody?.categoryBitMask = catCategory
         cat?.physicsBody?.collisionBitMask = groundCategory
         cat?.physicsBody?.contactTestBitMask = cloudCategory | rainDropCategory
-    }
-
-    func setBackgroundMusic() {
-        let bgMusic: SKAudioNode = SKAudioNode(fileNamed: "background_music.m4a")
-        bgMusic.autoplayLooped = true
-        self.addChild(bgMusic)
-    }
-
-    func preloadSounds() {
-        do {
-            let sounds: [String] = ["raindrop_explosion", "gameover"]
-            for sound in sounds {
-                let path: String = Bundle.main.path(forResource: sound, ofType: "m4a")!
-                let url: URL = URL(fileURLWithPath: path)
-                let audioPlayer: AVAudioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer.prepareToPlay()
-            }
-        } catch {
-            print("Error thrown in func preloadSounds(): \(error)")
-        }
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
