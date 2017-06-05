@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Audio.preloadSounds()
 
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
+        lblLifeCounter?.text = "Lifes: \(lifes)"
 
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = groundCategory
