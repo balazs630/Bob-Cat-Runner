@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let otherItemCategory: UInt32 = 0x06
 
     override func didMove(to view: SKView) {
-        view.showsPhysics = true
+        //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
 
         Audio.setBackgroundMusic(for: self)
