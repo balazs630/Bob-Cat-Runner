@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */; };
+		AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC312DEB1EF4586E004CBBA0 /* Cat.swift */; };
 		AC6F355A1ED3948D00522FFA /* Raindrop.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC6F35591ED3948D00522FFA /* Raindrop.sks */; };
 		AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606C91EE17AD5009FEE41 /* background_music.m4a */; };
 		AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CA1EE17AD5009FEE41 /* gameover.m4a */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainDropExplosion.sks; sourceTree = "<group>"; };
+		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
 		AC6F35591ED3948D00522FFA /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Raindrop.sks; sourceTree = "<group>"; };
 		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
 		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.m4a; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				AC15A8941EE182D300B63727 /* Scenes */,
 				AC903D211ED31F150016910C /* GameScene.swift */,
+				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
 				AC98E78C1EE367A70009DD66 /* Audio.swift */,
 				AC903D231ED31F150016910C /* GameViewController.swift */,
 				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
@@ -189,6 +192,7 @@
 				AC903D221ED31F150016910C /* GameScene.swift in Sources */,
 				AC903D241ED31F150016910C /* GameViewController.swift in Sources */,
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
+				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

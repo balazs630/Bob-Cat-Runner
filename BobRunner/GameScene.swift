@@ -9,11 +9,21 @@
 import SpriteKit
 import GameplayKit
 
+enum PhysicsCategory: UInt32 {
+    case noCategory = 1
+    case ground = 2
+    case cat = 4
+    case cloud = 8
+    case rainDrop = 16
+    case umbrella = 32
+    case otherItem = 64
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var ground: SKSpriteNode?
     var cloud: SKSpriteNode?
-    var cat: SKSpriteNode?
+    var cat: Cat?
 
     var lifes: Int = 5
     var lblLifeCounter: SKLabelNode?
@@ -22,30 +32,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var moveLeft = false
 
     var screenCenter = CGFloat()
-    var screenLeftEdge = CGFloat()
-    var screenRightEdge = CGFloat()
 
     var rainDropRate: TimeInterval = 1
     var timeSinceRainDrop: TimeInterval = 0
     var lastTime: TimeInterval = 0
 
-    // Collision masks
-    let noCategory: UInt32 = 0x00
-    let groundCategory: UInt32 = 0x01
-    let catCategory: UInt32 = 0x02
-    let cloudCategory: UInt32 = 0x03
-    let rainDropCategory: UInt32 = 0x04
-    let umbrellaCategory: UInt32 = 0x05
-    let otherItemCategory: UInt32 = 0x06
-
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
-        
         screenCenter = self.frame.size.width / self.frame.size.height
-        screenRightEdge = self.frame.size.width / 2 - 40
-        screenLeftEdge = -1 * screenRightEdge
-        
+
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
 
@@ -53,19 +49,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lblLifeCounter?.text = "Lifes: \(lifes)"
 
         ground = self.childNode(withName: "ground") as? SKSpriteNode
-        ground?.physicsBody?.categoryBitMask = groundCategory
-        ground?.physicsBody?.collisionBitMask = noCategory
-        ground?.physicsBody?.collisionBitMask = rainDropCategory
+        ground?.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
+        ground?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
+        ground?.physicsBody?.contactTestBitMask = PhysicsCategory.rainDrop.rawValue
 
         cloud = self.childNode(withName: "cloud") as? SKSpriteNode
-        cloud?.physicsBody?.categoryBitMask = cloudCategory
-        cloud?.physicsBody?.collisionBitMask = noCategory
-        cloud?.physicsBody?.contactTestBitMask = catCategory
+        cloud?.physicsBody?.categoryBitMask = PhysicsCategory.cloud.rawValue
+        cloud?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
+        cloud?.physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue
 
-        cat = self.childNode(withName: "cat") as? SKSpriteNode
-        cat?.physicsBody?.categoryBitMask = catCategory
-        cat?.physicsBody?.collisionBitMask = groundCategory
-        cat?.physicsBody?.contactTestBitMask = cloudCategory | rainDropCategory
+        cat = childNode(withName: "cat") as? Cat
+        cat?.physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
+        cat?.physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
+        cat?.physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
+    }
+
+    override func update(_ currentTime: TimeInterval) {
+        // Called before each frame is rendered
+        moveCat()
+        checkRainDrop(currentTime - lastTime)
+        lastTime = currentTime
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -73,20 +76,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let cB: UInt32 = contact.bodyB.categoryBitMask
         let otherNode: SKNode
 
-        if cA == catCategory || cB == catCategory {
-            otherNode = (cA == catCategory) ? contact.bodyB.node! : contact.bodyA.node!
+        if cA == PhysicsCategory.cat.rawValue || cB == PhysicsCategory.cat.rawValue {
+            otherNode = (cA == PhysicsCategory.cat.rawValue) ? contact.bodyB.node! : contact.bodyA.node!
             catDidCollide(with: otherNode)
-        } else if cA == groundCategory || cB == groundCategory {
-            otherNode = (cA == groundCategory) ? contact.bodyB.node! : contact.bodyA.node!
+        } else if cA == PhysicsCategory.ground.rawValue || cB == PhysicsCategory.ground.rawValue {
+            otherNode = (cA == PhysicsCategory.ground.rawValue) ? contact.bodyB.node! : contact.bodyA.node!
             groundDidCollide(with: otherNode)
         }
     }
 
     func catDidCollide(with other: SKNode) {
         let otherCategory = other.physicsBody?.categoryBitMask
-        if otherCategory == umbrellaCategory {
+        if otherCategory == PhysicsCategory.umbrella.rawValue {
             other.removeFromParent()
-        } else if otherCategory == rainDropCategory {
+        } else if otherCategory == PhysicsCategory.rainDrop.rawValue {
             catWashed(by: other)
         }
     }
@@ -118,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func groundDidCollide(with other: SKNode) {
         let otherCategory = other.physicsBody?.categoryBitMask
-        if otherCategory == rainDropCategory {
+        if otherCategory == PhysicsCategory.rainDrop.rawValue {
             other.removeFromParent()
         }
     }
@@ -142,25 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func moveCat() {
         if canMove {
-            if moveLeft {
-                if (cat?.position.x)! > screenLeftEdge {
-                    cat?.position.x -= 5
-                    cat?.texture = SKTexture(imageNamed: "Pusheen-left-stand")
-                }
-            } else {
-                if (cat?.position.x)! < screenRightEdge {
-                    cat?.position.x += 5
-                    cat?.texture = SKTexture(imageNamed: "Pusheen-right-stand")
-                }
-            }
+            cat?.move(left: moveLeft)
         }
-    }
-
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        moveCat()
-        checkRainDrop(currentTime - lastTime)
-        lastTime = currentTime
     }
 
     func checkRainDrop(_ frameRate: TimeInterval) {
@@ -179,9 +165,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func dropRainDrop() {
         let scene: SKScene = SKScene(fileNamed: "Raindrop")!
         let raindrop = scene.childNode(withName: "raindrop")
-        raindrop?.physicsBody?.categoryBitMask = rainDropCategory
-        raindrop?.physicsBody?.collisionBitMask = noCategory
-        raindrop?.physicsBody?.contactTestBitMask = catCategory | groundCategory
+        raindrop?.physicsBody?.categoryBitMask = PhysicsCategory.rainDrop.rawValue
+        raindrop?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
+        raindrop?.physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
 
         let cloudRadius: Int = Int(cloud!.size.width/2) - 20
 
