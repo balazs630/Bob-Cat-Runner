@@ -18,6 +18,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lifes: Int = 5
     var lblLifeCounter: SKLabelNode?
 
+    var canMove = false
+    var moveLeft = false
+
+    var screenCenter = CGFloat()
+    var screenLeftEdge = CGFloat()
+    var screenRightEdge = CGFloat()
+
     var rainDropRate: TimeInterval = 1
     var timeSinceRainDrop: TimeInterval = 0
     var lastTime: TimeInterval = 0
@@ -34,7 +41,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
-
+        
+        screenCenter = self.frame.size.width / self.frame.size.height
+        screenRightEdge = self.frame.size.width / 2 - 40
+        screenLeftEdge = -1 * screenRightEdge
+        
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
 
@@ -112,36 +123,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func touchDown(atPoint pos: CGPoint) {
-
-    }
-
-    func touchMoved(toPoint pos: CGPoint) {
-
-    }
-
-    func touchUp(atPoint pos: CGPoint) {
-
-    }
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
+        for touch in touches {
+            let location = touch.location(in: self)
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+            if location.x > screenCenter {
+                moveLeft = false
+            } else {
+                moveLeft = true
+            }
+        }
+        canMove = true
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        canMove = false
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    func moveCat() {
+        if canMove {
+            if moveLeft {
+                if (cat?.position.x)! > screenLeftEdge {
+                    cat?.position.x -= 5
+                    cat?.texture = SKTexture(imageNamed: "Pusheen-left-stand")
+                }
+            } else {
+                if (cat?.position.x)! < screenRightEdge {
+                    cat?.position.x += 5
+                    cat?.texture = SKTexture(imageNamed: "Pusheen-right-stand")
+                }
+            }
+        }
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        moveCat()
         checkRainDrop(currentTime - lastTime)
         lastTime = currentTime
     }
