@@ -66,7 +66,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        moveCat()
+        if lifes > 0 {
+            moveCat()
+        }
         checkRainDrop(currentTime - lastTime)
         lastTime = currentTime
     }
