@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */; };
+		AC1E39261EF9612000C59751 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1E39251EF9612000C59751 /* Util.swift */; };
 		AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC312DEB1EF4586E004CBBA0 /* Cat.swift */; };
 		AC6F355A1ED3948D00522FFA /* Raindrop.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC6F35591ED3948D00522FFA /* Raindrop.sks */; };
 		AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606C91EE17AD5009FEE41 /* background_music.m4a */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainDropExplosion.sks; sourceTree = "<group>"; };
+		AC1E39251EF9612000C59751 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
 		AC6F35591ED3948D00522FFA /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Raindrop.sks; sourceTree = "<group>"; };
 		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				AC15A8941EE182D300B63727 /* Scenes */,
 				AC903D211ED31F150016910C /* GameScene.swift */,
+				AC1E39251EF9612000C59751 /* Util.swift */,
 				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
 				AC98E78C1EE367A70009DD66 /* Audio.swift */,
 				AC903D231ED31F150016910C /* GameViewController.swift */,
@@ -120,6 +123,7 @@
 				AC903D141ED31F150016910C /* Sources */,
 				AC903D151ED31F150016910C /* Frameworks */,
 				AC903D161ED31F150016910C /* Resources */,
+				ACB7200E1EF96F74005F6720 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -184,12 +188,29 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		ACB7200E1EF96F74005F6720 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exit\n\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AC903D141ED31F150016910C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				AC903D221ED31F150016910C /* GameScene.swift in Sources */,
+				AC1E39261EF9612000C59751 /* Util.swift in Sources */,
 				AC903D241ED31F150016910C /* GameViewController.swift in Sources */,
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
 				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,

@@ -21,17 +21,17 @@ enum PhysicsCategory: UInt32 {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
+    var lblLifeCounter: SKLabelNode?
     var ground: SKSpriteNode?
     var cloud: SKSpriteNode?
+
     var cat: Cat?
-
-    var lifes: Int = 5
-    var lblLifeCounter: SKLabelNode?
-
     var canMove = false
     var moveLeft = false
 
-    var screenCenter = CGFloat()
+    static var screenCenter = CGFloat()
+    static var screenLeftEdge = CGFloat()
+    static var screenRightEdge = CGFloat()
 
     var rainDropRate: TimeInterval = 1
     var timeSinceRainDrop: TimeInterval = 0
@@ -40,13 +40,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
-        screenCenter = self.frame.size.width / self.frame.size.height
+        GameScene.screenCenter = self.frame.size.width / self.frame.size.height
+        GameScene.screenRightEdge = self.frame.size.width / 2 - 40
+        GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2 - 40)
 
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
-
-        lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
-        lblLifeCounter?.text = "Lifes: \(lifes)"
 
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
@@ -62,12 +61,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat?.physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
         cat?.physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
         cat?.physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
+
+        lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
+        updateLifeCounter()
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if lifes > 0 {
-            moveCat()
+        if cat?.isAlive() == true {
+            manageCatMovements()
         }
         checkRainDrop(currentTime - lastTime)
         lastTime = currentTime
@@ -100,25 +102,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
         rainDropExplosion.position = other.position
         self.addChild(rainDropExplosion)
-        self.run(SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false))
         other.removeFromParent()
 
-        if lifes > 0 {
-            lifes -= 1
+        if cat?.isAlive() == true {
+            cat?.takeDamage()
 
-            if lifes == 0 {
+            if cat?.isAlive() == false {
                 gameOver()
             } else {
-                lblLifeCounter?.text = "Lifes: \(lifes)"
+                updateLifeCounter()
             }
         }
+    }
+
+    func updateLifeCounter() {
+        guard let currentLifes = cat?.lifes else {
+            return
+        }
+        lblLifeCounter?.text = "Lifes: \(currentLifes)"
     }
 
     func gameOver() {
         lblLifeCounter?.text = "Game Over!"
         self.run(SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false))
-        cat?.run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
-
+        cat?.die()
     }
 
     func groundDidCollide(with other: SKNode) {
@@ -129,13 +136,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
+        for t in touches {
+            let location = t.location(in: self)
 
-            if location.x > screenCenter {
-                moveLeft = false
-            } else {
+            if (cat?.contains(location))! {
+                cat?.jumpUp()
+            } else if location.x < GameScene.screenCenter {
                 moveLeft = true
+            } else {
+                moveLeft = false
             }
         }
         canMove = true
@@ -145,7 +154,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         canMove = false
     }
 
-    func moveCat() {
+    func manageCatMovements() {
+        // canMove is true when touchesBegan
         if canMove {
             cat?.move(left: moveLeft)
         }
@@ -175,15 +185,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         var droppingPoint: CGPoint = cloud!.position
         // Drop raindrops randomly according to cloud width
-        droppingPoint.x += CGFloat(generateRandomNumber(range: -1*cloudRadius...cloudRadius))
+        droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
 
         raindrop?.position = droppingPoint
         raindrop?.move(toParent: self)
     }
 
-    func generateRandomNumber(range: ClosedRange<Int>) -> Int {
-        let min = range.lowerBound
-        let max = range.upperBound
-        return Int(arc4random_uniform(UInt32(1 + max - min))) + min
-    }
 }
