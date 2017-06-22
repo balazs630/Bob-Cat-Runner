@@ -23,30 +23,27 @@ class Cat: SKSpriteNode {
 
     func move(left: Bool) {
         if left {
-            if self.position.x > GameScene.screenLeftEdge {
-                self.position.x -= 5
-                self.texture = SKTexture(imageNamed: "Pusheen-left-stand")
+            if position.x > GameScene.screenLeftEdge {
+                position.x -= 5
             }
         } else {
-            if self.position.x < GameScene.screenRightEdge {
-                self.position.x += 5
-                self.texture = SKTexture(imageNamed: "Pusheen-right-stand")
+            if position.x < GameScene.screenRightEdge {
+                position.x += 5
             }
         }
     }
 
     func jumpUp() {
-        self.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
-        self.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+        physicsBody?.applyImpulse(CGVector(dx: 0, dy: 650))
     }
-    
+
     func takeDamage() {
-        self.lifes -= 1
-        self.run(SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false))
+        lifes -= 1
+        run(SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false))
     }
 
     func isAlive() -> Bool {
-        if self.lifes > 0 {
+        if lifes > 0 {
             return true
         } else {
             return false
@@ -54,8 +51,8 @@ class Cat: SKSpriteNode {
     }
 
     func die() {
-        self.run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
-        self.texture = SKTexture(imageNamed: "pusheen-dead")
+        run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
+        texture = SKTexture(imageNamed: "pusheen-dead")
     }
 
 }

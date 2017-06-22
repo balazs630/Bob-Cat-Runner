@@ -70,6 +70,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         if cat?.isAlive() == true {
             manageCatMovements()
+
+            // Identify cat texture changes
+            if let catVerticalVelocity = cat?.physicsBody?.velocity.dy {
+                if catVerticalVelocity > 100 {
+                    if moveLeft {
+                        cat?.texture = SKTexture(imageNamed: "Pusheen-jump-left")
+                    } else {
+                        cat?.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+                    }
+                } else if moveLeft {
+                    cat?.texture = SKTexture(imageNamed: "Pusheen-left-stand")
+                } else {
+                    cat?.texture = SKTexture(imageNamed: "Pusheen-right-stand")
+                }
+            }
+
         }
         checkRainDrop(currentTime - lastTime)
         lastTime = currentTime
@@ -116,10 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func updateLifeCounter() {
-        guard let currentLifes = cat?.lifes else {
-            return
+        if let currentLifes = cat?.lifes {
+            lblLifeCounter?.text = "Lifes: \(currentLifes)"
         }
-        lblLifeCounter?.text = "Lifes: \(currentLifes)"
     }
 
     func gameOver() {
@@ -140,7 +155,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = t.location(in: self)
 
             if (cat?.contains(location))! {
-                cat?.jumpUp()
+                if cat?.isAlive() == true {
+                    cat?.jumpUp()
+                }
             } else if location.x < GameScene.screenCenter {
                 moveLeft = true
             } else {

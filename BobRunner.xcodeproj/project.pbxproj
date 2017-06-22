@@ -146,6 +146,7 @@
 				TargetAttributes = {
 					AC903D171ED31F150016910C = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = UW8QF9DSWQ;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -337,7 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UW8QF9DSWQ;
 				INFOPLIST_FILE = BobRunner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
@@ -350,7 +351,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UW8QF9DSWQ;
 				INFOPLIST_FILE = BobRunner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
