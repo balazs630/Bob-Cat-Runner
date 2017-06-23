@@ -23,6 +23,7 @@
 		AC903D291ED31F150016910C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC903D281ED31F150016910C /* Assets.xcassets */; };
 		AC903D2C1ED31F150016910C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC903D2A1ED31F150016910C /* LaunchScreen.storyboard */; };
 		AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98E78C1EE367A70009DD66 /* Audio.swift */; };
+		ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		AC903D2B1ED31F150016910C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC903D2D1ED31F150016910C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC98E78C1EE367A70009DD66 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Raindrop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				AC903D211ED31F150016910C /* GameScene.swift */,
 				AC1E39251EF9612000C59751 /* Util.swift */,
 				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
+				ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */,
 				AC98E78C1EE367A70009DD66 /* Audio.swift */,
 				AC903D231ED31F150016910C /* GameViewController.swift */,
 				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
@@ -216,6 +219,7 @@
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
 				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
+				ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

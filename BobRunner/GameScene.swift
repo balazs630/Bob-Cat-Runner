@@ -25,17 +25,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var ground: SKSpriteNode?
     var cloud: SKSpriteNode?
 
-    var cat: Cat?
+    let initialCatPosition = CGPoint(x: -270, y: -100)
+    let cat = Cat(lifes: 5)
     var canMove = false
     var moveLeft = false
 
     static var screenCenter = CGFloat()
     static var screenLeftEdge = CGFloat()
     static var screenRightEdge = CGFloat()
-
-    var rainDropRate: TimeInterval = 1
-    var timeSinceRainDrop: TimeInterval = 0
-    var lastTime: TimeInterval = 0
 
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
@@ -47,6 +44,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
 
+        cat.position = initialCatPosition
+        self.addChild(cat)
+
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
         ground?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
@@ -57,38 +57,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cloud?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
         cloud?.physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue
 
-        cat = childNode(withName: "cat") as? Cat
-        cat?.physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
-        cat?.physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
-        cat?.physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
-
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
         updateLifeCounter()
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if cat?.isAlive() == true {
+        if cat.isAlive() == true {
             manageCatMovements()
 
             // Identify cat texture changes
-            if let catVerticalVelocity = cat?.physicsBody?.velocity.dy {
+            if let catVerticalVelocity = cat.physicsBody?.velocity.dy {
                 if catVerticalVelocity > 100 {
                     if moveLeft {
-                        cat?.texture = SKTexture(imageNamed: "Pusheen-jump-left")
+                        cat.texture = SKTexture(imageNamed: "Pusheen-jump-left")
                     } else {
-                        cat?.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+                        cat.texture = SKTexture(imageNamed: "Pusheen-jump-right")
                     }
                 } else if moveLeft {
-                    cat?.texture = SKTexture(imageNamed: "Pusheen-left-stand")
+                    cat.texture = SKTexture(imageNamed: "Pusheen-left-stand")
                 } else {
-                    cat?.texture = SKTexture(imageNamed: "Pusheen-right-stand")
+                    cat.texture = SKTexture(imageNamed: "Pusheen-right-stand")
                 }
             }
 
         }
-        checkRainDrop(currentTime - lastTime)
-        lastTime = currentTime
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud!, for: self)
+        Raindrop.lastTime = currentTime
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -120,10 +115,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(rainDropExplosion)
         other.removeFromParent()
 
-        if cat?.isAlive() == true {
-            cat?.takeDamage()
+        if cat.isAlive() == true {
+            cat.takeDamage()
 
-            if cat?.isAlive() == false {
+            if cat.isAlive() == false {
                 gameOver()
             } else {
                 updateLifeCounter()
@@ -132,15 +127,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func updateLifeCounter() {
-        if let currentLifes = cat?.lifes {
-            lblLifeCounter?.text = "Lifes: \(currentLifes)"
-        }
+        lblLifeCounter?.text = "Lifes: \(cat.lifes)"
     }
 
     func gameOver() {
         lblLifeCounter?.text = "Game Over!"
         self.run(SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false))
-        cat?.die()
+        cat.die()
     }
 
     func groundDidCollide(with other: SKNode) {
@@ -154,9 +147,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches {
             let location = t.location(in: self)
 
-            if (cat?.contains(location))! {
-                if cat?.isAlive() == true {
-                    cat?.jumpUp()
+            if cat.contains(location) {
+                if cat.isAlive() == true {
+                    cat.jumpUp()
                 }
             } else if location.x < GameScene.screenCenter {
                 moveLeft = true
@@ -174,38 +167,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func manageCatMovements() {
         // canMove is true when touchesBegan
         if canMove {
-            cat?.move(left: moveLeft)
+            cat.move(left: moveLeft)
         }
-    }
-
-    func checkRainDrop(_ frameRate: TimeInterval) {
-        // Add time to timer
-        timeSinceRainDrop += frameRate
-
-        // Return if it hasn't been enogh time to drop raindrop
-        if timeSinceRainDrop < rainDropRate {
-            return
-        } else {
-            dropRainDrop()
-            timeSinceRainDrop = 0
-        }
-    }
-
-    func dropRainDrop() {
-        let scene: SKScene = SKScene(fileNamed: "Raindrop")!
-        let raindrop = scene.childNode(withName: "raindrop")
-        raindrop?.physicsBody?.categoryBitMask = PhysicsCategory.rainDrop.rawValue
-        raindrop?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
-        raindrop?.physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
-
-        let cloudRadius: Int = Int(cloud!.size.width/2) - 20
-
-        var droppingPoint: CGPoint = cloud!.position
-        // Drop raindrops randomly according to cloud width
-        droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
-
-        raindrop?.position = droppingPoint
-        raindrop?.move(toParent: self)
     }
 
 }

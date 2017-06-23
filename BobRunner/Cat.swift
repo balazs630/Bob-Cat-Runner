@@ -10,31 +10,38 @@ import SpriteKit
 
 class Cat: SKSpriteNode {
 
+    let jumpImpulse = 650
+    let runSpeed = CGFloat(5)
+
     var lifes: Int = 5
+    var initialSize: CGSize = CGSize(width: 70, height: 45)
 
     init(lifes: Int) {
         self.lifes = lifes
-        super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 28, height: 24))
-    }
+        super.init(texture: nil, color: UIColor.clear, size: initialSize)
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: initialSize.width, height: initialSize.height))
+        physicsBody?.affectedByGravity = true
+        physicsBody?.mass = 1.5
+        physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
+        physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
+        physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
     }
 
     func move(left: Bool) {
         if left {
             if position.x > GameScene.screenLeftEdge {
-                position.x -= 5
+                position.x -= runSpeed
             }
         } else {
             if position.x < GameScene.screenRightEdge {
-                position.x += 5
+                position.x += runSpeed
             }
         }
     }
 
     func jumpUp() {
-        physicsBody?.applyImpulse(CGVector(dx: 0, dy: 650))
+        physicsBody?.applyImpulse(CGVector(dx: 0, dy: jumpImpulse))
     }
 
     func takeDamage() {
@@ -53,6 +60,13 @@ class Cat: SKSpriteNode {
     func die() {
         run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
         texture = SKTexture(imageNamed: "pusheen-dead")
+    }
+
+    func onTap() {
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
 }
