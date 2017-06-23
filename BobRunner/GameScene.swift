@@ -22,11 +22,14 @@ enum PhysicsCategory: UInt32 {
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var lblLifeCounter: SKLabelNode?
+
+    let cat = Cat(lifes: 5)
+    let cloud = Cloud()
     var ground: SKSpriteNode?
-    var cloud: SKSpriteNode?
 
     let initialCatPosition = CGPoint(x: -270, y: -100)
-    let cat = Cat(lifes: 5)
+    let initialCloudPosition = CGPoint(x: -200, y: 65)
+
     var canMove = false
     var moveLeft = false
 
@@ -47,15 +50,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat.position = initialCatPosition
         self.addChild(cat)
 
+        cloud.position = initialCloudPosition
+        self.addChild(cloud)
+
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
         ground?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
         ground?.physicsBody?.contactTestBitMask = PhysicsCategory.rainDrop.rawValue
-
-        cloud = self.childNode(withName: "cloud") as? SKSpriteNode
-        cloud?.physicsBody?.categoryBitMask = PhysicsCategory.cloud.rawValue
-        cloud?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
-        cloud?.physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue
 
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
         updateLifeCounter()
@@ -82,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
 
         }
-        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud!, for: self)
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud, for: self)
         Raindrop.lastTime = currentTime
     }
 

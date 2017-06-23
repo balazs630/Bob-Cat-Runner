@@ -10,19 +10,21 @@ import SpriteKit
 
 class Cat: SKSpriteNode {
 
-    let jumpImpulse = 650
+    let jumpImpulse = 800
     let runSpeed = CGFloat(5)
+    let catMass = CGFloat(2)
 
     var lifes: Int = 5
     var initialSize: CGSize = CGSize(width: 70, height: 45)
 
     init(lifes: Int) {
         self.lifes = lifes
-        super.init(texture: nil, color: UIColor.clear, size: initialSize)
+        let texture = SKTexture(imageNamed: "Pusheen-right-stand")
+        super.init(texture: texture, color: UIColor.clear, size: initialSize)
 
         physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: initialSize.width, height: initialSize.height))
         physicsBody?.affectedByGravity = true
-        physicsBody?.mass = 1.5
+        physicsBody?.mass = catMass
         physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
         physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
         physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
@@ -60,9 +62,6 @@ class Cat: SKSpriteNode {
     func die() {
         run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
         texture = SKTexture(imageNamed: "pusheen-dead")
-    }
-
-    func onTap() {
     }
 
     required init?(coder aDecoder: NSCoder) {
