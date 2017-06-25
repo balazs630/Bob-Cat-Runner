@@ -16,17 +16,17 @@ class Cloud: SKSpriteNode {
     init() {
         let texture = SKTexture(imageNamed: "cloud")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
-
-        createFlyingCloudAnimation()
-        run(flyingCloudAnimation)
+        anchorPoint = CGPoint(x: 0.5, y: 0)
 
         physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: initialSize.width, height: initialSize.height))
-        anchorPoint = CGPoint(x: 0.5, y: 0)
         physicsBody?.affectedByGravity = false
         physicsBody?.allowsRotation = false
         physicsBody?.categoryBitMask = PhysicsCategory.cloud.rawValue
         physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
         physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue
+
+        createFlyingCloudAnimation()
+        run(flyingCloudAnimation)
     }
 
     func createFlyingCloudAnimation() {

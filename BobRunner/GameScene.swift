@@ -133,7 +133,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func gameOver() {
         lblLifeCounter?.text = "Game Over!"
-        self.run(SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false))
         cat.die()
     }
 

@@ -17,13 +17,20 @@ class Cat: SKSpriteNode {
     var lifes: Int = 5
     var initialSize: CGSize = CGSize(width: 70, height: 45)
 
+    let dieAction: SKAction = SKAction.rotate(byAngle: (.pi), duration: 0.5)
+    let gameOverSound: SKAction = SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false)
+    let rainDropExplosion: SKAction = SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false)
+
     init(lifes: Int) {
         self.lifes = lifes
         let texture = SKTexture(imageNamed: "Pusheen-right-stand")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
+        zPosition = 1
 
         physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: initialSize.width, height: initialSize.height))
         physicsBody?.affectedByGravity = true
+        physicsBody?.allowsRotation = false
+        physicsBody?.pinned = false
         physicsBody?.mass = catMass
         physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
         physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
@@ -48,7 +55,7 @@ class Cat: SKSpriteNode {
 
     func takeDamage() {
         lifes -= 1
-        run(SKAction.playSoundFileNamed("raindrop_explosion.m4a", waitForCompletion: false))
+        run(rainDropExplosion)
     }
 
     func isAlive() -> Bool {
@@ -60,7 +67,7 @@ class Cat: SKSpriteNode {
     }
 
     func die() {
-        run(SKAction.rotate(byAngle: (.pi), duration: 0.5))
+        run(SKAction.sequence([gameOverSound, dieAction]))
         texture = SKTexture(imageNamed: "pusheen-dead")
     }
 
