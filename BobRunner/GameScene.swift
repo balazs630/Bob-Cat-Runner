@@ -46,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
         self.camera = cam
+        self.backgroundColor = #colorLiteral(red: 0, green: 0.3271326125, blue: 0.5762214661, alpha: 1)
         GameScene.screenRightEdge = self.frame.size.width / 2 - 40
         GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2 - 40)
 
@@ -86,9 +87,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Identify cat texture changes
                 switch (moveLeft, cat.isProtected, Float(catVerticalVelocity)) {
                 case (true, false, 100..<1000):
-                    cat.texture = SKTexture(imageNamed: "Pusheen-jump-left")
+                    cat.texture = SKTexture(imageNamed: "pusheen-jump-left")
                 case (false, false, 100..<1000):
-                    cat.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+                    cat.texture = SKTexture(imageNamed: "pusheen-jump-right")
                 case (true, true, _):
                     cat.texture = SKTexture(imageNamed: "pusheen-umbrella-left")
                     cat.yScale = tallCatTextureScale
@@ -97,9 +98,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     cat.yScale = tallCatTextureScale
                 default:
                     if moveLeft {
-                        cat.texture = SKTexture(imageNamed: "Pusheen-left-stand")
+                        cat.texture = SKTexture(imageNamed: "pusheen-stand-left")
                     } else {
-                        cat.texture = SKTexture(imageNamed: "Pusheen-right-stand")
+                        cat.texture = SKTexture(imageNamed: "pusheen-stand-right")
                     }
                 }
             }

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Pusheen-right-stand~universal@1x.png",
+      "filename" : "pusheen-jump-right~universal@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Pusheen-right-stand~universal@2x.png",
+      "filename" : "pusheen-jump-right~universal@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Pusheen-right-stand~universal@3x.png",
+      "filename" : "pusheen-jump-right~universal@3x.png",
       "scale" : "3x"
     }
   ],

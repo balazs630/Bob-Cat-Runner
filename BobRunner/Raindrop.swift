@@ -17,7 +17,7 @@ class Raindrop: SKSpriteNode {
     var initialSize: CGSize = CGSize(width: 20, height: 25)
 
     init() {
-        let texture = SKTexture(imageNamed: "Raindrop")
+        let texture = SKTexture(imageNamed: "raindrop")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
 
         physicsBody = SKPhysicsBody(circleOfRadius: initialSize.width / 2)
