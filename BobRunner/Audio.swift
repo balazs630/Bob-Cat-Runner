@@ -19,7 +19,7 @@ class Audio: SKScene {
 
     class func preloadSounds() {
         do {
-            let sounds: [String] = ["raindrop_explosion", "gameover"]
+            let sounds: [String] = ["raindrop_hit_cat", "gameover"]
             for sound in sounds {
                 let path: String = Bundle.main.path(forResource: sound, ofType: "m4a")!
                 let url: URL = URL(fileURLWithPath: path)

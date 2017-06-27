@@ -21,26 +21,31 @@ enum PhysicsCategory: UInt32 {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
+    let cam = SKCameraNode()
     var lblLifeCounter: SKLabelNode?
 
     let cat = Cat(lifes: 5)
     let cloud = Cloud()
+    let umbrella = Umbrella()
     var ground: SKSpriteNode?
 
     let initialCatPosition = CGPoint(x: -270, y: -100)
+    let standardCatTextureScale = CGFloat(1.2)
+    let tallCatTextureScale = CGFloat(2.17)
+
     let initialCloudPosition = CGPoint(x: -200, y: 65)
+    let initialUmbrellaPosition = CGPoint(x: 300, y: -100)
 
     var canMove = false
     var moveLeft = false
 
-    static var screenCenter = CGFloat()
     static var screenLeftEdge = CGFloat()
     static var screenRightEdge = CGFloat()
 
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
-        GameScene.screenCenter = self.frame.size.width / self.frame.size.height
+        self.camera = cam
         GameScene.screenRightEdge = self.frame.size.width / 2 - 40
         GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2 - 40)
 
@@ -53,37 +58,57 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cloud.position = initialCloudPosition
         self.addChild(cloud)
 
+        umbrella.position = initialUmbrellaPosition
+        self.addChild(umbrella)
+
         ground = self.childNode(withName: "ground") as? SKSpriteNode
         ground?.physicsBody?.categoryBitMask = PhysicsCategory.ground.rawValue
         ground?.physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
         ground?.physicsBody?.contactTestBitMask = PhysicsCategory.rainDrop.rawValue
-
+        
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
         updateLifeCounter()
     }
 
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        lblLifeCounter?.position.x = cam.position.x + 250
+        lblLifeCounter?.position.y = cam.position.y + 150
+
         if cat.isAlive() == true {
             manageCatMovements()
 
-            // Identify cat texture changes
+            cat.xScale = standardCatTextureScale
+            cat.yScale = standardCatTextureScale
+
             if let catVerticalVelocity = cat.physicsBody?.velocity.dy {
-                if catVerticalVelocity > 100 {
+
+                // Identify cat texture changes
+                switch (moveLeft, cat.isProtected, Float(catVerticalVelocity)) {
+                case (true, false, 100..<1000):
+                    cat.texture = SKTexture(imageNamed: "Pusheen-jump-left")
+                case (false, false, 100..<1000):
+                    cat.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+                case (true, true, _):
+                    cat.texture = SKTexture(imageNamed: "pusheen-umbrella-left")
+                    cat.yScale = tallCatTextureScale
+                case (false, true, _):
+                    cat.texture = SKTexture(imageNamed: "pusheen-umbrella-right")
+                    cat.yScale = tallCatTextureScale
+                default:
                     if moveLeft {
-                        cat.texture = SKTexture(imageNamed: "Pusheen-jump-left")
+                        cat.texture = SKTexture(imageNamed: "Pusheen-left-stand")
                     } else {
-                        cat.texture = SKTexture(imageNamed: "Pusheen-jump-right")
+                        cat.texture = SKTexture(imageNamed: "Pusheen-right-stand")
                     }
-                } else if moveLeft {
-                    cat.texture = SKTexture(imageNamed: "Pusheen-left-stand")
-                } else {
-                    cat.texture = SKTexture(imageNamed: "Pusheen-right-stand")
                 }
             }
-
         }
-        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud, for: self)
+
+        // Move camere ahead of the player
+        cam.position.x = cat.position.x + 150
+
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud, scene: self)
         Raindrop.lastTime = currentTime
     }
 
@@ -104,25 +129,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func catDidCollide(with other: SKNode) {
         let otherCategory = other.physicsBody?.categoryBitMask
         if otherCategory == PhysicsCategory.umbrella.rawValue {
-            other.removeFromParent()
+            cat.collect(umbrella: other)
         } else if otherCategory == PhysicsCategory.rainDrop.rawValue {
-            catWashed(by: other)
+            Raindrop.explode(raindrop: other, scene: self)
+            if cat.isProtected {
+                run(cat.rainDropHitUmbrellaSound)
+            } else {
+                catWashed(by: other)
+            }
         }
     }
 
     func catWashed(by other: SKNode) {
-        let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
-        rainDropExplosion.position = other.position
-        self.addChild(rainDropExplosion)
-        other.removeFromParent()
-
         if cat.isAlive() == true {
             cat.takeDamage()
 
-            if cat.isAlive() == false {
-                gameOver()
-            } else {
+            // Check if it's still alive after the damage
+            if cat.isAlive() == true {
                 updateLifeCounter()
+            } else {
+                gameOver()
             }
         }
     }
@@ -134,6 +160,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         lblLifeCounter?.text = "Game Over!"
         cat.die()
+
+        let newGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
+        newGameButton.backgroundColor = .black
+        newGameButton.setTitle("New Game", for: .normal)
+        newGameButton.addTarget(self, action: #selector(startNewGame), for: .touchUpInside)
+        self.view?.addSubview(newGameButton)
+    }
+
+    func startNewGame() {
+        let scene = GameScene(size: self.size)
+        let animation = SKTransition.crossFade(withDuration: 0.5)
+        self.view?.presentScene(scene, transition: animation)
     }
 
     func groundDidCollide(with other: SKNode) {
@@ -146,12 +184,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
             let location = t.location(in: self)
+            
 
             if cat.contains(location) {
                 if cat.isAlive() == true {
                     cat.jumpUp()
                 }
-            } else if location.x < GameScene.screenCenter {
+            } else if location.x < cam.position.x {
                 moveLeft = true
             } else {
                 moveLeft = false
