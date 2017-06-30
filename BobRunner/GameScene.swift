@@ -125,15 +125,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func catDidCollide(with other: SKNode) {
-        let otherCategory = other.physicsBody?.categoryBitMask
-        if otherCategory == PhysicsCategory.umbrella.rawValue {
-            cat.collect(umbrella: other)
-        } else if otherCategory == PhysicsCategory.rainDrop.rawValue {
-            Raindrop.explode(raindrop: other, scene: self)
-            if cat.isProtected {
-                run(cat.rainDropHitUmbrellaSound)
-            } else {
-                catHitByRaindrop()
+        if let otherCategory = other.physicsBody?.categoryBitMask {
+            switch (otherCategory) {
+            case PhysicsCategory.umbrella.rawValue:
+                cat.collect(umbrella: other)
+            case PhysicsCategory.rainDrop.rawValue:
+                Raindrop.explode(raindrop: other, scene: self)
+                if cat.isProtected {
+                    run(cat.rainDropHitUmbrellaSound)
+                } else {
+                    catHitByRaindrop()
+                }
+            case PhysicsCategory.house.rawValue:
+                completeActualLevel()
+            default:
+                print("Unexpected collision occured in func catDidCollide!")
+                break
             }
         }
     }
@@ -203,12 +210,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             win()
         } else {
             actualLevel += 1
-            presentLoadGameButton(with: "Next Level!")
+            presentLoadGameButton(with: "Start Level\(actualLevel)!")
+            
         }
     }
 
     func win() {
         //Each level is completed
+        lblLifeCounter?.text = "Congrats, you won! :)"
     }
 
     func presentLoadGameButton(with text: String) {
