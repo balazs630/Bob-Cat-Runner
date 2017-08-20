@@ -24,6 +24,7 @@ class Cat: SKSpriteNode {
     let rainDropHitCatSound: SKAction = SKAction.playSoundFileNamed("raindrop_hit_cat.m4a", waitForCompletion: false)
     let rainDropHitUmbrellaSound: SKAction = SKAction.playSoundFileNamed("raindrop_hit_umbrella.m4a", waitForCompletion: false)
     let gameOverSound: SKAction = SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false)
+    let celebrateSound: SKAction = SKAction.playSoundFileNamed("crowd_celebrate.m4a", waitForCompletion: false)
 
     init(lifes: Int) {
         self.lifes = lifes
@@ -78,6 +79,20 @@ class Cat: SKSpriteNode {
         run(SKAction.sequence([gameOverSound, dieAction]))
         texture = SKTexture(imageNamed: "pusheen-dead")
         isProtected = false
+    }
+
+    func celebrate() {
+        run(celebrateSound)
+
+        let jumpAction: SKAction = SKAction.applyForce(CGVector(dx: 0, dy: 800), duration: TimeInterval(1.5))
+        var jumpSequence = [SKAction]()
+
+        for _ in 0...4 {
+            jumpSequence.append(jumpAction)
+        }
+
+        //Jump up 5 times
+        run(SKAction.sequence(jumpSequence))
     }
 
     required init?(coder aDecoder: NSCoder) {

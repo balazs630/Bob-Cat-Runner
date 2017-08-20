@@ -15,4 +15,9 @@ class Util {
         let max = range.upperBound
         return Int(arc4random_uniform(UInt32(1 + max - min))) + min
     }
+
+    class func delay(_ delay: Double, closure:@escaping ()->Void) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+    }
 }

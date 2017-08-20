@@ -23,7 +23,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     let cam = SKCameraNode()
     var lblLifeCounter: SKLabelNode?
-    let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
+    let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
 
     let maxLevelCount = 2
     var actualLevel = 1
@@ -33,24 +33,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let umbrella = Umbrella()
 
     let initialCatPosition = CGPoint(x: -270, y: -100)
-    let standardCatTextureScale = CGFloat(1.2)
-    let tallCatTextureScale = CGFloat(2.17)
-
     let initialCloudPosition = CGPoint(x: -200, y: 65)
     let initialUmbrellaPosition = CGPoint(x: 300, y: -100)
 
-    var canMove = false
+    let standardCatTextureScale = CGFloat(1.2)
+    let umbrellaCatTextureScale = CGFloat(2.17)
+
+    var touchActive = false
+    var canMove = true
     var moveLeft = false
 
     static var screenLeftEdge = CGFloat()
-    static var screenRightEdge = CGFloat()
 
     override func didMove(to view: SKView) {
         //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
         self.camera = cam
-        GameScene.screenRightEdge = self.frame.size.width / 2 - 40
-        GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2 - 40)
+        GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2)
 
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
@@ -82,17 +81,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let catVerticalVelocity = cat.physicsBody?.velocity.dy {
 
                 // Identify cat texture changes
-                switch (moveLeft, cat.isProtected, Float(catVerticalVelocity)) {
-                case (true, false, 100..<1000):
+                switch (moveLeft, cat.isProtected, Float(catVerticalVelocity), canMove) {
+                case (true, false, 100..<1000, true):
                     cat.texture = SKTexture(imageNamed: "pusheen-jump-left")
-                case (false, false, 100..<1000):
+                case (false, false, 100..<1000, true):
                     cat.texture = SKTexture(imageNamed: "pusheen-jump-right")
-                case (true, true, _):
+                case (true, true, _, true):
                     cat.texture = SKTexture(imageNamed: "pusheen-umbrella-left")
-                    cat.yScale = tallCatTextureScale
-                case (false, true, _):
+                    cat.yScale = umbrellaCatTextureScale
+                case (false, true, _, true):
                     cat.texture = SKTexture(imageNamed: "pusheen-umbrella-right")
-                    cat.yScale = tallCatTextureScale
+                    cat.yScale = umbrellaCatTextureScale
+                case (_, _, _, false):
+                    cat.texture = SKTexture(imageNamed: "pusheen-stand-right")
                 default:
                     if moveLeft {
                         cat.texture = SKTexture(imageNamed: "pusheen-stand-left")
@@ -166,29 +167,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            let location = t.location(in: self)
+        if canMove {
+            touchActive = true
+            for t in touches {
+                let location = t.location(in: self)
 
-            if cat.contains(location) {
-                if cat.isAlive() == true {
-                    cat.jumpUp()
+                if cat.contains(location) {
+                    if cat.isAlive() == true {
+                        cat.jumpUp()
+                    }
+                } else if location.x < cam.position.x {
+                    moveLeft = true
+                } else {
+                    moveLeft = false
                 }
-            } else if location.x < cam.position.x {
-                moveLeft = true
-            } else {
-                moveLeft = false
             }
+
         }
-        canMove = true
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        canMove = false
+        touchActive = false
     }
 
     func manageCatMovements() {
         // canMove is true when touchesBegan
-        if canMove {
+        if touchActive {
             cat.move(left: moveLeft)
         }
     }
@@ -206,12 +210,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func completeActualLevel() {
         //Called if the cat can get back to the house
+        
         if actualLevel == maxLevelCount {
             win()
         } else {
             actualLevel += 1
-            presentLoadGameButton(with: "Start Level\(actualLevel)!")
+            presentLoadGameButton(with: "Start Level \(actualLevel)!")
             
+            //Stop the cat if it arrives to the finish
+            canMove = false
+            touchActive = false
+            
+            cat.celebrate()
         }
     }
 
@@ -221,6 +231,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func presentLoadGameButton(with text: String) {
+        //Center button on the screen
+        loadGameButton.frame.origin.x = (self.view?.center.x)! - loadGameButton.frame.size.width / 2
+        loadGameButton.frame.origin.y = (self.view?.center.y)! - loadGameButton.frame.size.height / 2
+
+        loadGameButton.layer.cornerRadius = 5
         loadGameButton.backgroundColor = .black
         loadGameButton.setTitle(text, for: .normal)
         loadGameButton.addTarget(self, action: #selector(loadGameLevel), for: .touchUpInside)
