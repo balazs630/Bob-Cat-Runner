@@ -8,6 +8,19 @@ The goal is to get back to the house before our scared cat washed away by the ra
 
 This game is in its alpha stage of development. This means that the game is under development and is improved on a regular basis – through commits that add features and content, optimizations and bug fixes. You can clone the whole project and try it on your iPhone or in the Xcode simulator to get an idea! :smile:
 
-Main game:
+**Main game:**
 
 <img src="http://i.imgur.com/LZXXW8h.jpg" width="900px" />
+
+___
+- [x] Genarate and drop raindrops from random position from the cloud
+- [x] Ability to jump and collect umbrella (shield) items with the player
+- [x] Changing the player's image according to the action (run left-rigth, jump, die, celebrate, etc...)
+- [x] Custom sound effects and graphics explosions using sks files
+- [x] Ability to switch to the next level if the current level is completed
+
+___
+- [ ] Generate more clouds and set rain intensity based on the levels to harden the gameplay level to level
+- [ ] Start countdown timer if the player collects an umrella and drop the umbrella if the time has elapsed
+- [ ] Add noisefield for collectable items to make them move randomly
+- [ ] Add more stages with cool graphics

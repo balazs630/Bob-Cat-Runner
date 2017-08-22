@@ -24,9 +24,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let cam = SKCameraNode()
     var lblLifeCounter: SKLabelNode?
     let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
+    let replayGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
 
+    var defaults: UserDefaults = UserDefaults.standard
+    var actualLevel: Int {
+        return defaults.integer(forKey: "actualLevel")
+    }
     let maxLevelCount = 2
-    var actualLevel = 1
 
     let cat = Cat(lifes: 5)
     let cloud = Cloud()
@@ -46,7 +50,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     static var screenLeftEdge = CGFloat()
 
     override func didMove(to view: SKView) {
-        //view.showsPhysics = true
         self.physicsWorld.contactDelegate = self
         self.camera = cam
         GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2)
@@ -182,7 +185,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveLeft = false
                 }
             }
-
         }
     }
 
@@ -202,36 +204,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func gameOver() {
-        //Lost all its life
+        // Lost all its life
         lblLifeCounter?.text = "Game Over!"
         cat.die()
         presentLoadGameButton(with: "Retry level!")
     }
 
     func completeActualLevel() {
-        //Called if the cat can get back to the house
-        
+        // Called if the cat can get back to the house
+        canMove = false
+        touchActive = false
+        cat.celebrate()
+
         if actualLevel == maxLevelCount {
             win()
         } else {
-            actualLevel += 1
-            presentLoadGameButton(with: "Start Level \(actualLevel)!")
-            
-            //Stop the cat if it arrives to the finish
-            canMove = false
-            touchActive = false
-            
-            cat.celebrate()
+            goToNextStage()
         }
     }
 
+    func goToNextStage() {
+        changeActualLevel(to: actualLevel + 1)
+        presentLoadGameButton(with: "Start Level \(actualLevel)!")
+    }
+
     func win() {
-        //Each level is completed
+        // Each level is completed
+        changeActualLevel(to: 1)
         lblLifeCounter?.text = "Congrats, you won! :)"
+        presentReplayWholeGameButton(with: "Replay game from Level 1!")
+    }
+
+    func changeActualLevel(to level: Int) {
+        defaults.set(level, forKey: "actualLevel")
+        defaults.synchronize()
     }
 
     func presentLoadGameButton(with text: String) {
-        //Center button on the screen
+        // Center button on the screen
         loadGameButton.frame.origin.x = (self.view?.center.x)! - loadGameButton.frame.size.width / 2
         loadGameButton.frame.origin.y = (self.view?.center.y)! - loadGameButton.frame.size.height / 2
 
@@ -242,13 +252,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(loadGameButton)
     }
 
+    func presentReplayWholeGameButton(with text: String) {
+        // Center button on the screen
+        replayGameButton.frame.origin.x = (self.view?.center.x)! - replayGameButton.frame.size.width / 2
+        replayGameButton.frame.origin.y = (self.view?.center.y)! - replayGameButton.frame.size.height / 2
+
+        replayGameButton.layer.cornerRadius = 5
+        replayGameButton.backgroundColor = .black
+        replayGameButton.setTitle(text, for: .normal)
+        replayGameButton.addTarget(self, action: #selector(loadGameLevel), for: .touchUpInside)
+        self.view?.addSubview(replayGameButton)
+    }
+
     func loadGameLevel() {
-        //Reload actual level on gameover or load next level if current level is completed
+        // Reload actual level on gameover or load next level if current level is completed
         if let scene = GameScene(fileNamed: "Level\(actualLevel)") {
             let animation = SKTransition.crossFade(withDuration: 1)
             self.view?.presentScene(scene, transition: animation)
         }
         loadGameButton.removeFromSuperview()
+        replayGameButton.removeFromSuperview()
     }
 
 }

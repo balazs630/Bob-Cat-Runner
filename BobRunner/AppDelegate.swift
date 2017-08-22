@@ -15,6 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let defaults = UserDefaults.standard
+
+        if defaults.object(forKey: "isAppAlreadyLaunchedOnce") == nil {
+            let firstTimeLaunchDefaults: [String : Any] = [
+                "isAppAlreadyLaunchedOnce": true,
+                "actualLevel": 1
+            ]
+
+            for item in firstTimeLaunchDefaults {
+                defaults.set(item.value, forKey: item.key)
+            }
+
+            defaults.synchronize()
+        }
+
         return true
     }
 

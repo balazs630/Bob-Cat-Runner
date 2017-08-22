@@ -91,7 +91,7 @@ class Cat: SKSpriteNode {
             jumpSequence.append(jumpAction)
         }
 
-        //Jump up 5 times
+        // Jump up 5 times
         run(SKAction.sequence(jumpSequence))
     }
 

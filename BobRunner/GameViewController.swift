@@ -16,8 +16,9 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         if let view = self.view as! SKView? {
-            // Load the SKScene from 'Level1.sks'
-            if let scene = SKScene(fileNamed: "Level1") {
+            // Load the SKScene according to actual level
+            let defaults: UserDefaults = UserDefaults.standard
+            if let scene = SKScene(fileNamed: "Level\(defaults.integer(forKey: "actualLevel"))") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
 
@@ -27,6 +28,8 @@ class GameViewController: UIViewController {
 
             view.ignoresSiblingOrder = true
 
+            // For debug purpose
+            //view.showsPhysics = true
             //view.showsFPS = true
             //view.showsNodeCount = true
         }
