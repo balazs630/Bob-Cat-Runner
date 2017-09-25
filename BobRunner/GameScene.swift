@@ -264,7 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(replayGameButton)
     }
 
-    func loadGameLevel() {
+    @objc func loadGameLevel() {
         // Reload actual level on gameover or load next level if current level is completed
         if let scene = GameScene(fileNamed: "Level\(actualLevel)") {
             let animation = SKTransition.crossFade(withDuration: 1)
