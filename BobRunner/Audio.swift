@@ -10,13 +10,13 @@ import SpriteKit
 import AVFoundation
 
 class Audio: SKScene {
-
+    
     class func setBackgroundMusic(for gs: GameScene) {
         let bgMusic: SKAudioNode = SKAudioNode(fileNamed: "background_music.m4a")
         bgMusic.autoplayLooped = true
         gs.addChild(bgMusic)
     }
-
+    
     class func preloadSounds() {
         do {
             let sounds: [String] = ["raindrop_hit_cat", "gameover"]
@@ -30,5 +30,5 @@ class Audio: SKScene {
             print("Error thrown in func preloadSounds(): \(error)")
         }
     }
-
+    
 }
