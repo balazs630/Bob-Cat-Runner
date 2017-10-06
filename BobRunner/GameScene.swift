@@ -35,11 +35,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let cat = Cat(lifes: 5)
     let cloud = Cloud()
-    let umbrella = Umbrella()
     
     let initialCatPosition = CGPoint(x: -270, y: -100)
     let initialCloudPosition = CGPoint(x: -200, y: 65)
-    let initialUmbrellaPosition = CGPoint(x: 300, y: -100)
     
     let standardCatTextureScale = CGFloat(1.2)
     let umbrellaCatTextureScale = CGFloat(2.17)
@@ -69,9 +67,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         cloud.position = initialCloudPosition
         self.addChild(cloud)
-        
-        umbrella.position = initialUmbrellaPosition
-        self.addChild(umbrella)
         
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
         updateLifeCounter()
@@ -223,7 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func updateLifeCounter() {
-        lblLifeCounter?.text = "Lifes: \(cat.lifes)"
+        lblLifeCounter?.text = String(cat.lifes)
     }
     
     func gameOver() {
@@ -254,7 +249,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func win() {
         // Each stage is completed
         changeActualStage(to: 1)
-        lblLifeCounter?.text = "Congrats, you won! :)"
         presentReplayWholeGameButton(with: "Replay game from Stage 1!")
     }
     

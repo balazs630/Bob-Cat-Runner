@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC0080FD1F0187D200A988A2 /* Umbrella.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0080FC1F0187D200A988A2 /* Umbrella.swift */; };
 		AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */; };
 		AC1E39261EF9612000C59751 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1E39251EF9612000C59751 /* Util.swift */; };
 		AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC312DEB1EF4586E004CBBA0 /* Cat.swift */; };
@@ -29,7 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AC0080FC1F0187D200A988A2 /* Umbrella.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Umbrella.swift; sourceTree = "<group>"; };
 		AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainDropExplosion.sks; sourceTree = "<group>"; };
 		AC1E39251EF9612000C59751 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 				AC15A8941EE182D300B63727 /* Scenes */,
 				AC903D211ED31F150016910C /* GameScene.swift */,
 				AC443AE81EFDA41000ADA260 /* Cloud.swift */,
-				AC0080FC1F0187D200A988A2 /* Umbrella.swift */,
 				AC1E39251EF9612000C59751 /* Util.swift */,
 				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
 				ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */,
@@ -226,7 +223,6 @@
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
 				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,
 				AC443AE91EFDA41000ADA260 /* Cloud.swift in Sources */,
-				AC0080FD1F0187D200A988A2 /* Umbrella.swift in Sources */,
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
 				ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */,
 			);
