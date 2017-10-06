@@ -18,9 +18,10 @@ ___
 - [x] Changing the player's image according to the action (run left-rigth, jump, die, celebrate, etc...)
 - [x] Custom sound effects and graphics explosions using sks files
 - [x] Ability to switch to the next level if the current level is completed
+- [x] Start countdown timer if the player collects an umrella and drop the umbrella if the time has elapsed
+- [x] Generate more clouds and set higher rain intensity based on the levels to harden the gameplay level to level
 
 ___
-- [ ] Generate more clouds and set rain intensity based on the levels to harden the gameplay level to level
-- [ ] Start countdown timer if the player collects an umrella and drop the umbrella if the time has elapsed
+
 - [ ] Add noisefield for collectable items to make them move randomly
 - [ ] Add more stages with cool graphics

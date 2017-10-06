@@ -10,7 +10,6 @@ import SpriteKit
 
 class Raindrop: SKSpriteNode {
     
-    static var rainDropRate: TimeInterval = 1
     static var timeSinceRainDrop: TimeInterval = 0
     static var lastTime: TimeInterval = 0
     
@@ -28,7 +27,7 @@ class Raindrop: SKSpriteNode {
         physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
     }
     
-    class func checkRainDrop(frameRate: TimeInterval, cloud: SKSpriteNode, scene gs: GameScene) {
+    class func checkRainDrop(frameRate: TimeInterval, cloud: SKSpriteNode, rainDropRate: Double, scene gs: GameScene) {
         // Add time to timer
         timeSinceRainDrop += frameRate
         

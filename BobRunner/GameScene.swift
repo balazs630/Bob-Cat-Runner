@@ -20,31 +20,26 @@ enum PhysicsCategory: UInt32 {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
     let cam = SKCameraNode()
-    var lblLifeCounter: SKLabelNode?
-    let lifeCounterPosition = CGPoint(x: 320, y: 150)
-    let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
-    let replayGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
-    
-    var defaults: UserDefaults = UserDefaults.standard
-    var actualStage: Int {
-        return defaults.integer(forKey: "actualStage")
-    }
-    let maxStageCount = 2
-    
-    let cat = Cat(lifes: 5)
-    let cloud = Cloud()
+    var stage = Stage()
+    var cat = Cat(lifes: 5)
+    var cloud: SKSpriteNode?
     
     let initialCatPosition = CGPoint(x: -270, y: -100)
-    let initialCloudPosition = CGPoint(x: -200, y: 65)
     
     let standardCatTextureScale = CGFloat(1.2)
     let umbrellaCatTextureScale = CGFloat(2.17)
     
-    var umbrellaTimer = Timer()
+    let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
+    let replayGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
+    
+    var lblLifeCounter: SKLabelNode?
+    let lifeCounterPosition = CGPoint(x: 320, y: 150)
+    
     var lblUmbrellaCountDown: SKLabelNode?
     let umbrellaCountDownPosition = CGPoint(x: 320, y: 110)
+    
+    var umbrellaTimer = Timer()
     let countDownInitialSeconds = 3
     var countDownSeconds = Int()
     
@@ -65,8 +60,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat.position = initialCatPosition
         self.addChild(cat)
         
-        cloud.position = initialCloudPosition
-        self.addChild(cloud)
+        for cloudName in stage.currentClouds {
+            cloud = self.childNode(withName: cloudName) as? SKSpriteNode
+        }
         
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
         updateLifeCounter()
@@ -120,7 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Move camere ahead of the player
         cam.position.x = cat.position.x + 150
         
-        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud, scene: self)
+        // Drop raindrops from the clouds
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud!, rainDropRate: stage.currentRainIntensity, scene: self)
         Raindrop.lastTime = currentTime
     }
     
@@ -234,7 +231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         touchActive = false
         cat.celebrate()
         
-        if actualStage == maxStageCount {
+        if stage.actual == Stage.maxStageCount {
             win()
         } else {
             goToNextStage()
@@ -242,19 +239,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func goToNextStage() {
-        changeActualStage(to: actualStage + 1)
-        presentLoadGameButton(with: "Start Stage \(actualStage)!")
+        stage.actual += 1
+        presentLoadGameButton(with: "Start Stage \(stage.actual)!")
     }
     
     func win() {
         // Each stage is completed
-        changeActualStage(to: 1)
+        stage.actual = 1
         presentReplayWholeGameButton(with: "Replay game from Stage 1!")
-    }
-    
-    func changeActualStage(to stage: Int) {
-        defaults.set(stage, forKey: "actualStage")
-        defaults.synchronize()
     }
     
     func presentLoadGameButton(with text: String) {
@@ -296,7 +288,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func loadGameStage() {
         // Reload actual stage on gameover or load next stage if current stage is completed
-        if let scene = GameScene(fileNamed: "Stage\(actualStage)") {
+        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
             let animation = SKTransition.crossFade(withDuration: 1)
             self.view?.presentScene(scene, transition: animation)
         }
