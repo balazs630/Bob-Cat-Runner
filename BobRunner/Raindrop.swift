@@ -27,7 +27,7 @@ class Raindrop: SKSpriteNode {
         physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
     }
     
-    class func checkRainDrop(frameRate: TimeInterval, cloud: SKSpriteNode, rainDropRate: Double, scene gs: GameScene) {
+    class func checkRainDrop(frameRate: TimeInterval, rainDropRate: Double, stage: Stage, scene gs: GameScene) {
         // Add time to timer
         timeSinceRainDrop += frameRate
         
@@ -35,7 +35,10 @@ class Raindrop: SKSpriteNode {
         if timeSinceRainDrop < rainDropRate {
             return
         } else {
-            dropRainDrop(from: cloud, scene: gs)
+            // Drop raindrops from each cloud added to the given stage
+            for cloudName in stage.currentClouds {
+                dropRainDrop(from: gs.childNode(withName: cloudName) as! SKSpriteNode, scene: gs)
+            }
             timeSinceRainDrop = 0
         }
     }

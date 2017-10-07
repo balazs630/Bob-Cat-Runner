@@ -23,15 +23,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let cam = SKCameraNode()
     var stage = Stage()
     var cat = Cat(lifes: 5)
-    var cloud: SKSpriteNode?
     
     let initialCatPosition = CGPoint(x: -270, y: -100)
     
     let standardCatTextureScale = CGFloat(1.2)
     let umbrellaCatTextureScale = CGFloat(2.17)
     
-    let loadGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
-    let replayGameButton = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
+    let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
+    let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
+    let btnReplayWholeGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
     
     var lblLifeCounter: SKLabelNode?
     let lifeCounterPosition = CGPoint(x: 320, y: 150)
@@ -61,7 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(cat)
         
         for cloudName in stage.currentClouds {
-            cloud = self.childNode(withName: cloudName) as? SKSpriteNode
+            self.childNode(withName: cloudName)
         }
         
         lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
@@ -117,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cam.position.x = cat.position.x + 150
         
         // Drop raindrops from the clouds
-        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, cloud: cloud!, rainDropRate: stage.currentRainIntensity, scene: self)
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, rainDropRate: stage.currentRainIntensity, stage: stage, scene: self)
         Raindrop.lastTime = currentTime
     }
     
@@ -220,9 +220,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameOver() {
         // Lost all its life
-        lblLifeCounter?.text = "Game Over!"
         cat.die()
-        presentLoadGameButton(with: "Retry stage!")
+        presentReloadStageButton(with: "Retry stage!")
     }
     
     func completeActualStage() {
@@ -232,45 +231,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cat.celebrate()
         
         if stage.actual == Stage.maxStageCount {
-            win()
+            // Each stage is completed
+            presentReplayWholeGameButton(with: "Replay game from Stage 1!")
         } else {
-            goToNextStage()
+            // Go to next stage
+            presentLoadNextStageButton(with: "Start Stage \(stage.actual + 1)!")
         }
     }
     
-    func goToNextStage() {
-        stage.actual += 1
-        presentLoadGameButton(with: "Start Stage \(stage.actual)!")
-    }
-    
-    func win() {
-        // Each stage is completed
-        stage.actual = 1
-        presentReplayWholeGameButton(with: "Replay game from Stage 1!")
-    }
-    
-    func presentLoadGameButton(with text: String) {
+    func presentLoadNextStageButton(with text: String) {
         // Center button on the screen
-        loadGameButton.frame.origin.x = (self.view?.center.x)! - loadGameButton.frame.size.width / 2
-        loadGameButton.frame.origin.y = (self.view?.center.y)! - loadGameButton.frame.size.height / 2
+        btnLoadNextStage.frame.origin.x = (self.view?.center.x)! - btnLoadNextStage.frame.size.width / 2
+        btnLoadNextStage.frame.origin.y = (self.view?.center.y)! - btnLoadNextStage.frame.size.height / 2
         
-        loadGameButton.layer.cornerRadius = 5
-        loadGameButton.backgroundColor = .black
-        loadGameButton.setTitle(text, for: .normal)
-        loadGameButton.addTarget(self, action: #selector(loadGameStage), for: .touchUpInside)
-        self.view?.addSubview(loadGameButton)
+        btnLoadNextStage.layer.cornerRadius = 5
+        btnLoadNextStage.backgroundColor = .black
+        btnLoadNextStage.setTitle(text, for: .normal)
+        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+        self.view?.addSubview(btnLoadNextStage)
+    }
+    
+    func presentReloadStageButton(with text: String) {
+        // Center button on the screen
+        btnReloadStage.frame.origin.x = (self.view?.center.x)! - btnReloadStage.frame.size.width / 2
+        btnReloadStage.frame.origin.y = (self.view?.center.y)! - btnReloadStage.frame.size.height / 2
+        
+        btnReloadStage.layer.cornerRadius = 5
+        btnReloadStage.backgroundColor = .black
+        btnReloadStage.setTitle(text, for: .normal)
+        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
+        self.view?.addSubview(btnReloadStage)
     }
     
     func presentReplayWholeGameButton(with text: String) {
         // Center button on the screen
-        replayGameButton.frame.origin.x = (self.view?.center.x)! - replayGameButton.frame.size.width / 2
-        replayGameButton.frame.origin.y = (self.view?.center.y)! - replayGameButton.frame.size.height / 2
+        btnReplayWholeGame.frame.origin.x = (self.view?.center.x)! - btnReplayWholeGame.frame.size.width / 2
+        btnReplayWholeGame.frame.origin.y = (self.view?.center.y)! - btnReplayWholeGame.frame.size.height / 2
         
-        replayGameButton.layer.cornerRadius = 5
-        replayGameButton.backgroundColor = .black
-        replayGameButton.setTitle(text, for: .normal)
-        replayGameButton.addTarget(self, action: #selector(loadGameStage), for: .touchUpInside)
-        self.view?.addSubview(replayGameButton)
+        btnReplayWholeGame.layer.cornerRadius = 5
+        btnReplayWholeGame.backgroundColor = .black
+        btnReplayWholeGame.setTitle(text, for: .normal)
+        btnReplayWholeGame.addTarget(self, action: #selector(replayWholeGame), for: .touchUpInside)
+        self.view?.addSubview(btnReplayWholeGame)
     }
     
     @objc func updateUmbrellaHoldingTimer() {
@@ -286,14 +288,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    @objc func loadGameStage() {
-        // Reload actual stage on gameover or load next stage if current stage is completed
+    @objc func loadNextStage() {
+        // Load next stage if current stage is completed
+        stage.actual += 1
+        
         if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
-            let animation = SKTransition.crossFade(withDuration: 1)
-            self.view?.presentScene(scene, transition: animation)
+            self.view?.presentScene(scene)
         }
-        loadGameButton.removeFromSuperview()
-        replayGameButton.removeFromSuperview()
+        
+        btnLoadNextStage.removeFromSuperview()
+    }
+    
+    @objc func reloadStage() {
+        // Reload actual stage on gameover
+        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
+            self.view?.presentScene(scene)
+        }
+        
+        btnReloadStage.removeFromSuperview()
+    }
+    
+    @objc func replayWholeGame() {
+        stage.actual = 1
+        
+        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
+            self.view?.presentScene(scene)
+        }
+        
+        btnReplayWholeGame.removeFromSuperview()
     }
     
 }
