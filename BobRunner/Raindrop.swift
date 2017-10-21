@@ -24,6 +24,7 @@ class Raindrop: SKSpriteNode {
         physicsBody?.allowsRotation = false
         physicsBody?.categoryBitMask = PhysicsCategory.rainDrop.rawValue
         physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
+        physicsBody?.fieldBitMask = PhysicsCategory.noCategory.rawValue
         physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
     }
     
