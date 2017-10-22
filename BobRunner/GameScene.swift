@@ -10,13 +10,13 @@ import SpriteKit
 import GameplayKit
 
 enum PhysicsCategory: UInt32 {
-    case noCategory = 1
-    case ground = 2
-    case cat = 4
-    case cloud = 8
-    case rainDrop = 16
-    case umbrella = 32
-    case house = 64
+    case noCategory = 0
+    case ground = 1
+    case cat = 2
+    case cloud = 4
+    case rainDrop = 8
+    case umbrella = 16
+    case house = 32
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
