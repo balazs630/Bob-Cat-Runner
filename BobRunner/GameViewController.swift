@@ -17,8 +17,7 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene according to actual stage
-            let defaults: UserDefaults = UserDefaults.standard
-            if let scene = SKScene(fileNamed: "Stage\(defaults.integer(forKey: "actualStage"))") {
+            if let scene = SKScene(fileNamed: "Stage\(Stage().actual)") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 

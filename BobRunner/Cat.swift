@@ -27,7 +27,6 @@ class Cat: SKSpriteNode {
     
     init(lifes: Int) {
         self.lifes = lifes
-        self.isProtected = false
         let texture = SKTexture(imageNamed: "pusheen-stand-right")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
     }

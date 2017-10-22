@@ -13,19 +13,11 @@ class Raindrop: SKSpriteNode {
     static var timeSinceRainDrop: TimeInterval = 0
     static var lastTime: TimeInterval = 0
     
-    var initialSize: CGSize = CGSize(width: 20, height: 25)
+    var initialSize: CGSize = CGSize(width: 18, height: 24)
     
     init() {
         let texture = SKTexture(imageNamed: "raindrop")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
-        
-        physicsBody = SKPhysicsBody(circleOfRadius: initialSize.width / 2)
-        physicsBody?.affectedByGravity = true
-        physicsBody?.allowsRotation = false
-        physicsBody?.categoryBitMask = PhysicsCategory.rainDrop.rawValue
-        physicsBody?.collisionBitMask = PhysicsCategory.noCategory.rawValue
-        physicsBody?.fieldBitMask = PhysicsCategory.noCategory.rawValue
-        physicsBody?.contactTestBitMask = PhysicsCategory.cat.rawValue | PhysicsCategory.ground.rawValue
     }
     
     class func checkRainDrop(frameRate: TimeInterval, rainDropRate: Double, stage: Stage, scene gs: GameScene) {
@@ -51,7 +43,12 @@ class Raindrop: SKSpriteNode {
         var droppingPoint: CGPoint = cloud.position
         droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
         
-        let raindrop = Raindrop()
+        var raindrop = Raindrop()
+        let raindropScene = SKScene(fileNamed: "RainDrop")
+        if let rainDropNode = raindropScene?.childNode(withName: "raindrop") as? Raindrop {
+            raindrop = rainDropNode
+        }
+        
         raindrop.position = droppingPoint
         raindrop.move(toParent: gs)
     }

@@ -11,6 +11,7 @@
 		AC1A69FB1F87F8AA0066CED5 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1A69FA1F87F8AA0066CED5 /* Stage.swift */; };
 		AC1E39261EF9612000C59751 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1E39251EF9612000C59751 /* Util.swift */; };
 		AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC312DEB1EF4586E004CBBA0 /* Cat.swift */; };
+		AC3CA8BD1F9D44E9007C12EC /* RainDrop.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC3CA8BC1F9D44E9007C12EC /* RainDrop.sks */; };
 		AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606C91EE17AD5009FEE41 /* background_music.m4a */; };
 		AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CA1EE17AD5009FEE41 /* gameover.m4a */; };
 		AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */; };
@@ -32,6 +33,7 @@
 		AC1A69FA1F87F8AA0066CED5 /* Stage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
 		AC1E39251EF9612000C59751 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
+		AC3CA8BC1F9D44E9007C12EC /* RainDrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RainDrop.sks; sourceTree = "<group>"; };
 		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
 		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.m4a; sourceTree = "<group>"; };
 		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_cat.m4a; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				AC903D1D1ED31F150016910C /* Stage1.sks */,
 				AC9CF9A71F04202100843236 /* Stage2.sks */,
+				AC3CA8BC1F9D44E9007C12EC /* RainDrop.sks */,
 				AC0890C41ED64EE800CB1833 /* RainDropExplosion.sks */,
 			);
 			name = Scenes;
@@ -188,6 +191,7 @@
 				AC903D291ED31F150016910C /* Assets.xcassets in Resources */,
 				AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */,
 				AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */,
+				AC3CA8BD1F9D44E9007C12EC /* RainDrop.sks in Resources */,
 				AC903D2C1ED31F150016910C /* LaunchScreen.storyboard in Resources */,
 				AC0890C51ED64EE800CB1833 /* RainDropExplosion.sks in Resources */,
 				AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */,
