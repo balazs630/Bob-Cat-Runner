@@ -12,11 +12,10 @@ class Cat: SKSpriteNode {
     
     let jumpImpulse = 800
     let runSpeed = CGFloat(5)
-    let catMass = CGFloat(2)
     
     var lifes: Int = 5
     var isProtected = false
-    var initialSize: CGSize = CGSize(width: 70, height: 45)
+    var initialSize: CGSize = CGSize(width: 84, height: 54)
     
     let dieAction: SKAction = SKAction.rotate(byAngle: (.pi), duration: 0.5)
     
@@ -31,15 +30,6 @@ class Cat: SKSpriteNode {
         self.isProtected = false
         let texture = SKTexture(imageNamed: "pusheen-stand-right")
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
-        zPosition = 1
-        
-        physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: initialSize.width, height: initialSize.height))
-        physicsBody?.affectedByGravity = true
-        physicsBody?.allowsRotation = false
-        physicsBody?.mass = catMass
-        physicsBody?.categoryBitMask = PhysicsCategory.cat.rawValue
-        physicsBody?.collisionBitMask = PhysicsCategory.ground.rawValue
-        physicsBody?.contactTestBitMask = PhysicsCategory.cloud.rawValue | PhysicsCategory.rainDrop.rawValue
     }
     
     func move(left: Bool) {

@@ -22,12 +22,13 @@ enum PhysicsCategory: UInt32 {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let cam = SKCameraNode()
     var stage = Stage()
+    
     var cat = Cat(lifes: 5)
-    
-    let initialCatPosition = CGPoint(x: -270, y: -100)
-    
-    let standardCatTextureScale = CGFloat(1.2)
-    let umbrellaCatTextureScale = CGFloat(2.17)
+    var touchActive = false
+    var canMove = true
+    var moveLeft = false
+    let standardCatTextureScale = CGFloat(1.0)
+    let umbrellaCatTextureScale = CGFloat(1.8)
     
     let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
@@ -42,11 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var umbrellaTimer = Timer()
     let countDownInitialSeconds = 3
     var countDownSeconds = Int()
-    
-    var touchActive = false
-    var canMove = true
-    var moveLeft = false
-    
+
     static var screenLeftEdge = CGFloat()
     
     override func didMove(to view: SKView) {
@@ -57,8 +54,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Audio.setBackgroundMusic(for: self)
         Audio.preloadSounds()
         
-        cat.position = initialCatPosition
-        self.addChild(cat)
+        if let catNode = self.childNode(withName: "cat") as? Cat {
+            cat = catNode
+        }
         
         for cloudName in stage.currentClouds {
             self.childNode(withName: cloudName)
