@@ -27,7 +27,7 @@ class Cat: SKSpriteNode {
     
     init(lifes: Int) {
         self.lifes = lifes
-        let texture = SKTexture(imageNamed: "pusheen-stand-right")
+        let texture = SKTexture(assetIdentifier: .CatStandRight)
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
     }
     
@@ -66,7 +66,7 @@ class Cat: SKSpriteNode {
     
     func die() {
         run(SKAction.sequence([gameOverSound, dieAction]))
-        texture = SKTexture(imageNamed: "pusheen-dead")
+        texture = SKTexture(assetIdentifier: .CatDead)
         isProtected = false
     }
     

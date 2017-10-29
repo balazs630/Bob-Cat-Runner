@@ -13,11 +13,17 @@ struct Stage {
     
     var actual: Int {
         get {
-            return UserDefaults.standard.integer(forKey: "actualStage")
+            return UserDefaults.standard.integer(forKey: Key.actualStage)
         }
         set(newStage) {
-            UserDefaults.standard.set(newStage, forKey: "actualStage")
+            UserDefaults.standard.set(newStage, forKey: Key.actualStage)
             UserDefaults.standard.synchronize()
+        }
+    }
+    
+    var actualStageName: String {
+        get {
+            return "Stage\(actual)"
         }
     }
     

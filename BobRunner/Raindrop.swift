@@ -16,7 +16,7 @@ class Raindrop: SKSpriteNode {
     var initialSize: CGSize = CGSize(width: 18, height: 24)
     
     init() {
-        let texture = SKTexture(imageNamed: "raindrop")
+        let texture = SKTexture(assetIdentifier: .Raindrop)
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
     }
     
@@ -44,8 +44,8 @@ class Raindrop: SKSpriteNode {
         droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
         
         var raindrop = Raindrop()
-        let raindropScene = SKScene(fileNamed: "RainDrop")
-        if let rainDropNode = raindropScene?.childNode(withName: "raindrop") as? Raindrop {
+        let raindropScene = SKScene(fileNamed: Scene.raindrop)
+        if let rainDropNode = raindropScene?.childNode(withName: Node.raindrop) as? Raindrop {
             raindrop = rainDropNode
         }
         
@@ -54,7 +54,7 @@ class Raindrop: SKSpriteNode {
     }
     
     class func explode(raindrop: SKNode, scene gs: GameScene) {
-        let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: "RainDropExplosion")!
+        let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: Scene.raindropExplosion)!
         rainDropExplosion.position = raindrop.position
         gs.addChild(rainDropExplosion)
         raindrop.removeFromParent()

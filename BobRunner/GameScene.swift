@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 enum PhysicsCategory: UInt32 {
     case noCategory = 0
@@ -30,6 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let standardCatTextureScale = CGFloat(1.0)
     let umbrellaCatTextureScale = CGFloat(1.8)
     
+    var graphicsLayers: [SKNode] = []
+    
     let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReplayWholeGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
@@ -50,11 +51,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.camera = cam
         GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2)
-        
         Audio.setBackgroundMusic(for: self)
-        Audio.preloadSounds()
         
-        if let catNode = self.childNode(withName: "cat") as? Cat {
+        if let catNode = self.childNode(withName: Node.cat) as? Cat {
             cat = catNode
         }
         
@@ -62,13 +61,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.childNode(withName: cloudName)
         }
         
-        lblLifeCounter = self.childNode(withName: "lblLifeCounter") as? SKLabelNode
+        if let background = self.childNode(withName: Node.Layer.background),
+            let midGround = self.childNode(withName: Node.Layer.midground),
+            let foreGround = self.childNode(withName: Node.Layer.foreground) {
+                graphicsLayers.append(background)
+                graphicsLayers.append(midGround)
+                graphicsLayers.append(foreGround)
+        }
+        
+        lblLifeCounter = self.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode
         updateLifeCounter()
         
-        lblUmbrellaCountDown = self.childNode(withName: "lblUmbrellaCountDown") as? SKLabelNode
+        lblUmbrellaCountDown = self.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode
         lblUmbrellaCountDown?.isHidden = true
         lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
         countDownSeconds = countDownInitialSeconds
+    }
+    
+    override func didSimulatePhysics() {
+        // Position the backgrounds:
+        for background in self.graphicsLayers {
+            let adjustedPosition = cat.position.x * (1 - (background.userData?.value(forKey: Key.movementMultiplier) as! CGFloat))
+            background.position.x = adjustedPosition
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -90,22 +105,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Identify cat texture changes
                 switch (moveLeft, cat.isProtected, Float(catVerticalVelocity), canMove) {
                 case (true, false, 100..<1000, true):
-                    cat.texture = SKTexture(imageNamed: "pusheen-jump-left")
+                    cat.texture = SKTexture(assetIdentifier: .CatJumpLeft)
                 case (false, false, 100..<1000, true):
-                    cat.texture = SKTexture(imageNamed: "pusheen-jump-right")
+                    cat.texture = SKTexture(assetIdentifier: .CatJumpRight)
                 case (true, true, _, true):
-                    cat.texture = SKTexture(imageNamed: "pusheen-umbrella-left")
+                    cat.texture = SKTexture(assetIdentifier: .CatUmbrellaLeft)
                     cat.yScale = umbrellaCatTextureScale
                 case (false, true, _, true):
-                    cat.texture = SKTexture(imageNamed: "pusheen-umbrella-right")
+                    cat.texture = SKTexture(assetIdentifier: .CatUmbrellaRight)
                     cat.yScale = umbrellaCatTextureScale
                 case (_, _, _, false):
-                    cat.texture = SKTexture(imageNamed: "pusheen-stand-right")
+                    cat.texture = SKTexture(assetIdentifier: .CatStandRight)
                 default:
                     if moveLeft {
-                        cat.texture = SKTexture(imageNamed: "pusheen-stand-left")
+                        cat.texture = SKTexture(assetIdentifier: .CatStandLeft)
                     } else {
-                        cat.texture = SKTexture(imageNamed: "pusheen-stand-right")
+                        cat.texture = SKTexture(assetIdentifier: .CatStandRight)
                     }
                 }
             }
@@ -219,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         // Lost all its life
         cat.die()
-        presentReloadStageButton(with: "Retry stage!")
+        presentReloadStageButton(withTitle: "Retry stage!")
     }
     
     func completeActualStage() {
@@ -230,14 +245,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if stage.actual == Stage.maxStageCount {
             // Each stage is completed
-            presentReplayWholeGameButton(with: "Replay game from Stage 1!")
+            presentReplayWholeGameButton(withTitle: "Replay game from Stage 1!")
         } else {
             // Go to next stage
-            presentLoadNextStageButton(with: "Start Stage \(stage.actual + 1)!")
+            presentLoadNextStageButton(withTitle: "Start Stage \(stage.actual + 1)!")
         }
     }
     
-    func presentLoadNextStageButton(with text: String) {
+    func presentLoadNextStageButton(withTitle text: String) {
         // Center button on the screen
         btnLoadNextStage.frame.origin.x = (self.view?.center.x)! - btnLoadNextStage.frame.size.width / 2
         btnLoadNextStage.frame.origin.y = (self.view?.center.y)! - btnLoadNextStage.frame.size.height / 2
@@ -249,7 +264,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(btnLoadNextStage)
     }
     
-    func presentReloadStageButton(with text: String) {
+    func presentReloadStageButton(withTitle text: String) {
         // Center button on the screen
         btnReloadStage.frame.origin.x = (self.view?.center.x)! - btnReloadStage.frame.size.width / 2
         btnReloadStage.frame.origin.y = (self.view?.center.y)! - btnReloadStage.frame.size.height / 2
@@ -261,7 +276,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(btnReloadStage)
     }
     
-    func presentReplayWholeGameButton(with text: String) {
+    func presentReplayWholeGameButton(withTitle text: String) {
         // Center button on the screen
         btnReplayWholeGame.frame.origin.x = (self.view?.center.x)! - btnReplayWholeGame.frame.size.width / 2
         btnReplayWholeGame.frame.origin.y = (self.view?.center.y)! - btnReplayWholeGame.frame.size.height / 2
@@ -278,7 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             countDownSeconds -= 1
             lblUmbrellaCountDown?.text = String(countDownSeconds)
         } else {
-            // If time is over
+            // Time is over
             cat.isProtected = false
             lblUmbrellaCountDown?.isHidden = true
             countDownSeconds = countDownInitialSeconds
@@ -290,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Load next stage if current stage is completed
         stage.actual += 1
         
-        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
+        if let scene = GameScene(fileNamed: stage.actualStageName) {
             self.view?.presentScene(scene)
         }
         
@@ -299,7 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func reloadStage() {
         // Reload actual stage on gameover
-        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
+        if let scene = GameScene(fileNamed: stage.actualStageName) {
             self.view?.presentScene(scene)
         }
         
@@ -309,7 +324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func replayWholeGame() {
         stage.actual = 1
         
-        if let scene = GameScene(fileNamed: "Stage\(stage.actual)") {
+        if let scene = GameScene(fileNamed: stage.actualStageName) {
             self.view?.presentScene(scene)
         }
         
