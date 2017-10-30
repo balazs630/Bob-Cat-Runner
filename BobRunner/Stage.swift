@@ -6,7 +6,7 @@
 //  Copyright © 2017. Horváth Balázs. All rights reserved.
 //
 
-import SpriteKit
+import Foundation
 
 struct Stage {
     static let maxStageCount = 2

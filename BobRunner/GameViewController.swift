@@ -6,9 +6,7 @@
 //  Copyright © 2017. Horváth Balázs. All rights reserved.
 //
 
-import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
     
@@ -46,12 +44,13 @@ class GameViewController: UIViewController {
         return .landscape
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
 }
