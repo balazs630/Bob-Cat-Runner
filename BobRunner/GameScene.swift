@@ -20,8 +20,11 @@ enum PhysicsCategory: UInt32 {
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    let cam = SKCameraNode()
+    var cam = SKCameraNode()
+    let cameraOffset = CGFloat(150)
+    
     var stage = Stage()
+    var graphicsLayers: [SKNode] = []
     
     var cat = Cat(lifes: 5)
     var touchActive = false
@@ -30,17 +33,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let standardCatTextureScale = CGFloat(1.0)
     let umbrellaCatTextureScale = CGFloat(1.8)
     
-    var graphicsLayers: [SKNode] = []
-    
     let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReplayWholeGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
     
     var lblLifeCounter: SKLabelNode?
-    let lifeCounterPosition = CGPoint(x: 320, y: 150)
-    
     var lblUmbrellaCountDown: SKLabelNode?
-    let umbrellaCountDownPosition = CGPoint(x: 320, y: 110)
     
     var umbrellaTimer = Timer()
     let countDownInitialSeconds = 3
@@ -49,8 +47,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         // Called immediately after a scene is presented by a view
         self.physicsWorld.contactDelegate = self
-        self.camera = cam
         Audio.setBackgroundMusic(for: self)
+        
+        if let camNode = self.childNode(withName: Node.camera) as? SKCameraNode {
+            cam = camNode
+        }
         
         if let catNode = self.childNode(withName: Node.cat) as? Cat {
             cat = catNode
@@ -60,16 +61,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.childNode(withName: cloudName)
         }
         
-        if let background = self.childNode(withName: Node.Layer.background),
-            let midground = self.childNode(withName: Node.Layer.midground),
-            let foreground = self.childNode(withName: Node.Layer.foreground) {
-                graphicsLayers.append(background)
-                graphicsLayers.append(midground)
-                graphicsLayers.append(foreground)
+        if let backgroundNode = self.childNode(withName: Node.Layer.background),
+            let midgroundNode = self.childNode(withName: Node.Layer.midground),
+            let foregroundNode = self.childNode(withName: Node.Layer.foreground) {
+                graphicsLayers.append(backgroundNode)
+                graphicsLayers.append(midgroundNode)
+                graphicsLayers.append(foregroundNode)
         }
         
-        if let lifeCounter = self.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
-            let umbrellaCountDown = self.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
+        if let lifeCounter = cam.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
+            let umbrellaCountDown = cam.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
                 lblLifeCounter = lifeCounter
                 updateLifeCounter()
             
@@ -124,13 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Move camere ahead of the player
-        cam.position.x = cat.position.x + 150
-        
-        lblLifeCounter?.position.x = cam.position.x + lifeCounterPosition.x
-        lblLifeCounter?.position.y = cam.position.y + lifeCounterPosition.y
-        
-        lblUmbrellaCountDown?.position.x = cam.position.x + umbrellaCountDownPosition.x
-        lblUmbrellaCountDown?.position.y = cam.position.y + umbrellaCountDownPosition.y
+        cam.position.x = cat.position.x + cameraOffset
     
         // Do the parallax background effect
         for background in self.graphicsLayers {
@@ -213,7 +208,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if cat.isAlive() == true {
                         cat.jumpUp()
                     }
-                } else if location.x < cam.position.x {
+                } else if location.x < (cam.position.x - cameraOffset) {
                     moveLeft = true
                 } else {
                     moveLeft = false
@@ -312,7 +307,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Load next stage if current stage is completed
         stage.actual += 1
         
-        if let scene = GameScene(fileNamed: stage.actualStageName) {
+        if let scene = SKScene(fileNamed: stage.actualStageName) {
+            scene.scaleMode = .aspectFill
             self.view?.presentScene(scene)
         }
         
@@ -321,7 +317,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func reloadStage() {
         // Reload actual stage on gameover
-        if let scene = GameScene(fileNamed: stage.actualStageName) {
+        if let scene = SKScene(fileNamed: stage.actualStageName) {
+            scene.scaleMode = .aspectFill
             self.view?.presentScene(scene)
         }
         
@@ -331,7 +328,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func replayWholeGame() {
         stage.actual = 1
         
-        if let scene = GameScene(fileNamed: stage.actualStageName) {
+        if let scene = SKScene(fileNamed: stage.actualStageName) {
+            scene.scaleMode = .aspectFill
             self.view?.presentScene(scene)
         }
         

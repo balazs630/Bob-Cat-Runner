@@ -14,6 +14,7 @@ struct Scene {
 }
 
 struct Node {
+    static let camera = "camera"
     static let cat = "cat"
     static let raindrop = "raindrop"
     
