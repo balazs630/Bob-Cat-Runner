@@ -16,6 +16,7 @@ enum PhysicsCategory: UInt32 {
     case rainDrop = 8
     case umbrella = 16
     case house = 32
+    case dangerZone = 64
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -44,13 +45,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var umbrellaTimer = Timer()
     let countDownInitialSeconds = 3
     var countDownSeconds = Int()
-
-    static var screenLeftEdge = CGFloat()
     
     override func didMove(to view: SKView) {
+        // Called immediately after a scene is presented by a view
         self.physicsWorld.contactDelegate = self
         self.camera = cam
-        GameScene.screenLeftEdge = -1 * (self.frame.size.width / 2)
         Audio.setBackgroundMusic(for: self)
         
         if let catNode = self.childNode(withName: Node.cat) as? Cat {
@@ -62,38 +61,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if let background = self.childNode(withName: Node.Layer.background),
-            let midGround = self.childNode(withName: Node.Layer.midground),
-            let foreGround = self.childNode(withName: Node.Layer.foreground) {
+            let midground = self.childNode(withName: Node.Layer.midground),
+            let foreground = self.childNode(withName: Node.Layer.foreground) {
                 graphicsLayers.append(background)
-                graphicsLayers.append(midGround)
-                graphicsLayers.append(foreGround)
+                graphicsLayers.append(midground)
+                graphicsLayers.append(foreground)
         }
         
-        lblLifeCounter = self.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode
-        updateLifeCounter()
-        
-        lblUmbrellaCountDown = self.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode
-        lblUmbrellaCountDown?.isHidden = true
-        lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
-        countDownSeconds = countDownInitialSeconds
-    }
-    
-    override func didSimulatePhysics() {
-        // Position the backgrounds:
-        for background in self.graphicsLayers {
-            let adjustedPosition = cat.position.x * (1 - (background.userData?.value(forKey: Key.movementMultiplier) as! CGFloat))
-            background.position.x = adjustedPosition
+        if let lifeCounter = self.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
+            let umbrellaCountDown = self.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
+                lblLifeCounter = lifeCounter
+                updateLifeCounter()
+            
+                lblUmbrellaCountDown = umbrellaCountDown
+                lblUmbrellaCountDown?.isHidden = true
+                lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
+                countDownSeconds = countDownInitialSeconds
         }
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        lblLifeCounter?.position.x = cam.position.x + lifeCounterPosition.x
-        lblLifeCounter?.position.y = cam.position.y + lifeCounterPosition.y
+        // Performs any scene-specific updates that need to occur before scene actions and physics simulations are evaluated
         
-        lblUmbrellaCountDown?.position.x = cam.position.x + umbrellaCountDownPosition.x
-        lblUmbrellaCountDown?.position.y = cam.position.y + umbrellaCountDownPosition.y
+        // Drop raindrops from the clouds
+        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, rainDropRate: stage.currentRainIntensity, stage: stage, scene: self)
+        Raindrop.lastTime = currentTime
+    }
+    
+    override func didSimulatePhysics() {
+        // Performs any scene-specific updates that need to occur after physics simulations are performed
         
+        // Identify cat texture changes
         if cat.isAlive() == true {
             manageCatMovements()
             
@@ -102,7 +100,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if let catVerticalVelocity = cat.physicsBody?.velocity.dy {
                 
-                // Identify cat texture changes
                 switch (moveLeft, cat.isProtected, Float(catVerticalVelocity), canMove) {
                 case (true, false, 100..<1000, true):
                     cat.texture = SKTexture(assetIdentifier: .CatJumpLeft)
@@ -129,9 +126,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Move camere ahead of the player
         cam.position.x = cat.position.x + 150
         
-        // Drop raindrops from the clouds
-        Raindrop.checkRainDrop(frameRate: currentTime - Raindrop.lastTime, rainDropRate: stage.currentRainIntensity, stage: stage, scene: self)
-        Raindrop.lastTime = currentTime
+        lblLifeCounter?.position.x = cam.position.x + lifeCounterPosition.x
+        lblLifeCounter?.position.y = cam.position.y + lifeCounterPosition.y
+        
+        lblUmbrellaCountDown?.position.x = cam.position.x + umbrellaCountDownPosition.x
+        lblUmbrellaCountDown?.position.y = cam.position.y + umbrellaCountDownPosition.y
+    
+        // Do the parallax background effect
+        for background in self.graphicsLayers {
+            let adjustedPosition = cat.position.x * (1 - (background.userData?.value(forKey: Key.movementMultiplier) as! CGFloat))
+            background.position.x = adjustedPosition
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -198,6 +203,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Tells this object that one or more new touches occurred in a view or window
         if canMove {
             touchActive = true
             for t in touches {
@@ -217,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Tells the responder when one or more fingers are raised from a view or window
         touchActive = false
     }
     

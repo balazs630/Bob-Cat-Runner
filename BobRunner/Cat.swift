@@ -33,9 +33,7 @@ class Cat: SKSpriteNode {
     
     func move(left: Bool) {
         if left {
-            if position.x > GameScene.screenLeftEdge {
-                position.x -= runSpeed
-            }
+            position.x -= runSpeed
         } else {
             position.x += runSpeed
         }
