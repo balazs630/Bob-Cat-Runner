@@ -13,9 +13,9 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let view = self.view as! SKView? {
+        if let view = self.view as? SKView {
             // Load the SKScene according to actual stage
-            if let scene = SKScene(fileNamed: Stage().actualStageName) {
+            if let scene = SKScene(fileNamed: Stage().name) {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 

@@ -11,7 +11,7 @@ import SpriteKit
 class Audio {
     
     class func setBackgroundMusic(for gs: GameScene) {
-        let bgMusic: SKAudioNode = SKAudioNode(fileNamed: "background_music.m4a")
+        let bgMusic = SKAudioNode(fileNamed: "background_music.m4a")
         bgMusic.autoplayLooped = true
         gs.addChild(bgMusic)
     }

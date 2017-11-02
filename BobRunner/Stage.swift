@@ -11,7 +11,7 @@ import Foundation
 struct Stage {
     static let maxStageCount = 2
     
-    var actual: Int {
+    var current: Int {
         get {
             return UserDefaults.standard.integer(forKey: Key.actualStage)
         }
@@ -21,34 +21,34 @@ struct Stage {
         }
     }
     
-    var actualStageName: String {
+    var name: String {
         get {
-            return "Stage\(actual)"
+            return "Stage\(current)"
         }
     }
     
-    var currentClouds: [String] {
+    var clouds: [String] {
         get {
             // Stage number : cloud names
             let clouds: [Int: [String]] = [
-                1: ["cloud1"],
-                2: ["cloud1", "cloud2"]
+                1: [Node.cloud1],
+                2: [Node.cloud1, Node.cloud2]
             ]
             
-            return clouds[actual].unsafelyUnwrapped
+            return clouds[current].unsafelyUnwrapped
         }
     }
     
-    var currentRainIntensity: Double {
+    var rainIntensity: Double {
         get {
-            // Stage number : rainDropRate (delay between two raindrops)
+            // Stage number : raindropRate (delay between two raindrops)
             let clouds: [Int: Double] = [
                 1 : 1,
                 2 : 0.5,
-                3 : 0.1
+                3 : 0.3
             ]
             
-            return clouds[actual]!
+            return clouds[current]!
         }
     }
 }

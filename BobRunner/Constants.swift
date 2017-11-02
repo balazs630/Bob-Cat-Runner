@@ -18,6 +18,15 @@ struct Node {
     static let cat = "cat"
     static let raindrop = "raindrop"
     
+    static let cloud1 = "cloud1"
+    static let cloud2 = "cloud2"
+    static let cloud3 = "cloud3"
+    static let cloud4 = "cloud4"
+    static let cloud5 = "cloud5"
+    static let cloud6 = "cloud6"
+    static let cloud7 = "cloud7"
+    static let cloud8 = "cloud8"
+    
     struct Lbl {
         static let lifeCounter = "lblLifeCounter"
         static let umbrellaCountDown = "lblUmbrellaCountDown"
@@ -38,18 +47,18 @@ struct Key {
 
 extension SKTexture {
     enum AssetIdentifier: String {
-        case CatStandLeft = "pusheen-stand-left"
-        case CatStandRight = "pusheen-stand-right"
+        case catStandLeft = "pusheen-stand-left"
+        case catStandRight = "pusheen-stand-right"
         
-        case CatJumpLeft = "pusheen-jump-left"
-        case CatJumpRight = "pusheen-jump-right"
+        case catJumpLeft = "pusheen-jump-left"
+        case catJumpRight = "pusheen-jump-right"
         
-        case CatUmbrellaLeft = "pusheen-umbrella-left"
-        case CatUmbrellaRight = "pusheen-umbrella-right"
+        case catUmbrellaLeft = "pusheen-umbrella-left"
+        case catUmbrellaRight = "pusheen-umbrella-right"
         
-        case CatDead = "pusheen-dead"
+        case catDead = "pusheen-dead"
         
-        case Raindrop = "raindrop"
+        case raindrop = "raindrop"
     }
     
     convenience init!(assetIdentifier: AssetIdentifier) {

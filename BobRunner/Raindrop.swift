@@ -9,54 +9,54 @@
 import SpriteKit
 
 class Raindrop: SKSpriteNode {
-    
-    static var timeSinceRainDrop: TimeInterval = 0
+    static var timeSinceLastRaindrop: TimeInterval = 0
     static var lastTime: TimeInterval = 0
-    
-    var initialSize: CGSize = CGSize(width: 18, height: 24)
+    var initialSize = CGSize(width: 18, height: 24)
     
     init() {
-        let texture = SKTexture(assetIdentifier: .Raindrop)
+        let texture = SKTexture(assetIdentifier: .raindrop)
         super.init(texture: texture, color: UIColor.clear, size: initialSize)
     }
     
-    class func checkRainDrop(frameRate: TimeInterval, rainDropRate: Double, stage: Stage, scene gs: GameScene) {
+    class func checkRaindrop(timeBetweenFrames: TimeInterval, stage: Stage, in gameScene: GameScene) {
         // Add time to timer
-        timeSinceRainDrop += frameRate
+        timeSinceLastRaindrop += timeBetweenFrames
         
         // Return if it hasn't been enogh time to drop raindrop
-        if timeSinceRainDrop < rainDropRate {
+        if timeSinceLastRaindrop < stage.rainIntensity {
             return
         } else {
             // Drop raindrops from each cloud added to the given stage
-            for cloudName in stage.currentClouds {
-                dropRainDrop(from: gs.childNode(withName: cloudName) as! SKSpriteNode, scene: gs)
+            for cloudName in stage.clouds {
+                if let cloud = gameScene.childNode(withName: cloudName) as? SKSpriteNode {
+                    dropRaindrop(from: cloud, in: gameScene)
+                }
             }
-            timeSinceRainDrop = 0
+            timeSinceLastRaindrop = 0
         }
     }
     
-    class func dropRainDrop(from cloud: SKSpriteNode, scene gs: GameScene) {
-        let cloudRadius: Int = Int(cloud.size.width/2) - 20
+    class func dropRaindrop(from cloud: SKSpriteNode, in gameScene: GameScene) {
+        let cloudRadius = Int(cloud.size.width/2) - 20
         
         // Drop raindrops randomly according to cloud width
-        var droppingPoint: CGPoint = cloud.position
+        var droppingPoint = cloud.position
         droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
         
         var raindrop = Raindrop()
         let raindropScene = SKScene(fileNamed: Scene.raindrop)
-        if let rainDropNode = raindropScene?.childNode(withName: Node.raindrop) as? Raindrop {
-            raindrop = rainDropNode
+        if let raindropNode = raindropScene?.childNode(withName: Node.raindrop) as? Raindrop {
+            raindrop = raindropNode
         }
         
         raindrop.position = droppingPoint
-        raindrop.move(toParent: gs)
+        raindrop.move(toParent: gameScene)
     }
     
-    class func explode(raindrop: SKNode, scene gs: GameScene) {
-        let rainDropExplosion: SKEmitterNode = SKEmitterNode(fileNamed: Scene.raindropExplosion)!
-        rainDropExplosion.position = raindrop.position
-        gs.addChild(rainDropExplosion)
+    class func explode(raindrop: SKNode, in gameScene: GameScene) {
+        let raindropExplosion = SKEmitterNode(fileNamed: Scene.raindropExplosion)!
+        raindropExplosion.position = raindrop.position
+        gameScene.addChild(raindropExplosion)
         raindrop.removeFromParent()
     }
     
