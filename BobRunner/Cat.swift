@@ -68,6 +68,11 @@ class Cat: SKSpriteNode {
         isProtected = false
     }
     
+    func drown() {
+        run(gameOverSound)
+        isProtected = false
+    }
+    
     func celebrate() {
         run(celebrateSound)
         

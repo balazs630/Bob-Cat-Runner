@@ -174,6 +174,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Start countdown (the cat can own the umbrella only for a few seconds)
                 lblUmbrellaCountDown?.isHidden = false
                 umbrellaTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateUmbrellaHoldingTimer), userInfo: nil, repeats: true)
+              
+            case PhysicsCategory.dangerZone.rawValue:
+                cat.lifes = 0
+                gameOver(type: GameOverType.drown)
                 
             case PhysicsCategory.house.rawValue:
                 completeActualStage()
@@ -231,9 +235,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lblLifeCounter?.text = String(cat.lifes)
     }
     
-    func gameOver() {
+    func gameOver(type: String = "") {
         // Lost all its life
-        cat.die()
+        if type == GameOverType.drown {
+            cat.drown()
+        } else {
+            cat.die()
+        }
+    
         canMove = false
         presentReloadStageButton(withTitle: "Retry stage!")
     }

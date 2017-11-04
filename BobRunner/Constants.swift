@@ -45,6 +45,11 @@ struct Key {
     static let movementMultiplier = "movementMultiplier"
 }
 
+struct GameOverType {
+    static let flood = "flood"
+    static let drown = "drown"
+}
+
 extension SKTexture {
     enum AssetIdentifier: String {
         case catStandLeft = "pusheen-stand-left"
