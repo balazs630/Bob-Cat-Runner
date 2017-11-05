@@ -69,8 +69,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 graphicsLayers.append(foregroundNode)
         }
         
-        if let lifeCounter = cam.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
-            let umbrellaCountDown = cam.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
+        guard let hud = cam.childNode(withName: Node.hud) else {
+            return
+        }
+        
+        if let lifeCounter = hud.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
+            let umbrellaCountDown = hud.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
                 lblLifeCounter = lifeCounter
                 updateLifeCounter()
             
@@ -79,6 +83,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
                 countDownSeconds = countDownInitialSeconds
         }
+        
+        let aspectRatio = view.frame.width/view.frame.height
+        if aspectRatio < 1.5 {
+            // iPad screen, so change the hud position accordingly
+            let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
+            hud.position = iPadHudPos
+        }
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
