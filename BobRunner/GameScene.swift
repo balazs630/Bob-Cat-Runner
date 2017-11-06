@@ -265,7 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         touchActive = false
         cat.celebrate()
         
-        if stage.current == Stage.maxStageCount {
+        if stage.current == Stage.maxCount {
             // Each stage is completed
             presentReplayWholeGameButton(withTitle: "Replay game from Stage 1!")
         } else {
