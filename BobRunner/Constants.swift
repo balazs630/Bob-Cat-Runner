@@ -29,8 +29,8 @@ struct Node {
     static let cloud8 = "cloud8"
     
     struct Lbl {
-        static let lifeCounter = "lblLifeCounter"
-        static let umbrellaCountDown = "lblUmbrellaCountDown"
+        static let lifeCounter = "//lblLifeCounter"
+        static let umbrellaCountDown = "//lblUmbrellaCountDown"
     }
     
     struct Layer {

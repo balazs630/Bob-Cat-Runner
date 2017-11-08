@@ -69,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 graphicsLayers.append(foregroundNode)
         }
         
-        guard let hud = cam.childNode(withName: Node.hud) else {
+        guard let hud = cam.childNode(withName: Node.hud) as? SKReferenceNode else {
             return
         }
         

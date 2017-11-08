@@ -17,11 +17,17 @@ ___
 - [x] Ability to jump and collect umbrella (shield) items with the player
 - [x] Changing the player's image according to the action (run left-rigth, jump, die, celebrate, etc...)
 - [x] Custom sound effects and graphics explosions using sks files
-- [x] Ability to switch to the next level if the current level is completed
+- [x] Switch to the next level if the current level is completed
 - [x] Start countdown timer if the player collects an umrella and drop the umbrella if the time has elapsed
-- [x] Generate more clouds and set higher rain intensity based on the levels to harden the gameplay level to level
+- [x] Set higher rain intensity based on the levels to harden the gameplay level to level
+- [x] Add noisefields for collectable items to make them randomly
+- [x] Parallax back and foreground layers on the stages
 
 ___
 
-- [ ] Add noisefield for collectable items to make them move randomly
-- [ ] Add more stages with cool graphics
+- [ ] Add basic gameplay control tutorials on first launch
+- [ ] Add replay level button to the HUD
+- [ ] Include thunder, and lightning elements at the end of the game
+- [ ] Create audio nodes with surround sound
+- [ ] Simulate wind and flying leaves
+- [ ] Create more stages & refine graphics

@@ -28,6 +28,7 @@
 		ACC261421FB0FD8E00700A73 /* Stage3.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACC261411FB0FD8E00700A73 /* Stage3.sks */; };
 		ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */; };
 		ACD8B76C1F4A2748001CA3AC /* crowd_celebrate.m4a in Resources */ = {isa = PBXBuildFile; fileRef = ACD8B76B1F4A2748001CA3AC /* crowd_celebrate.m4a */; };
+		ACEA9C8B1FB397BB002A5074 /* HUD.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACEA9C8A1FB397BB002A5074 /* HUD.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		ACC261411FB0FD8E00700A73 /* Stage3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage3.sks; sourceTree = "<group>"; };
 		ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Raindrop.swift; sourceTree = "<group>"; };
 		ACD8B76B1F4A2748001CA3AC /* crowd_celebrate.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = crowd_celebrate.m4a; sourceTree = "<group>"; };
+		ACEA9C8A1FB397BB002A5074 /* HUD.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = HUD.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				ACC261411FB0FD8E00700A73 /* Stage3.sks */,
 				AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */,
 				AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */,
+				ACEA9C8A1FB397BB002A5074 /* HUD.sks */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			files = (
 				ACC261421FB0FD8E00700A73 /* Stage3.sks in Resources */,
 				ACD8B76C1F4A2748001CA3AC /* crowd_celebrate.m4a in Resources */,
+				ACEA9C8B1FB397BB002A5074 /* HUD.sks in Resources */,
 				AC903D271ED31F150016910C /* Main.storyboard in Resources */,
 				AC903D1E1ED31F150016910C /* Stage1.sks in Resources */,
 				AC9CF9A81F04202100843236 /* Stage2.sks in Resources */,
