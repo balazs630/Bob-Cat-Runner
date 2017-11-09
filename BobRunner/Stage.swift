@@ -36,8 +36,8 @@ struct Stage {
         // Stage number : cloud names
         let clouds: [Int: [String]] = [
             1: [Node.cloud1, Node.cloud2, Node.cloud3],
-            2: [Node.cloud1, Node.cloud2],
-            3: [Node.cloud1, Node.cloud2]
+            2: [Node.cloud1, Node.cloud2, Node.cloud3, Node.cloud4, Node.cloud5],
+            3: [Node.cloud1, Node.cloud2, Node.cloud3, Node.cloud4, Node.cloud5, Node.cloud6, Node.cloud7, Node.cloud8,]
         ]
         
         return clouds[current].unsafelyUnwrapped
@@ -48,7 +48,7 @@ struct Stage {
         let clouds: [Int: Double] = [
             1 : 1,
             2 : 0.5,
-            3 : 0.3
+            3 : 0.4
         ]
         
         return clouds[current]!
