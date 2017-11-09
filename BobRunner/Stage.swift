@@ -35,7 +35,7 @@ struct Stage {
     var clouds: [String] {
         // Stage number : cloud names
         let clouds: [Int: [String]] = [
-            1: [Node.cloud1],
+            1: [Node.cloud1, Node.cloud2, Node.cloud3],
             2: [Node.cloud1, Node.cloud2],
             3: [Node.cloud1, Node.cloud2]
         ]
