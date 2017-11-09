@@ -26,12 +26,12 @@ class GameViewController: UIViewController {
             view.ignoresSiblingOrder = true
             
             // For debug purpose
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.showsDrawCount = true
-            view.showsQuadCount = true
-            view.showsPhysics = true
-            view.showsFields = true
+            //view.showsFPS = true
+            //view.showsNodeCount = true
+            //view.showsDrawCount = true
+            //view.showsQuadCount = true
+            //view.showsPhysics = true
+            //view.showsFields = true
         }
     }
     

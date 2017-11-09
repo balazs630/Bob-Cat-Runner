@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lblUmbrellaCountDown: SKLabelNode?
     
     var umbrellaTimer = Timer()
-    let countDownInitialSeconds = 3
+    let countDownInitialSeconds = 2
     var countDownSeconds = Int()
     
     override func didMove(to view: SKView) {

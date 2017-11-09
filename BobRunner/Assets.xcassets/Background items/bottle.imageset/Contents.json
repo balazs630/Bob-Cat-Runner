@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "brush~universal@1x.png",
+      "filename" : "bottle~universal@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "brush~universal@2x.png",
+      "filename" : "bottle~universal@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "brush~universal@3x.png",
+      "filename" : "bottle~universal@3x.png",
       "scale" : "3x"
     }
   ],
