@@ -34,13 +34,18 @@ struct Stage {
     
     var clouds: [String] {
         // Stage number : cloud names
-        let clouds: [Int: [String]] = [
-            1: [Node.cloud1, Node.cloud2, Node.cloud3],
-            2: [Node.cloud1, Node.cloud2, Node.cloud3, Node.cloud4, Node.cloud5],
-            3: [Node.cloud1, Node.cloud2, Node.cloud3, Node.cloud4, Node.cloud5, Node.cloud6, Node.cloud7, Node.cloud8,]
+        let clouds: [Int: Int] = [
+            1: 3,
+            2: 5,
+            3: 8
         ]
         
-        return clouds[current].unsafelyUnwrapped
+        var currentClouds = [String]()
+        for i in 1...clouds[current]! {
+            currentClouds.append("cloud\(i)")
+        }
+        
+        return currentClouds
     }
     
     var rainIntensity: Double {
