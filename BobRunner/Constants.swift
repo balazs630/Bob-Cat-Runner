@@ -24,6 +24,10 @@ struct Node {
         static let umbrellaCountDown = "//lblUmbrellaCountDown"
     }
     
+    struct Button {
+        static let reload = "btnReload";
+    }
+    
     struct Layer {
         static let background = "background-layer"
         static let midground = "mid-layer"

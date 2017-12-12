@@ -221,6 +221,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for t in touches {
                 let location = t.location(in: self)
                 
+                if (self.atPoint(location).name == Node.Button.reload) {
+                    reloadStage()
+                }
+                
                 if cat.contains(location) {
                     cat.jumpUp()
                 } else if location.x < (cam.position.x - cameraOffset) {
