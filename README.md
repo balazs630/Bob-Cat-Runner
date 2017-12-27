@@ -25,7 +25,7 @@ ___
 - [x] Set higher rain intensity based on the levels to harden the gameplay level to level
 - [x] Add noisefields for collectable items to make them move randomly
 - [x] Parallax back and foreground layers on the stages
-- [x] iPad screen support
+- [x] iPad and iPhone X screen support
 
 ___
 **Backlog:**
@@ -37,4 +37,3 @@ ___
 - [ ] Create audio nodes with surround sound
 - [ ] Simulate wind and flying leaves
 - [ ] Create more stages & refine graphics
-- [ ] iPhone X screen support
