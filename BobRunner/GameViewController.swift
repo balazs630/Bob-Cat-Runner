@@ -59,4 +59,9 @@ extension GameViewController {
         let iphoneXAspectRatio = 2436.0/1125.0
         return (aspectRatio == iphoneXAspectRatio) ? true : false
     }
+    
+    var isIPad: Bool {
+        let aspectRatio = view.frame.width/view.frame.height
+        return aspectRatio < 1.5 ? true : false
+    }
 }

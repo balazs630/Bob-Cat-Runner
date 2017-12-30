@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let defaults = UserDefaults.standard
         
-        if defaults.object(forKey: Key.isAppAlreadyLaunchedOnce) == nil {
+        if defaults.object(forKey: UserDefaults.Key.isAppAlreadyLaunchedOnce) == nil {
             let firstTimeLaunchDefaults: [String : Any] = [
-                Key.isAppAlreadyLaunchedOnce: true,
-                Key.actualStage: 1
+                UserDefaults.Key.isAppAlreadyLaunchedOnce: true,
+                UserDefaults.Key.actualStage: 1
             ]
             
             for item in firstTimeLaunchDefaults {

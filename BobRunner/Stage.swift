@@ -20,10 +20,10 @@ struct Stage {
     
     var current: Int {
         get {
-            return UserDefaults.standard.integer(forKey: Key.actualStage)
+            return UserDefaults.standard.integer(forKey: UserDefaults.Key.actualStage)
         }
         set(newStage) {
-            UserDefaults.standard.set(newStage, forKey: Key.actualStage)
+            UserDefaults.standard.set(newStage, forKey: UserDefaults.Key.actualStage)
             UserDefaults.standard.synchronize()
         }
     }

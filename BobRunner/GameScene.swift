@@ -22,6 +22,8 @@ enum PhysicsCategory: UInt32 {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var cam = SKCameraNode()
     let cameraOffset = CGFloat(150)
+    var hud = SKReferenceNode()
+    let isIPhoneX = GameViewController().isIphoneX
     
     var stage = Stage()
     var graphicsLayers: [SKNode] = []
@@ -69,9 +71,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 graphicsLayers.append(foregroundNode)
         }
         
-        guard let hud = cam.childNode(withName: Node.hud) as? SKReferenceNode else {
-            return
+        if isIPhoneX {
+            hud = SKReferenceNode(fileNamed: Scene.hudIphoneX)
+        } else {
+            hud = SKReferenceNode(fileNamed: Scene.hudStandard)
+            if GameViewController().isIPad {
+                let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
+                hud.position = iPadHudPos
+            }
         }
+        
+        cam.addChild(hud)
         
         if let lifeCounter = hud.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
             let umbrellaCountDown = hud.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
@@ -83,14 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
                 countDownSeconds = countDownInitialSeconds
         }
-        
-        let aspectRatio = view.frame.width/view.frame.height
-        if aspectRatio < 1.5 {
-            // iPad screen, so change the hud position accordingly
-            let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
-            hud.position = iPadHudPos
-        }
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -105,7 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Performs any scene-specific updates that need to occur after physics simulations are performed
         
         // Identify cat texture changes
-        if cat.isAlive() == true {
+        if cat.isAlive() {
             manageCatMovements()
             
             cat.xScale = standardCatTextureScale
@@ -141,7 +143,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         // Do the parallax background effect
         for layer in graphicsLayers {
-            if let movementMultiplier = layer.userData?.value(forKey: Key.movementMultiplier) as? CGFloat {
+            if let movementMultiplier = layer.userData?.value(forKey: UserData.Key.movementMultiplier) as? CGFloat {
                 let adjustedPosition = cat.position.x * (1 - movementMultiplier)
                 layer.position.x = adjustedPosition
             }
@@ -202,11 +204,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func catHitByRaindrop() {
-        if cat.isAlive() == true {
+        if cat.isAlive() {
             cat.takeDamage()
             
             // Check if it's still alive after the damage
-            if cat.isAlive() == true {
+            if cat.isAlive() {
                 updateLifeCounter()
             } else {
                 gameOver()
@@ -330,34 +332,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     @objc func loadNextStage() {
         // Load next stage if current stage is completed
         stage.current += 1
-        
-        if let scene = SKScene(fileNamed: stage.name) {
-            scene.scaleMode = .aspectFill
-            self.view?.presentScene(scene)
-        }
-        
+        presentScene()
         btnLoadNextStage.removeFromSuperview()
     }
     
     @objc func reloadStage() {
         // Reload actual stage on gameover
-        if let scene = SKScene(fileNamed: stage.name) {
-            scene.scaleMode = .aspectFill
-            self.view?.presentScene(scene)
-        }
-        
+        presentScene()
         btnReloadStage.removeFromSuperview()
     }
     
     @objc func replayWholeGame() {
         stage.current = 1
-        
+        presentScene()
+        btnReplayWholeGame.removeFromSuperview()
+    }
+    
+    private func presentScene() {
         if let scene = SKScene(fileNamed: stage.name) {
-            scene.scaleMode = .aspectFill
+            if isIPhoneX {
+                scene.scaleMode = .resizeFill
+            } else {
+                scene.scaleMode = .aspectFill
+            }
+            
             self.view?.presentScene(scene)
         }
-        
-        btnReplayWholeGame.removeFromSuperview()
     }
     
 }
