@@ -32,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var touchActive = false
     var canMove = true
     var isMoveLeft = false
+    var isJumpingWhileMoving = false
     let standardCatTextureScale = CGFloat(1.0)
     let umbrellaCatTextureScale = CGFloat(1.8)
     
@@ -206,11 +207,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func catHitByRaindrop() {
         if cat.isAlive() {
             cat.takeDamage()
+            updateLifeCounter()
             
-            // Check if it's still alive after the damage
-            if cat.isAlive() {
-                updateLifeCounter()
-            } else {
+            // Check the lifes after the damage
+            if !cat.isAlive() {
                 gameOver()
             }
         }
@@ -218,6 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Tells this object that one or more new touches occurred in a view or window
+        
         if canMove {
             touchActive = true
             for t in touches {
@@ -229,6 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if cat.contains(location) {
                     cat.jumpUp()
+                    isJumpingWhileMoving = true
                 } else if location.x < (cam.position.x - cameraOffset) {
                     isMoveLeft = true
                 } else {
@@ -240,7 +242,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Tells the responder when one or more fingers are raised from a view or window
-        touchActive = false
+        if !isJumpingWhileMoving {
+            touchActive = false
+        }
+        isJumpingWhileMoving = false
     }
     
     func manageCatMovements() {
