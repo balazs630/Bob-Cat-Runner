@@ -33,17 +33,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = RaindropExplosion.sks; path = Scenes/RaindropExplosion.sks; sourceTree = "<group>"; };
+		AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RaindropExplosion.sks; sourceTree = "<group>"; };
 		AC1A69FA1F87F8AA0066CED5 /* Stage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
 		AC1E39251EF9612000C59751 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
-		AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Raindrop.sks; path = Scenes/Raindrop.sks; sourceTree = "<group>"; };
-		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = background_music.m4a; path = Sounds/background_music.m4a; sourceTree = "<group>"; };
-		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = gameover.m4a; path = Sounds/gameover.m4a; sourceTree = "<group>"; };
-		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = raindrop_hit_cat.m4a; path = Sounds/raindrop_hit_cat.m4a; sourceTree = "<group>"; };
+		AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Raindrop.sks; sourceTree = "<group>"; };
+		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
+		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.m4a; sourceTree = "<group>"; };
+		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_cat.m4a; sourceTree = "<group>"; };
 		AC903D181ED31F150016910C /* BobRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC903D1B1ED31F150016910C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AC903D1D1ED31F150016910C /* Stage1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Stage1.sks; path = Scenes/Stage1.sks; sourceTree = "<group>"; };
+		AC903D1D1ED31F150016910C /* Stage1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage1.sks; sourceTree = "<group>"; };
 		AC903D211ED31F150016910C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		AC903D231ED31F150016910C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		AC903D261ED31F150016910C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -51,13 +51,13 @@
 		AC903D2B1ED31F150016910C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC903D2D1ED31F150016910C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC98E78C1EE367A70009DD66 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
-		AC9CF9A71F04202100843236 /* Stage2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Stage2.sks; path = Scenes/Stage2.sks; sourceTree = "<group>"; };
+		AC9CF9A71F04202100843236 /* Stage2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage2.sks; sourceTree = "<group>"; };
 		ACC19D1C1FA608150026D272 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		ACC261411FB0FD8E00700A73 /* Stage3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Stage3.sks; path = Scenes/Stage3.sks; sourceTree = "<group>"; };
+		ACC261411FB0FD8E00700A73 /* Stage3.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage3.sks; sourceTree = "<group>"; };
 		ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Raindrop.swift; sourceTree = "<group>"; };
-		ACD8B76B1F4A2748001CA3AC /* crowd_celebrate.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = crowd_celebrate.m4a; path = Sounds/crowd_celebrate.m4a; sourceTree = "<group>"; };
-		ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "HUD-IPhoneX.sks"; path = "Scenes/HUD-IPhoneX.sks"; sourceTree = "<group>"; };
-		ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = "HUD-Standard.sks"; path = "Scenes/HUD-Standard.sks"; sourceTree = "<group>"; };
+		ACD8B76B1F4A2748001CA3AC /* crowd_celebrate.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = crowd_celebrate.m4a; sourceTree = "<group>"; };
+		ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "HUD-IPhoneX.sks"; sourceTree = "<group>"; };
+		ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "HUD-Standard.sks"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,21 +71,88 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AC15A8941EE182D300B63727 /* Scenes */ = {
+		AC298130209E5F0700CC45F2 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				AC903D211ED31F150016910C /* GameScene.swift */,
+				AC8B5809209E5FD800DBBC25 /* Stages */,
+				AC8B580A209E605400DBBC25 /* HUD */,
+				AC8B580C209E608100DBBC25 /* Dinamic elements */,
+				AC8B580B209E607500DBBC25 /* Effects */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		AC8B5809209E5FD800DBBC25 /* Stages */ = {
 			isa = PBXGroup;
 			children = (
 				AC903D1D1ED31F150016910C /* Stage1.sks */,
 				AC9CF9A71F04202100843236 /* Stage2.sks */,
 				ACC261411FB0FD8E00700A73 /* Stage3.sks */,
-				AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */,
-				AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */,
+			);
+			path = Stages;
+			sourceTree = "<group>";
+		};
+		AC8B580A209E605400DBBC25 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
 				ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */,
 				ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */,
 			);
-			name = Scenes;
+			path = HUD;
 			sourceTree = "<group>";
 		};
-		AC7606CF1EE17ADB009FEE41 /* Sounds */ = {
+		AC8B580B209E607500DBBC25 /* Effects */ = {
+			isa = PBXGroup;
+			children = (
+				AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */,
+			);
+			path = Effects;
+			sourceTree = "<group>";
+		};
+		AC8B580C209E608100DBBC25 /* Dinamic elements */ = {
+			isa = PBXGroup;
+			children = (
+				AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */,
+			);
+			path = "Dinamic elements";
+			sourceTree = "<group>";
+		};
+		AC8B580D209E60A700DBBC25 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AC903D231ED31F150016910C /* GameViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		AC8B580E209E60E800DBBC25 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AC903D2D1ED31F150016910C /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AC8B580F209E614700DBBC25 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				AC903D251ED31F150016910C /* Main.storyboard */,
+				AC903D2A1ED31F150016910C /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		AC8B5810209E61CF00DBBC25 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AC8B5811209E61DA00DBBC25 /* Sounds */,
+				AC903D281ED31F150016910C /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		AC8B5811209E61DA00DBBC25 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
 				AC7606C91EE17AD5009FEE41 /* background_music.m4a */,
@@ -93,7 +160,26 @@
 				AC7606CA1EE17AD5009FEE41 /* gameover.m4a */,
 				AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */,
 			);
-			name = Sounds;
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		AC8B5812209E628100DBBC25 /* Model and state */ = {
+			isa = PBXGroup;
+			children = (
+				AC1A69FA1F87F8AA0066CED5 /* Stage.swift */,
+				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
+				ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */,
+			);
+			path = "Model and state";
+			sourceTree = "<group>";
+		};
+		AC8B5813209E629A00DBBC25 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				AC98E78C1EE367A70009DD66 /* Audio.swift */,
+				AC1E39251EF9612000C59751 /* Util.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		AC903D0F1ED31F150016910C = {
@@ -115,21 +201,15 @@
 		AC903D1A1ED31F150016910C /* BobRunner */ = {
 			isa = PBXGroup;
 			children = (
-				AC15A8941EE182D300B63727 /* Scenes */,
-				AC903D211ED31F150016910C /* GameScene.swift */,
-				AC903D231ED31F150016910C /* GameViewController.swift */,
-				AC1A69FA1F87F8AA0066CED5 /* Stage.swift */,
-				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
-				ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */,
-				AC98E78C1EE367A70009DD66 /* Audio.swift */,
-				AC1E39251EF9612000C59751 /* Util.swift */,
-				ACC19D1C1FA608150026D272 /* Constants.swift */,
 				AC903D1B1ED31F150016910C /* AppDelegate.swift */,
-				AC903D251ED31F150016910C /* Main.storyboard */,
-				AC903D281ED31F150016910C /* Assets.xcassets */,
-				AC7606CF1EE17ADB009FEE41 /* Sounds */,
-				AC903D2A1ED31F150016910C /* LaunchScreen.storyboard */,
-				AC903D2D1ED31F150016910C /* Info.plist */,
+				ACC19D1C1FA608150026D272 /* Constants.swift */,
+				AC8B580F209E614700DBBC25 /* Storyboards */,
+				AC298130209E5F0700CC45F2 /* Scenes */,
+				AC8B580D209E60A700DBBC25 /* View Controllers */,
+				AC8B5812209E628100DBBC25 /* Model and state */,
+				AC8B5813209E629A00DBBC25 /* Utility */,
+				AC8B5810209E61CF00DBBC25 /* Resources */,
+				AC8B580E209E60E800DBBC25 /* Supporting Files */,
 			);
 			path = BobRunner;
 			sourceTree = "<group>";
@@ -387,7 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UW8QF9DSWQ;
-				INFOPLIST_FILE = BobRunner/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BobRunner/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
@@ -403,7 +483,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = UW8QF9DSWQ;
-				INFOPLIST_FILE = BobRunner/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BobRunner/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
