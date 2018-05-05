@@ -9,15 +9,15 @@
 import SpriteKit
 
 struct Stage {
-    
+
     static var maxCount: Int {
-        var i = 0
-        while SKScene(fileNamed: "Stage\(i+1)") != nil {
-            i+=1
+        var stageNumber = 0
+        while SKScene(fileNamed: "Stage\(stageNumber + 1)") != nil {
+            stageNumber+=1
         }
-        return i
+        return stageNumber
     }
-    
+
     var current: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Key.actualStage)
@@ -27,36 +27,36 @@ struct Stage {
             UserDefaults.standard.synchronize()
         }
     }
-    
+
     var name: String {
         return "Stage\(current)"
     }
-    
+
     var clouds: [String] {
-        // Stage number : cloud names
+        // Stage number: cloud names
         let clouds: [Int: Int] = [
             1: 3,
             2: 5,
             3: 8
         ]
-        
+
         var currentClouds = [String]()
-        for i in 1...clouds[current]! {
-            currentClouds.append("cloud\(i)")
+        for index in 1...clouds[current]! {
+            currentClouds.append("cloud\(index)")
         }
-        
+
         return currentClouds
     }
-    
+
     var rainIntensity: Double {
-        // Stage number : raindropRate (delay between two raindrops)
+        // Stage number: raindropRate (delay between two raindrops)
         let clouds: [Int: Double] = [
-            1 : 1,
-            2 : 0.5,
-            3 : 0.4
+            1: 1,
+            2: 0.5,
+            3: 0.4
         ]
-        
+
         return clouds[current]!
     }
-    
+
 }

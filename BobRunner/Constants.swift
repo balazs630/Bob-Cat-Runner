@@ -20,16 +20,16 @@ struct Node {
     static let hud = "hud"
     static let cat = "cat"
     static let raindrop = "raindrop"
-    
+
     struct Lbl {
         static let lifeCounter = "//lblLifeCounter"
         static let umbrellaCountDown = "//lblUmbrellaCountDown"
     }
-    
+
     struct Button {
-        static let reload = "btnReload";
+        static let reload = "btnReload"
     }
-    
+
     struct Layer {
         static let background = "background-layer"
         static let midground = "mid-layer"
@@ -59,20 +59,20 @@ extension SKTexture {
     enum AssetIdentifier: String {
         case catStandLeft = "pusheen-stand-left"
         case catStandRight = "pusheen-stand-right"
-        
+
         case catJumpLeft = "pusheen-jump-left"
         case catJumpRight = "pusheen-jump-right"
-        
+
         case catUmbrellaLeft = "pusheen-umbrella-left"
         case catUmbrellaRight = "pusheen-umbrella-right"
-        
+
         case catDead = "pusheen-dead"
-        
+
         case raindrop = "raindrop"
     }
-    
+
     convenience init!(assetIdentifier: AssetIdentifier) {
         self.init(imageNamed: assetIdentifier.rawValue)
     }
-    
+
 }

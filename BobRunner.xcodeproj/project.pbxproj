@@ -144,7 +144,7 @@
 				AC903D141ED31F150016910C /* Sources */,
 				AC903D151ED31F150016910C /* Frameworks */,
 				AC903D161ED31F150016910C /* Resources */,
-				ACB7200E1EF96F74005F6720 /* ShellScript */,
+				ACB7200E1EF96F74005F6720 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -216,18 +216,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ACB7200E1EF96F74005F6720 /* ShellScript */ = {
+		ACB7200E1EF96F74005F6720 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# comment out exit to run SwiftLint analysis\nexit\n\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "#exit\nif which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -9,11 +9,11 @@
 import SpriteKit
 
 class Audio {
-    
-    class func setBackgroundMusic(for gs: GameScene) {
+
+    class func setBackgroundMusic(for gamescene: GameScene) {
         let bgMusic = SKAudioNode(fileNamed: "background_music.m4a")
         bgMusic.autoplayLooped = true
-        gs.addChild(bgMusic)
+        gamescene.addChild(bgMusic)
     }
-    
+
 }

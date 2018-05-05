@@ -9,10 +9,10 @@
 import SpriteKit
 
 class GameViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let view = self.view as? SKView {
             // Load the SKScene according to actual stage
             if let scene = SKScene(fileNamed: Stage().name) {
@@ -22,13 +22,13 @@ class GameViewController: UIViewController {
                 } else {
                     scene.scaleMode = .aspectFill
                 }
-                
+
                 // Present the scene
                 view.presentScene(scene)
             }
-            
+
             view.ignoresSiblingOrder = true
-            
+
             // For debug purpose
             //view.showsFPS = true
             //view.showsNodeCount = true
@@ -38,19 +38,19 @@ class GameViewController: UIViewController {
             //view.showsFields = true
         }
     }
-    
+
     override var shouldAutorotate: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscape
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
 }
 
 extension GameViewController {
@@ -59,7 +59,7 @@ extension GameViewController {
         let iphoneXAspectRatio = 2436.0/1125.0
         return (aspectRatio == iphoneXAspectRatio) ? true : false
     }
-    
+
     var isIPad: Bool {
         let aspectRatio = view.frame.width/view.frame.height
         return aspectRatio < 1.5 ? true : false
