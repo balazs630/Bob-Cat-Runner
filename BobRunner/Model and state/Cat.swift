@@ -18,17 +18,16 @@ class Cat: SKSpriteNode {
     var initialSize = CGSize(width: 84, height: 54)
 
     let dieAction = SKAction.rotate(byAngle: (.pi), duration: 0.5)
-
-    let collectUmbrellaSound = SKAction.playSoundFileNamed("collectUmbrella.m4a", waitForCompletion: false)
-    let raindropHitCatSound = SKAction.playSoundFileNamed("raindrop_hit_cat.m4a", waitForCompletion: false)
-    let raindropHitUmbrellaSound = SKAction.playSoundFileNamed("raindrop_hit_umbrella.m4a", waitForCompletion: false)
-    let gameOverSound = SKAction.playSoundFileNamed("gameover.m4a", waitForCompletion: false)
-    let celebrateSound = SKAction.playSoundFileNamed("crowd_celebrate.m4a", waitForCompletion: false)
+    let collectUmbrellaSound = SKAction.playSound(assetIdentifier: .collectUmbrella)
+    let raindropHitCatSound = SKAction.playSound(assetIdentifier: .raindropHitCat)
+    let raindropHitUmbrellaSound = SKAction.playSound(assetIdentifier: .raindropHitUmbrella)
+    let gameOverSound = SKAction.playSound(assetIdentifier: .gameover)
+    let celebrateSound = SKAction.playSound(assetIdentifier: .crowdCelebrate)
 
     init(lifes: Int) {
         self.lifes = lifes
         let texture = SKTexture(assetIdentifier: .catStandRight)
-        super.init(texture: texture, color: UIColor.clear, size: initialSize)
+        super.init(texture: texture, color: .clear, size: initialSize)
     }
 
     func move(left: Bool) {

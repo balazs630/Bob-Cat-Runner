@@ -15,6 +15,9 @@
 		AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606C91EE17AD5009FEE41 /* background_music.m4a */; };
 		AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CA1EE17AD5009FEE41 /* gameover.m4a */; };
 		AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */; };
+		AC8B5818209E651400DBBC25 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */; };
+		AC8B581A209EED6100DBBC25 /* SKTextureExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5819209EED6100DBBC25 /* SKTextureExtension.swift */; };
+		AC8B581C209EEEF500DBBC25 /* SKActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B581B209EEEF500DBBC25 /* SKActionExtensions.swift */; };
 		AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D1B1ED31F150016910C /* AppDelegate.swift */; };
 		AC903D1E1ED31F150016910C /* Stage1.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC903D1D1ED31F150016910C /* Stage1.sks */; };
 		AC903D221ED31F150016910C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D211ED31F150016910C /* GameScene.swift */; };
@@ -41,6 +44,9 @@
 		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
 		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.m4a; sourceTree = "<group>"; };
 		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_cat.m4a; sourceTree = "<group>"; };
+		AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
+		AC8B5819209EED6100DBBC25 /* SKTextureExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTextureExtension.swift; sourceTree = "<group>"; };
+		AC8B581B209EEEF500DBBC25 /* SKActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKActionExtensions.swift; sourceTree = "<group>"; };
 		AC903D181ED31F150016910C /* BobRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC903D1B1ED31F150016910C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC903D1D1ED31F150016910C /* Stage1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage1.sks; sourceTree = "<group>"; };
@@ -169,6 +175,7 @@
 				AC1A69FA1F87F8AA0066CED5 /* Stage.swift */,
 				AC312DEB1EF4586E004CBBA0 /* Cat.swift */,
 				ACD6FA091EFD7B5E0008DA50 /* Raindrop.swift */,
+				AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */,
 			);
 			path = "Model and state";
 			sourceTree = "<group>";
@@ -180,6 +187,15 @@
 				AC1E39251EF9612000C59751 /* Util.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		AC8B5814209E646500DBBC25 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AC8B5819209EED6100DBBC25 /* SKTextureExtension.swift */,
+				AC8B581B209EEEF500DBBC25 /* SKActionExtensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AC903D0F1ED31F150016910C = {
@@ -208,6 +224,7 @@
 				AC8B580D209E60A700DBBC25 /* View Controllers */,
 				AC8B5812209E628100DBBC25 /* Model and state */,
 				AC8B5813209E629A00DBBC25 /* Utility */,
+				AC8B5814209E646500DBBC25 /* Extensions */,
 				AC8B5810209E61CF00DBBC25 /* Resources */,
 				AC8B580E209E60E800DBBC25 /* Supporting Files */,
 			);
@@ -324,8 +341,11 @@
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
 				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
+				AC8B581C209EEEF500DBBC25 /* SKActionExtensions.swift in Sources */,
+				AC8B5818209E651400DBBC25 /* PhysicsCategory.swift in Sources */,
 				ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */,
 				ACC19D1D1FA608150026D272 /* Constants.swift in Sources */,
+				AC8B581A209EED6100DBBC25 /* SKTextureExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

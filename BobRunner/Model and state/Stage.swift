@@ -13,7 +13,7 @@ struct Stage {
     static var maxCount: Int {
         var stageNumber = 0
         while SKScene(fileNamed: "Stage\(stageNumber + 1)") != nil {
-            stageNumber+=1
+            stageNumber += 1
         }
         return stageNumber
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2017. Horváth Balázs. All rights reserved.
 //
 
-import SpriteKit
+import Foundation
 
 struct Scene {
     static let raindrop = "Raindrop"
@@ -50,29 +50,31 @@ struct UserData {
     }
 }
 
-struct GameOverType {
-    static let flood = "flood"
-    static let drown = "drown"
+enum GameOverType {
+    case flood
+    case drown
 }
 
-extension SKTexture {
-    enum AssetIdentifier: String {
-        case catStandLeft = "pusheen-stand-left"
-        case catStandRight = "pusheen-stand-right"
+enum ImageAssetIdentifier: String {
+    case catStandLeft = "pusheen-stand-left"
+    case catStandRight = "pusheen-stand-right"
 
-        case catJumpLeft = "pusheen-jump-left"
-        case catJumpRight = "pusheen-jump-right"
+    case catJumpLeft = "pusheen-jump-left"
+    case catJumpRight = "pusheen-jump-right"
 
-        case catUmbrellaLeft = "pusheen-umbrella-left"
-        case catUmbrellaRight = "pusheen-umbrella-right"
+    case catUmbrellaLeft = "pusheen-umbrella-left"
+    case catUmbrellaRight = "pusheen-umbrella-right"
 
-        case catDead = "pusheen-dead"
+    case catDead = "pusheen-dead"
 
-        case raindrop = "raindrop"
-    }
+    case raindrop = "raindrop"
+}
 
-    convenience init!(assetIdentifier: AssetIdentifier) {
-        self.init(imageNamed: assetIdentifier.rawValue)
-    }
-
+enum SoundAssetIdentifier: String {
+    case backgroundMusic = "background_music.m4a"
+    case collectUmbrella = "collectUmbrella.m4a"
+    case raindropHitCat = "raindrop_hit_cat.m4a"
+    case raindropHitUmbrella = "raindrop_hit_umbrella.m4a"
+    case crowdCelebrate = "crowd_celebrate.m4a"
+    case gameover = "gameover.m4a"
 }

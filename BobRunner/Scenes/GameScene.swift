@@ -8,17 +8,6 @@
 
 import SpriteKit
 
-enum PhysicsCategory: UInt32 {
-    case noCategory = 0
-    case ground = 1
-    case cat = 2
-    case cloud = 4
-    case raindrop = 8
-    case umbrella = 16
-    case house = 32
-    case dangerZone = 64
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var cam = SKCameraNode()
     let cameraOffset = CGFloat(150)
@@ -97,8 +86,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        // Performs any scene-specific updates that need to occur before scene actions and physics simulations are evaluated
-
         // Drop raindrops from the clouds
         Raindrop.checkRaindrop(timeBetweenFrames: currentTime - Raindrop.lastTime, stage: stage, in: self)
         Raindrop.lastTime = currentTime
@@ -188,11 +175,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 // Start countdown (the cat can own the umbrella only for a few seconds)
                 lblUmbrellaCountDown?.isHidden = false
-                umbrellaTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateUmbrellaHoldingTimer), userInfo: nil, repeats: true)
+                umbrellaTimer = Timer.scheduledTimer(timeInterval: 1,
+                                                     target: self,
+                                                     selector: #selector(updateUmbrellaHoldingTimer),
+                                                     userInfo: nil,
+                                                     repeats: true)
 
             case PhysicsCategory.dangerZone.rawValue:
                 cat.lifes = 0
-                gameOver(type: GameOverType.drown)
+                gameOver(type: .drown)
 
             case PhysicsCategory.house.rawValue:
                 completeActualStage()
@@ -210,7 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // Check the lifes after the damage
             if !cat.isAlive() {
-                gameOver()
+                gameOver(type: .flood)
             }
         }
     }
@@ -257,9 +248,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lblLifeCounter?.text = String(cat.lifes)
     }
 
-    func gameOver(type: String = "") {
+    func gameOver(type: GameOverType) {
         // Lost all its life
-        if type == GameOverType.drown {
+        if type == .drown {
             cat.drown()
         } else {
             cat.die()

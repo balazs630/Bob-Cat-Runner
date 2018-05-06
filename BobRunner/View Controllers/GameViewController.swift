@@ -16,7 +16,6 @@ class GameViewController: UIViewController {
         if let view = self.view as? SKView {
             // Load the SKScene according to actual stage
             if let scene = SKScene(fileNamed: Stage().name) {
-                // Set the scale mode according to the device
                 if isIphoneX {
                     scene.scaleMode = .resizeFill
                 } else {

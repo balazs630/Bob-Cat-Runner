@@ -15,7 +15,7 @@ class Raindrop: SKSpriteNode {
 
     init() {
         let texture = SKTexture(assetIdentifier: .raindrop)
-        super.init(texture: texture, color: UIColor.clear, size: initialSize)
+        super.init(texture: texture, color: .clear, size: initialSize)
     }
 
     class func checkRaindrop(timeBetweenFrames: TimeInterval, stage: Stage, in gameScene: GameScene) {
@@ -41,7 +41,7 @@ class Raindrop: SKSpriteNode {
 
         // Drop raindrops randomly according to cloud width
         var droppingPoint = cloud.position
-        droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1*cloudRadius...cloudRadius))
+        droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1 * cloudRadius...cloudRadius))
 
         var raindrop = Raindrop()
         let raindropScene = SKScene(fileNamed: Scene.raindrop)
