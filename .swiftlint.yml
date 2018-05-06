@@ -1,0 +1,17 @@
+disabled_rules:
+  - dynamic_inline
+  - empty_parentheses_with_trailing_closure
+  - private_unit_test
+  - type_body_length
+  - valid_docs
+  - nesting
+
+custom_rules:
+    force_print:
+        name: "Force disable 'print()' logger."
+        message: "Use 'log.debug()' instead of 'print()'"
+        regex: '(print\()'
+        severity: error
+
+excluded:
+  - Pods
