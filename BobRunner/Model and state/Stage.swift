@@ -9,7 +9,6 @@
 import SpriteKit
 
 struct Stage {
-
     static var maxCount: Int {
         var stageNumber = 0
         while SKScene(fileNamed: "Stage\(stageNumber + 1)") != nil {
@@ -18,7 +17,7 @@ struct Stage {
         return stageNumber
     }
 
-    var current: Int {
+    static var current: Int {
         get {
             return UserDefaults.standard.integer(forKey: UserDefaults.Key.actualStage)
         }
@@ -28,11 +27,11 @@ struct Stage {
         }
     }
 
-    var name: String {
+    static var name: String {
         return "Stage\(current)"
     }
 
-    var clouds: [String] {
+    static var clouds: [String] {
         // Stage number: cloud names
         let clouds: [Int: Int] = [
             1: 3,
@@ -48,7 +47,7 @@ struct Stage {
         return currentClouds
     }
 
-    var rainIntensity: Double {
+    static var rainIntensity: Double {
         // Stage number: raindropRate (delay between two raindrops)
         let clouds: [Int: Double] = [
             1: 1,
@@ -57,6 +56,10 @@ struct Stage {
         ]
 
         return clouds[current]!
+    }
+
+    static func isAllCompleted() -> Bool {
+        return Stage.current == Stage.maxCount ? true : false
     }
 
 }

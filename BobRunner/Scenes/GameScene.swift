@@ -9,12 +9,13 @@
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+
+    // MARK: Properties
     var cam = SKCameraNode()
     let cameraOffset = CGFloat(150)
     var hud = SKReferenceNode()
     let isIPhoneX = GameViewController().isIphoneX
 
-    var stage = Stage()
     var graphicsLayers: [SKNode] = []
 
     var cat = Cat(lifes: 5)
@@ -36,11 +37,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let countDownInitialSeconds = 2
     var countDownSeconds = Int()
 
+    // MARK: - View lifecycle
     override func didMove(to view: SKView) {
-        // Called immediately after a scene is presented by a view
         self.physicsWorld.contactDelegate = self
         Audio.setBackgroundMusic(for: self)
 
+        initCommonStageNodes()
+        initHud(on: view)
+
+        cam.addChild(hud)
+        initHudChildNodes()
+        updateLifeCounter()
+    }
+
+    private func initCommonStageNodes() {
         if let camNode = self.childNode(withName: Node.camera) as? SKCameraNode {
             cam = camNode
         }
@@ -49,18 +59,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cat = catNode
         }
 
-        for cloudName in stage.clouds {
+        for cloudName in Stage.clouds {
             self.childNode(withName: cloudName)
         }
 
         if let backgroundNode = self.childNode(withName: Node.Layer.background),
             let midgroundNode = self.childNode(withName: Node.Layer.midground),
             let foregroundNode = self.childNode(withName: Node.Layer.foreground) {
-                graphicsLayers.append(backgroundNode)
-                graphicsLayers.append(midgroundNode)
-                graphicsLayers.append(foregroundNode)
+            graphicsLayers.append(backgroundNode)
+            graphicsLayers.append(midgroundNode)
+            graphicsLayers.append(foregroundNode)
         }
+    }
 
+    private func initHud(on view: SKView) {
         if isIPhoneX {
             hud = SKReferenceNode(fileNamed: Scene.hudIphoneX)
         } else {
@@ -70,76 +82,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hud.position = iPadHudPos
             }
         }
-
-        cam.addChild(hud)
-
-        if let lifeCounter = hud.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
-            let umbrellaCountDown = hud.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
-                lblLifeCounter = lifeCounter
-                updateLifeCounter()
-
-                lblUmbrellaCountDown = umbrellaCountDown
-                lblUmbrellaCountDown?.isHidden = true
-                lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
-                countDownSeconds = countDownInitialSeconds
-        }
     }
 
+    private func initHudChildNodes() {
+        if let lifeCounter = hud.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
+            let umbrellaCountDown = hud.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
+            lblLifeCounter = lifeCounter
+
+            lblUmbrellaCountDown = umbrellaCountDown
+            lblUmbrellaCountDown?.isHidden = true
+            lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
+            countDownSeconds = countDownInitialSeconds
+        }
+    }
+}
+
+// MARK: - Frame rendering cycle
+extension GameScene {
     override func update(_ currentTime: TimeInterval) {
         // Drop raindrops from the clouds
-        Raindrop.checkRaindrop(timeBetweenFrames: currentTime - Raindrop.lastTime, stage: stage, in: self)
+        Raindrop.checkRaindrop(timeBetweenFrames: currentTime - Raindrop.lastTime, stage: Stage(), in: self)
         Raindrop.lastTime = currentTime
     }
 
     override func didSimulatePhysics() {
-        // Performs any scene-specific updates that need to occur after physics simulations are performed
-
-        // Identify cat texture changes
         if cat.isAlive() {
             manageCatMovements()
-
-            cat.xScale = standardCatTextureScale
-            cat.yScale = standardCatTextureScale
-
-            if let catVerticalVelocity = cat.physicsBody?.velocity.dy {
-
-                switch (isMoveLeft, cat.isProtected, Float(catVerticalVelocity), canMove) {
-                case (true, false, 100..<1000, true):
-                    cat.texture = SKTexture(assetIdentifier: .catJumpLeft)
-                case (false, false, 100..<1000, true):
-                    cat.texture = SKTexture(assetIdentifier: .catJumpRight)
-                case (true, true, _, true):
-                    cat.texture = SKTexture(assetIdentifier: .catUmbrellaLeft)
-                    cat.yScale = umbrellaCatTextureScale
-                case (false, true, _, true):
-                    cat.texture = SKTexture(assetIdentifier: .catUmbrellaRight)
-                    cat.yScale = umbrellaCatTextureScale
-                case (_, _, _, false):
-                    cat.texture = SKTexture(assetIdentifier: .catStandRight)
-                default:
-                    if isMoveLeft {
-                        cat.texture = SKTexture(assetIdentifier: .catStandLeft)
-                    } else {
-                        cat.texture = SKTexture(assetIdentifier: .catStandRight)
-                    }
-                }
-            }
-        }
-
-        // Move camere ahead of the player
-        cam.position.x = cat.position.x + cameraOffset
-
-        // Do the parallax background effect
-        for layer in graphicsLayers {
-            if let movementMultiplier = layer.userData?.value(forKey: UserData.Key.movementMultiplier) as? CGFloat {
-                let adjustedPosition = cat.position.x * (1 - movementMultiplier)
-                layer.position.x = adjustedPosition
-            }
+            adjustParallaxBackgroundLayers()
+            adjustCameraPosition()
+            updateCatTexture()
         }
     }
+}
 
+// MARK: - Collisions
+extension GameScene {
     func didBegin(_ contact: SKPhysicsContact) {
-        // Called when two bodies first contact each other
+        // Called when two bodies contact each other
         let bodyA = contact.bodyA.categoryBitMask
         let bodyB = contact.bodyB.categoryBitMask
         let otherNode: SKNode
@@ -193,19 +172,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+}
 
-    func catHitByRaindrop() {
-        if cat.isAlive() {
-            cat.takeDamage()
-            updateLifeCounter()
-
-            // Check the lifes after the damage
-            if !cat.isAlive() {
-                gameOver(type: .flood)
-            }
-        }
-    }
-
+// MARK: - Touch events
+extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Tells this object that one or more new touches occurred in a view or window
 
@@ -237,19 +207,75 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         isJumpingWhileMoving = false
     }
+}
 
-    func manageCatMovements() {
+// MARK: - Utility
+extension GameScene {
+    private func manageCatMovements() {
         if touchActive {
             cat.move(left: isMoveLeft)
         }
     }
 
-    func updateLifeCounter() {
+    private func catHitByRaindrop() {
+        if cat.isAlive() {
+            cat.takeDamage()
+            updateLifeCounter()
+
+            if !cat.isAlive() {
+                gameOver(type: .flood)
+            }
+        }
+    }
+
+    private func adjustParallaxBackgroundLayers() {
+        for layer in graphicsLayers {
+            if let movementMultiplier = layer.userData?.value(forKey: UserData.Key.movementMultiplier) as? CGFloat {
+                let adjustedPosition = cat.position.x * (1 - movementMultiplier)
+                layer.position.x = adjustedPosition
+            }
+        }
+    }
+
+    private func adjustCameraPosition() {
+        // Move camere ahead of the player
+        cam.position.x = cat.position.x + cameraOffset
+    }
+
+    private func updateCatTexture() {
+        cat.xScale = standardCatTextureScale
+        cat.yScale = standardCatTextureScale
+
+        let catVerticalVelocity = cat.physicsBody?.velocity.dy
+
+        // Identify cat texture changes
+        switch (isMoveLeft, cat.isProtected, Float(catVerticalVelocity!), canMove) {
+        case (true, false, 100..<1000, true):
+            cat.texture = SKTexture(assetIdentifier: .catJumpLeft)
+        case (false, false, 100..<1000, true):
+            cat.texture = SKTexture(assetIdentifier: .catJumpRight)
+        case (true, true, _, true):
+            cat.texture = SKTexture(assetIdentifier: .catUmbrellaLeft)
+            cat.yScale = umbrellaCatTextureScale
+        case (false, true, _, true):
+            cat.texture = SKTexture(assetIdentifier: .catUmbrellaRight)
+            cat.yScale = umbrellaCatTextureScale
+        case (_, _, _, false):
+            cat.texture = SKTexture(assetIdentifier: .catStandRight)
+        default:
+            if isMoveLeft {
+                cat.texture = SKTexture(assetIdentifier: .catStandLeft)
+            } else {
+                cat.texture = SKTexture(assetIdentifier: .catStandRight)
+            }
+        }
+    }
+
+    private func updateLifeCounter() {
         lblLifeCounter?.text = String(cat.lifes)
     }
 
-    func gameOver(type: GameOverType) {
-        // Lost all its life
+    private func gameOver(type: GameOverType) {
         if type == .drown {
             cat.drown()
         } else {
@@ -260,22 +286,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         presentReloadStageButton(withTitle: "Retry stage!")
     }
 
-    func completeActualStage() {
-        // Called if the cat can get back to the house
+    private func completeActualStage() {
         canMove = false
         touchActive = false
         cat.celebrate()
 
-        if stage.current == Stage.maxCount {
-            // Each stage is completed
+        if Stage.isAllCompleted() {
             presentReplayWholeGameButton(withTitle: "Replay game from Stage 1!")
         } else {
-            // Go to next stage
-            presentLoadNextStageButton(withTitle: "Start Stage \(stage.current + 1)!")
+            presentLoadNextStageButton(withTitle: "Start Stage \(Stage.current + 1)!")
         }
     }
 
-    func presentLoadNextStageButton(withTitle text: String) {
+    private func presentLoadNextStageButton(withTitle text: String) {
         // Center button on the screen
         btnLoadNextStage.frame.origin.x = (self.view?.center.x)! - btnLoadNextStage.frame.size.width / 2
         btnLoadNextStage.frame.origin.y = (self.view?.center.y)! - btnLoadNextStage.frame.size.height / 2
@@ -287,7 +310,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(btnLoadNextStage)
     }
 
-    func presentReloadStageButton(withTitle text: String) {
+    private func presentReloadStageButton(withTitle text: String) {
         // Center button on the screen
         btnReloadStage.frame.origin.x = (self.view?.center.x)! - btnReloadStage.frame.size.width / 2
         btnReloadStage.frame.origin.y = (self.view?.center.y)! - btnReloadStage.frame.size.height / 2
@@ -299,7 +322,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view?.addSubview(btnReloadStage)
     }
 
-    func presentReplayWholeGameButton(withTitle text: String) {
+    private func presentReplayWholeGameButton(withTitle text: String) {
         // Center button on the screen
         btnReplayWholeGame.frame.origin.x = (self.view?.center.x)! - btnReplayWholeGame.frame.size.width / 2
         btnReplayWholeGame.frame.origin.y = (self.view?.center.y)! - btnReplayWholeGame.frame.size.height / 2
@@ -310,7 +333,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         btnReplayWholeGame.addTarget(self, action: #selector(replayWholeGame), for: .touchUpInside)
         self.view?.addSubview(btnReplayWholeGame)
     }
+}
 
+// MARK: - Actions
+extension GameScene {
     @objc func updateUmbrellaHoldingTimer() {
         if countDownSeconds > 0 {
             countDownSeconds -= 1
@@ -325,26 +351,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     @objc func loadNextStage() {
-        // Load next stage if current stage is completed
-        stage.current += 1
+        Stage.current += 1
         presentScene()
         btnLoadNextStage.removeFromSuperview()
     }
 
     @objc func reloadStage() {
-        // Reload actual stage on gameover
         presentScene()
         btnReloadStage.removeFromSuperview()
     }
 
     @objc func replayWholeGame() {
-        stage.current = 1
+        Stage.current = 1
         presentScene()
         btnReplayWholeGame.removeFromSuperview()
     }
 
     private func presentScene() {
-        if let scene = SKScene(fileNamed: stage.name) {
+        if let scene = SKScene(fileNamed: Stage.name) {
             if isIPhoneX {
                 scene.scaleMode = .resizeFill
             } else {
@@ -354,5 +378,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.view?.presentScene(scene)
         }
     }
-
 }

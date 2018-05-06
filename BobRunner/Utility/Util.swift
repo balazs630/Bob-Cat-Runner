@@ -9,7 +9,6 @@
 import Foundation
 
 class Util {
-
     class func generateRandomNumber(range: ClosedRange<Int>) -> Int {
         let min = range.lowerBound
         let max = range.upperBound

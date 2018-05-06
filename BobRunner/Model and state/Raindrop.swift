@@ -9,25 +9,33 @@
 import SpriteKit
 
 class Raindrop: SKSpriteNode {
+
+    // MARK: Properties
     static var timeSinceLastRaindrop: TimeInterval = 0
     static var lastTime: TimeInterval = 0
     var initialSize = CGSize(width: 18, height: 24)
 
+    // MARK: Initializers
     init() {
         let texture = SKTexture(assetIdentifier: .raindrop)
         super.init(texture: texture, color: .clear, size: initialSize)
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    // MARK: - Actions
     class func checkRaindrop(timeBetweenFrames: TimeInterval, stage: Stage, in gameScene: GameScene) {
         // Add time to timer
         timeSinceLastRaindrop += timeBetweenFrames
 
         // Return if it hasn't been enogh time to drop raindrop
-        if timeSinceLastRaindrop < stage.rainIntensity {
+        if timeSinceLastRaindrop < Stage.rainIntensity {
             return
         } else {
             // Drop raindrops from each cloud added to the given stage
-            for cloudName in stage.clouds {
+            for cloudName in Stage.clouds {
                 if let cloud = gameScene.childNode(withName: cloudName) as? SKSpriteNode {
                     dropRaindrop(from: cloud, in: gameScene)
                 }
@@ -59,9 +67,4 @@ class Raindrop: SKSpriteNode {
         gameScene.addChild(raindropExplosion)
         raindrop.removeFromParent()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
 }

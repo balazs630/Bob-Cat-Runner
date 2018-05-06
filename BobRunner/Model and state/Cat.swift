@@ -10,6 +10,7 @@ import SpriteKit
 
 class Cat: SKSpriteNode {
 
+    // MARK: Properties
     let jumpImpulse = 800
     let runSpeed = CGFloat(5)
 
@@ -24,12 +25,18 @@ class Cat: SKSpriteNode {
     let gameOverSound = SKAction.playSound(assetIdentifier: .gameover)
     let celebrateSound = SKAction.playSound(assetIdentifier: .crowdCelebrate)
 
+    // MARK: Initializers
     init(lifes: Int) {
         self.lifes = lifes
         let texture = SKTexture(assetIdentifier: .catStandRight)
         super.init(texture: texture, color: .clear, size: initialSize)
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    // MARK: - Actions
     func move(left: Bool) {
         if left {
             position.x -= runSpeed
@@ -81,9 +88,4 @@ class Cat: SKSpriteNode {
         // Jump up 5 times
         run(SKAction.sequence(jumpSequence))
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
 }

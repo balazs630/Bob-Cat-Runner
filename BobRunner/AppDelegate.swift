@@ -14,6 +14,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        initUserDefaults()
+        return true
+    }
+
+}
+
+// MARK: - UserDefaults setup
+extension AppDelegate {
+    private func initUserDefaults() {
         let defaults = UserDefaults.standard
 
         if defaults.object(forKey: UserDefaults.Key.isAppAlreadyLaunchedOnce) == nil {
@@ -28,8 +37,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             defaults.synchronize()
         }
-
-        return true
     }
-
 }
