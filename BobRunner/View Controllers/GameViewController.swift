@@ -14,8 +14,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         if let view = self.view as? SKView {
-            // Load the SKScene according to actual stage
-            if let scene = SKScene(fileNamed: Stage().name) {
+            // Load the actual stage
+            if let scene = SKScene(fileNamed: Stage.name) {
                 if isIphoneX {
                     scene.scaleMode = .resizeFill
                 } else {
@@ -27,14 +27,7 @@ class GameViewController: UIViewController {
             }
 
             view.ignoresSiblingOrder = true
-
-            // For debug purpose
-            //view.showsFPS = true
-            //view.showsNodeCount = true
-            //view.showsDrawCount = true
-            //view.showsQuadCount = true
-            //view.showsPhysics = true
-            //view.showsFields = true
+            view.isDebugEnabled(false)
         }
     }
 
