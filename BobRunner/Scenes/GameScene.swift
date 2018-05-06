@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
     let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
-    let btnReplayWholeGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
+    let btnReplayGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
 
     var lblLifeCounter: SKLabelNode?
     var lblUmbrellaCountDown: SKLabelNode?
@@ -42,12 +42,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         Audio.setBackgroundMusic(for: self)
 
+        initButtons()
         initCommonStageNodes()
         initHud(on: view)
 
         cam.addChild(hud)
         initHudChildNodes()
         updateLifeCounter()
+    }
+
+    private func initButtons() {
+        btnLoadNextStage.centerButton(in: self.view)
+        btnLoadNextStage.setButtonAttributes(title: "Start Stage \(Stage.current + 1)!")
+        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+
+        btnReloadStage.centerButton(in: self.view)
+        btnReloadStage.setButtonAttributes(title: "Retry stage!")
+        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
+
+        btnReplayGame.centerButton(in: self.view)
+        btnReplayGame.setButtonAttributes(title: "Replay game from Stage 1!")
+        btnReplayGame.addTarget(self, action: #selector(replayWholeGame), for: .touchUpInside)
     }
 
     private func initCommonStageNodes() {
@@ -283,7 +298,7 @@ extension GameScene {
         }
 
         canMove = false
-        presentReloadStageButton(withTitle: "Retry stage!")
+        self.view?.addSubview(btnReloadStage)
     }
 
     private func completeActualStage() {
@@ -292,46 +307,22 @@ extension GameScene {
         cat.celebrate()
 
         if Stage.isAllCompleted() {
-            presentReplayWholeGameButton(withTitle: "Replay game from Stage 1!")
+            self.view?.addSubview(btnReplayGame)
         } else {
-            presentLoadNextStageButton(withTitle: "Start Stage \(Stage.current + 1)!")
+            self.view?.addSubview(btnLoadNextStage)
         }
     }
 
-    private func presentLoadNextStageButton(withTitle text: String) {
-        // Center button on the screen
-        btnLoadNextStage.frame.origin.x = (self.view?.center.x)! - btnLoadNextStage.frame.size.width / 2
-        btnLoadNextStage.frame.origin.y = (self.view?.center.y)! - btnLoadNextStage.frame.size.height / 2
+    private func presentScene() {
+        if let scene = SKScene(fileNamed: Stage.name) {
+            if isIPhoneX {
+                scene.scaleMode = .resizeFill
+            } else {
+                scene.scaleMode = .aspectFill
+            }
 
-        btnLoadNextStage.layer.cornerRadius = 5
-        btnLoadNextStage.backgroundColor = .black
-        btnLoadNextStage.setTitle(text, for: .normal)
-        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
-        self.view?.addSubview(btnLoadNextStage)
-    }
-
-    private func presentReloadStageButton(withTitle text: String) {
-        // Center button on the screen
-        btnReloadStage.frame.origin.x = (self.view?.center.x)! - btnReloadStage.frame.size.width / 2
-        btnReloadStage.frame.origin.y = (self.view?.center.y)! - btnReloadStage.frame.size.height / 2
-
-        btnReloadStage.layer.cornerRadius = 5
-        btnReloadStage.backgroundColor = .black
-        btnReloadStage.setTitle(text, for: .normal)
-        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
-        self.view?.addSubview(btnReloadStage)
-    }
-
-    private func presentReplayWholeGameButton(withTitle text: String) {
-        // Center button on the screen
-        btnReplayWholeGame.frame.origin.x = (self.view?.center.x)! - btnReplayWholeGame.frame.size.width / 2
-        btnReplayWholeGame.frame.origin.y = (self.view?.center.y)! - btnReplayWholeGame.frame.size.height / 2
-
-        btnReplayWholeGame.layer.cornerRadius = 5
-        btnReplayWholeGame.backgroundColor = .black
-        btnReplayWholeGame.setTitle(text, for: .normal)
-        btnReplayWholeGame.addTarget(self, action: #selector(replayWholeGame), for: .touchUpInside)
-        self.view?.addSubview(btnReplayWholeGame)
+            self.view?.presentScene(scene)
+        }
     }
 }
 
@@ -364,18 +355,6 @@ extension GameScene {
     @objc func replayWholeGame() {
         Stage.current = 1
         presentScene()
-        btnReplayWholeGame.removeFromSuperview()
-    }
-
-    private func presentScene() {
-        if let scene = SKScene(fileNamed: Stage.name) {
-            if isIPhoneX {
-                scene.scaleMode = .resizeFill
-            } else {
-                scene.scaleMode = .aspectFill
-            }
-
-            self.view?.presentScene(scene)
-        }
+        btnReplayGame.removeFromSuperview()
     }
 }

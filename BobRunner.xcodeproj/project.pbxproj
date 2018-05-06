@@ -17,6 +17,7 @@
 		AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */; };
 		AC8B5818209E651400DBBC25 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */; };
 		AC8B581A209EED6100DBBC25 /* SpriteKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */; };
+		AC8B5820209F2ECB00DBBC25 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */; };
 		AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D1B1ED31F150016910C /* AppDelegate.swift */; };
 		AC903D1E1ED31F150016910C /* Stage1.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC903D1D1ED31F150016910C /* Stage1.sks */; };
 		AC903D221ED31F150016910C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D211ED31F150016910C /* GameScene.swift */; };
@@ -45,6 +46,7 @@
 		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_cat.m4a; sourceTree = "<group>"; };
 		AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteKitExtensions.swift; sourceTree = "<group>"; };
+		AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
 		AC903D181ED31F150016910C /* BobRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC903D1B1ED31F150016910C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AC903D1D1ED31F150016910C /* Stage1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage1.sks; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */,
+				AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
 				AC8B5818209E651400DBBC25 /* PhysicsCategory.swift in Sources */,
 				ACD6FA0A1EFD7B5E0008DA50 /* Raindrop.swift in Sources */,
+				AC8B5820209F2ECB00DBBC25 /* UIButtonExtensions.swift in Sources */,
 				ACC19D1D1FA608150026D272 /* Constants.swift in Sources */,
 				AC8B581A209EED6100DBBC25 /* SpriteKitExtensions.swift in Sources */,
 			);
