@@ -183,7 +183,7 @@ extension GameScene {
                 completeActualStage()
 
             default:
-                print("Unhandled collision occured between the cat and \(String(describing: other.physicsBody?.node))")
+                NSLog("Unhandled collision occured between the cat and \(String(describing: other.physicsBody?.node))")
             }
         }
     }
