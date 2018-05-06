@@ -12,7 +12,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // MARK: Properties
     var cam = SKCameraNode()
-    let cameraOffset = CGFloat(150)
     var hud = SKReferenceNode()
     let isIPhoneX = GameViewController().isIphoneX
 
@@ -23,18 +22,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var canMove = true
     var isMoveLeft = false
     var isJumpingWhileMoving = false
-    let standardCatTextureScale = CGFloat(1.0)
-    let umbrellaCatTextureScale = CGFloat(1.8)
 
-    let btnLoadNextStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
-    let btnReloadStage = UIButton(frame: CGRect(x: 100, y: 100, width: 120, height: 50))
-    let btnReplayGame = UIButton(frame: CGRect(x: 100, y: 100, width: 240, height: 50))
+    let btnLoadNextStage = UIButton(frame: Node.Button.narrowButtonFrame)
+    let btnReloadStage = UIButton(frame: Node.Button.narrowButtonFrame)
+    let btnReplayGame = UIButton(frame: Node.Button.wideButtonFrame)
 
     var lblLifeCounter: SKLabelNode?
     var lblUmbrellaCountDown: SKLabelNode?
 
     var umbrellaTimer = Timer()
-    let countDownInitialSeconds = 2
     var countDownSeconds = Int()
 
     // MARK: - View lifecycle
@@ -106,8 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             lblUmbrellaCountDown = umbrellaCountDown
             lblUmbrellaCountDown?.isHidden = true
-            lblUmbrellaCountDown?.text = String(countDownInitialSeconds)
-            countDownSeconds = countDownInitialSeconds
+            lblUmbrellaCountDown?.text = String(Constant.countDownInitialSeconds)
+            countDownSeconds = Constant.countDownInitialSeconds
         }
     }
 }
@@ -116,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 extension GameScene {
     override func update(_ currentTime: TimeInterval) {
         // Drop raindrops from the clouds
-        Raindrop.checkRaindrop(timeBetweenFrames: currentTime - Raindrop.lastTime, stage: Stage(), in: self)
+        Raindrop.checkRaindrop(timeBetweenFrames: currentTime - Raindrop.lastTime, in: self)
         Raindrop.lastTime = currentTime
     }
 
@@ -206,7 +202,7 @@ extension GameScene {
                 if cat.contains(location) {
                     cat.jumpUp()
                     isJumpingWhileMoving = true
-                } else if location.x < (cam.position.x - cameraOffset) {
+                } else if location.x < (cam.position.x - Constant.cameraOffset) {
                     isMoveLeft = true
                 } else {
                     isMoveLeft = false
@@ -254,12 +250,12 @@ extension GameScene {
 
     private func adjustCameraPosition() {
         // Move camere ahead of the player
-        cam.position.x = cat.position.x + cameraOffset
+        cam.position.x = cat.position.x + Constant.cameraOffset
     }
 
     private func updateCatTexture() {
-        cat.xScale = standardCatTextureScale
-        cat.yScale = standardCatTextureScale
+        cat.xScale = Constant.standardCatTextureScale
+        cat.yScale = Constant.standardCatTextureScale
 
         let catVerticalVelocity = cat.physicsBody?.velocity.dy
 
@@ -271,10 +267,10 @@ extension GameScene {
             cat.texture = SKTexture(assetIdentifier: .catJumpRight)
         case (true, true, _, true):
             cat.texture = SKTexture(assetIdentifier: .catUmbrellaLeft)
-            cat.yScale = umbrellaCatTextureScale
+            cat.yScale = Constant.umbrellaCatTextureScale
         case (false, true, _, true):
             cat.texture = SKTexture(assetIdentifier: .catUmbrellaRight)
-            cat.yScale = umbrellaCatTextureScale
+            cat.yScale = Constant.umbrellaCatTextureScale
         case (_, _, _, false):
             cat.texture = SKTexture(assetIdentifier: .catStandRight)
         default:
@@ -336,7 +332,7 @@ extension GameScene {
             // Time is over
             cat.isProtected = false
             lblUmbrellaCountDown?.isHidden = true
-            countDownSeconds = countDownInitialSeconds
+            countDownSeconds = Constant.countDownInitialSeconds
             umbrellaTimer.invalidate()
         }
     }

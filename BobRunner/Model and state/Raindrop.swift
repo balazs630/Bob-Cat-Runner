@@ -26,7 +26,7 @@ class Raindrop: SKSpriteNode {
     }
 
     // MARK: - Actions
-    class func checkRaindrop(timeBetweenFrames: TimeInterval, stage: Stage, in gameScene: GameScene) {
+    class func checkRaindrop(timeBetweenFrames: TimeInterval, in gameScene: GameScene) {
         // Add time to timer
         timeSinceLastRaindrop += timeBetweenFrames
 
@@ -44,7 +44,7 @@ class Raindrop: SKSpriteNode {
         }
     }
 
-    class func dropRaindrop(from cloud: SKSpriteNode, in gameScene: GameScene) {
+    private class func dropRaindrop(from cloud: SKSpriteNode, in gameScene: GameScene) {
         let cloudRadius = Int(cloud.size.width/2) - 20
 
         // Drop raindrops randomly according to cloud width

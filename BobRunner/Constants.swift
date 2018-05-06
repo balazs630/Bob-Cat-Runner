@@ -7,6 +7,14 @@
 //
 
 import Foundation
+import CoreGraphics
+
+struct Constant {
+    static let standardCatTextureScale = CGFloat(1.0)
+    static let umbrellaCatTextureScale = CGFloat(1.8)
+    static let countDownInitialSeconds = 2
+    static let cameraOffset = CGFloat(150)
+}
 
 struct Scene {
     static let raindrop = "Raindrop"
@@ -28,6 +36,8 @@ struct Node {
 
     struct Button {
         static let reload = "btnReload"
+        static let narrowButtonFrame = CGRect(x: 100, y: 100, width: 120, height: 50)
+        static let wideButtonFrame = CGRect(x: 100, y: 100, width: 240, height: 50)
     }
 
     struct Layer {
