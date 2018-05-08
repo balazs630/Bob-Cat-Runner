@@ -10,19 +10,27 @@ import SpriteKit
 
 class GameViewController: UIViewController {
 
+    // MARK: Properties
+    let btnLoadNextStage = UIButton(frame: Button.Frame.narrow)
+    let btnReloadStage = UIButton(frame: Button.Frame.narrow)
+    let btnReplayGame = UIButton(frame: Button.Frame.wide)
+
+    // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
         if let view = self.view as? SKView {
             // Load the actual stage
             if let scene = SKScene(fileNamed: Stage.name) {
-                if isIphoneX {
+                if view.isIphoneX() {
                     scene.scaleMode = .resizeFill
                 } else {
                     scene.scaleMode = .aspectFill
                 }
 
-                // Present the scene
+                initButtons()
+                view.addSubviews([btnLoadNextStage, btnReloadStage, btnReplayGame])
+
                 view.presentScene(scene)
             }
 
@@ -31,6 +39,7 @@ class GameViewController: UIViewController {
         }
     }
 
+    // MARK: - Screen configuration
     override var shouldAutorotate: Bool {
         return true
     }
@@ -45,15 +54,50 @@ class GameViewController: UIViewController {
 
 }
 
+// MARK: - Setup
 extension GameViewController {
-    var isIphoneX: Bool {
-        let aspectRatio = Double(view.frame.width/view.frame.height)
-        let iphoneXAspectRatio = 2436.0/1125.0
-        return (aspectRatio == iphoneXAspectRatio) ? true : false
+    private func initButtons() {
+        guard let view = self.view as? SKView else { return }
+
+        btnLoadNextStage.alignCenter(in: view)
+        btnLoadNextStage.setDefaultAttributes(title: "Start Stage \(Stage.current + 1)!")
+        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
+        btnLoadNextStage.tag = Button.NextStage.tag
+
+        btnReloadStage.alignCenter(in: view)
+        btnReloadStage.setDefaultAttributes(title: "Retry stage!")
+        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
+        btnReloadStage.tag = Button.ReloadStage.tag
+
+        btnReplayGame.alignCenter(in: view)
+        btnReplayGame.setDefaultAttributes(title: "Replay game from Stage 1!")
+        btnReplayGame.addTarget(self, action: #selector(replayGame), for: .touchUpInside)
+        btnReplayGame.tag = Button.ReplayGame.tag
+    }
+}
+
+// MARK: - Actions
+extension GameViewController {
+    @objc func loadNextStage() {
+        Stage.current += 1
+        presentScene()
+        btnLoadNextStage.isHidden = true
     }
 
-    var isIPad: Bool {
-        let aspectRatio = view.frame.width/view.frame.height
-        return aspectRatio < 1.5 ? true : false
+    @objc func reloadStage() {
+        presentScene()
+        btnReloadStage.isHidden = true
+    }
+
+    @objc func replayGame() {
+        Stage.current = 1
+        presentScene()
+        btnReplayGame.isHidden = true
+    }
+
+    private func presentScene() {
+        if let view = self.view as? SKView {
+            view.presentScene(SKScene(fileNamed: Stage.name))
+        }
     }
 }

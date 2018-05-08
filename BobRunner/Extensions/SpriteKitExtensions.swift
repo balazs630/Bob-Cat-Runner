@@ -31,4 +31,24 @@ public extension SKView {
             self.showsFields = true
         }
     }
+
+    func isIphoneX() -> Bool {
+        let screenHeight = 2436.0
+        let screenWidth = 1125.0
+        let iphoneXAspectRatio = screenHeight / screenWidth
+
+        let aspectRatio = Double(self.frame.width/self.frame.height)
+        return (aspectRatio == iphoneXAspectRatio) ? true : false
+    }
+
+    func isIPad() -> Bool {
+        let aspectRatio = self.frame.width/self.frame.height
+        return aspectRatio < 1.5 ? true : false
+    }
+
+    func addSubviews(_ subviews: [UIView]) {
+        for view in subviews {
+            self.addSubview(view)
+        }
+    }
 }

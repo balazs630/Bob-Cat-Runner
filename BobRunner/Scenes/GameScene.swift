@@ -12,9 +12,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // MARK: Properties
     var cam = SKCameraNode()
-    var hud = SKReferenceNode()
-    let isIPhoneX = GameViewController().isIphoneX
-
     var graphicsLayers: [SKNode] = []
 
     var cat = Cat(lifes: 5)
@@ -23,42 +20,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isMoveLeft = false
     var isJumpingWhileMoving = false
 
-    let btnLoadNextStage = UIButton(frame: Node.Button.narrowButtonFrame)
-    let btnReloadStage = UIButton(frame: Node.Button.narrowButtonFrame)
-    let btnReplayGame = UIButton(frame: Node.Button.wideButtonFrame)
-
+    var hud = SKReferenceNode()
     var lblLifeCounter: SKLabelNode?
     var lblUmbrellaCountDown: SKLabelNode?
 
     var umbrellaTimer = Timer()
     var countDownSeconds = Int()
 
-    // MARK: - View lifecycle
+    // MARK: - Scene lifecycle
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         Audio.setBackgroundMusic(for: self)
 
-        initButtons()
         initCommonStageNodes()
         initHud(on: view)
 
         cam.addChild(hud)
         initHudChildNodes()
         updateLifeCounter()
-    }
-
-    private func initButtons() {
-        btnLoadNextStage.centerButton(in: self.view)
-        btnLoadNextStage.setButtonAttributes(title: "Start Stage \(Stage.current + 1)!")
-        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
-
-        btnReloadStage.centerButton(in: self.view)
-        btnReloadStage.setButtonAttributes(title: "Retry stage!")
-        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
-
-        btnReplayGame.centerButton(in: self.view)
-        btnReplayGame.setButtonAttributes(title: "Replay game from Stage 1!")
-        btnReplayGame.addTarget(self, action: #selector(replayWholeGame), for: .touchUpInside)
     }
 
     private func initCommonStageNodes() {
@@ -84,11 +63,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func initHud(on view: SKView) {
-        if isIPhoneX {
+        if view.isIphoneX() {
             hud = SKReferenceNode(fileNamed: Scene.hudIphoneX)
         } else {
             hud = SKReferenceNode(fileNamed: Scene.hudStandard)
-            if GameViewController().isIPad {
+            if view.isIPad() {
                 let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
                 hud.position = iPadHudPos
             }
@@ -195,7 +174,7 @@ extension GameScene {
             for touch in touches {
                 let location = touch.location(in: self)
 
-                if self.atPoint(location).name == Node.Button.reload {
+                if self.atPoint(location).name == Button.ReloadStage.name {
                     reloadStage()
                 }
 
@@ -294,7 +273,7 @@ extension GameScene {
         }
 
         canMove = false
-        self.view?.addSubview(btnReloadStage)
+        self.view?.viewWithTag(Button.ReloadStage.tag)?.isHidden = false
     }
 
     private func completeActualStage() {
@@ -303,23 +282,16 @@ extension GameScene {
         cat.celebrate()
 
         if Stage.isAllCompleted() {
-            self.view?.addSubview(btnReplayGame)
+            self.view?.viewWithTag(Button.ReplayGame.tag)?.isHidden = false
         } else {
-            self.view?.addSubview(btnLoadNextStage)
+            self.view?.viewWithTag(Button.NextStage.tag)?.isHidden = false
         }
     }
 
-    private func presentScene() {
-        if let scene = SKScene(fileNamed: Stage.name) {
-            if isIPhoneX {
-                scene.scaleMode = .resizeFill
-            } else {
-                scene.scaleMode = .aspectFill
-            }
-
-            self.view?.presentScene(scene)
-        }
+    private func reloadStage() {
+        self.view?.presentScene(SKScene(fileNamed: Stage.name))
     }
+
 }
 
 // MARK: - Actions
@@ -337,20 +309,4 @@ extension GameScene {
         }
     }
 
-    @objc func loadNextStage() {
-        Stage.current += 1
-        presentScene()
-        btnLoadNextStage.removeFromSuperview()
-    }
-
-    @objc func reloadStage() {
-        presentScene()
-        btnReloadStage.removeFromSuperview()
-    }
-
-    @objc func replayWholeGame() {
-        Stage.current = 1
-        presentScene()
-        btnReplayGame.removeFromSuperview()
-    }
 }

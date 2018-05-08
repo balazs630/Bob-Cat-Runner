@@ -34,16 +34,32 @@ struct Node {
         static let umbrellaCountDown = "//lblUmbrellaCountDown"
     }
 
-    struct Button {
-        static let reload = "btnReload"
-        static let narrowButtonFrame = CGRect(x: 100, y: 100, width: 120, height: 50)
-        static let wideButtonFrame = CGRect(x: 100, y: 100, width: 240, height: 50)
-    }
-
     struct Layer {
         static let background = "background-layer"
         static let midground = "mid-layer"
         static let foreground = "foreground-layer"
+    }
+}
+
+struct Button {
+    struct NextStage {
+        static let name = "btnNext"
+        static let tag = 1
+    }
+
+    struct ReloadStage {
+        static let name = "btnReload"
+        static let tag = 2
+    }
+
+    struct ReplayGame {
+        static let name = "btnReplay"
+        static let tag = 3
+    }
+
+    enum Frame {
+        static let narrow = CGRect(x: 100, y: 100, width: 120, height: 50)
+        static let wide = CGRect(x: 100, y: 100, width: 240, height: 50)
     }
 }
 
