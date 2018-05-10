@@ -141,14 +141,8 @@ extension GameScene {
 
             case PhysicsCategory.umbrella.rawValue:
                 cat.collect(umbrella: other)
-
-                // Start countdown (the cat can own the umbrella only for a few seconds)
                 lblUmbrellaCountDown?.isHidden = false
-                umbrellaTimer = Timer.scheduledTimer(timeInterval: 1,
-                                                     target: self,
-                                                     selector: #selector(updateUmbrellaHoldingTimer),
-                                                     userInfo: nil,
-                                                     repeats: true)
+                umbrellaTimer = startTimer()
 
             case PhysicsCategory.dangerZone.rawValue:
                 cat.lifes = 0
@@ -294,8 +288,16 @@ extension GameScene {
 
 }
 
-// MARK: - Actions
+// MARK: - Timer
 extension GameScene {
+    private func startTimer() -> Timer {
+        return Timer.scheduledTimer(timeInterval: 1,
+                             target: self,
+                             selector: #selector(updateUmbrellaHoldingTimer),
+                             userInfo: nil,
+                             repeats: true)
+    }
+
     @objc func updateUmbrellaHoldingTimer() {
         if countDownSeconds > 0 {
             countDownSeconds -= 1
