@@ -112,7 +112,7 @@ enum ImageAssetIdentifier: String {
 
 enum SoundAssetIdentifier: String {
     case backgroundMusic = "background_music.m4a"
-    case collectUmbrella = "collectUmbrella.m4a"
+    case collectUmbrella = "collect_umbrella.m4a"
     case raindropHitCat = "raindrop_hit_cat.m4a"
     case raindropHitUmbrella = "raindrop_hit_umbrella.m4a"
     case crowdCelebrate = "crowd_celebrate.m4a"
