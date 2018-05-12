@@ -32,15 +32,8 @@ struct Stage {
     }
 
     static var clouds: [String] {
-        // Stage number: cloud names
-        let clouds: [Int: Int] = [
-            1: 3,
-            2: 5,
-            3: 8
-        ]
-
         var currentClouds = [String]()
-        for index in 1...clouds[current]! {
+        for index in 1...Constant.clouds[current]! {
             currentClouds.append("cloud\(index)")
         }
 
@@ -48,14 +41,7 @@ struct Stage {
     }
 
     static var rainIntensity: Double {
-        // Stage number: raindropRate (delay between two raindrops)
-        let clouds: [Int: Double] = [
-            1: 1,
-            2: 0.5,
-            3: 0.4
-        ]
-
-        return clouds[current]!
+        return Constant.rainIntensity[current]!
     }
 
     static func isAllCompleted() -> Bool {

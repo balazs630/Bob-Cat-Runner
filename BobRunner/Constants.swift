@@ -14,6 +14,20 @@ struct Constant {
     static let umbrellaCatTextureScale = CGFloat(1.8)
     static let countDownInitialSeconds = 2
     static let cameraOffset = CGFloat(150)
+
+    // Stage number: cloud count
+    static let clouds: [Int: Int] = [
+        1: 3,
+        2: 5,
+        3: 8
+    ]
+
+    // Stage number: raindropRate (delay between two raindrops in seconds)
+    static let rainIntensity: [Int: Double] = [
+        1: 1,
+        2: 0.5,
+        3: 0.4
+    ]
 }
 
 struct Scene {
