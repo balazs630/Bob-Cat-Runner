@@ -11,35 +11,28 @@ import SpriteKit
 class GameViewController: UIViewController {
 
     // MARK: Properties
-    let btnLoadNextStage = UIButton(frame: Button.Frame.narrow)
-    let btnReloadStage = UIButton(frame: Button.Frame.narrow)
-    let btnReplayGame = UIButton(frame: Button.Frame.wide)
+    let buttonView = ButtonView()
 
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let view = self.view as? SKView {
-            // Load the actual stage
-            if let scene = SKScene(fileNamed: Stage.name) {
-                if view.isIphoneX() {
-                    scene.scaleMode = .resizeFill
-                } else {
-                    scene.scaleMode = .aspectFill
-                }
+        guard let view = self.view as? SKView else { return }
+        guard let scene = SKScene(fileNamed: Stage.name) else { return }
+        scene.scaleMode = view.isIphoneX() ? .resizeFill : .aspectFill
 
-                initButtons()
-                view.addSubviews([btnLoadNextStage, btnReloadStage, btnReplayGame])
+        buttonView.alignCenter(in: view)
+        buttonView.setActions(for: self)
+        view.addSubviews(buttonView.buttons)
 
-                view.presentScene(scene)
-            }
-
-            view.ignoresSiblingOrder = true
-            view.isDebugEnabled(false)
-        }
+        view.presentScene(scene)
+        view.ignoresSiblingOrder = true
+        view.isDebugEnabled(false)
     }
+}
 
-    // MARK: - Screen configuration
+// MARK: - Screen configuration
+extension GameViewController {
     override var shouldAutorotate: Bool {
         return true
     }
@@ -51,48 +44,26 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
 }
 
-// MARK: - Setup
+// MARK: - Button actions
 extension GameViewController {
-    private func initButtons() {
-        guard let view = self.view as? SKView else { return }
 
-        btnLoadNextStage.alignCenter(in: view)
-        btnLoadNextStage.setDefaultAttributes(title: "Start Stage \(Stage.current + 1)!")
-        btnLoadNextStage.addTarget(self, action: #selector(loadNextStage), for: .touchUpInside)
-        btnLoadNextStage.tag = Button.NextStage.tag
-
-        btnReloadStage.alignCenter(in: view)
-        btnReloadStage.setDefaultAttributes(title: "Retry stage!")
-        btnReloadStage.addTarget(self, action: #selector(reloadStage), for: .touchUpInside)
-        btnReloadStage.tag = Button.ReloadStage.tag
-
-        btnReplayGame.alignCenter(in: view)
-        btnReplayGame.setDefaultAttributes(title: "Replay game from Stage 1!")
-        btnReplayGame.addTarget(self, action: #selector(replayGame), for: .touchUpInside)
-        btnReplayGame.tag = Button.ReplayGame.tag
-    }
-}
-
-// MARK: - Actions
-extension GameViewController {
     @objc func loadNextStage() {
         Stage.current += 1
         presentScene()
-        btnLoadNextStage.isHidden = true
+        buttonView.btnLoadNextStage.isHidden = true
     }
 
     @objc func reloadStage() {
         presentScene()
-        btnReloadStage.isHidden = true
+        buttonView.btnReloadStage.isHidden = true
     }
 
     @objc func replayGame() {
         Stage.current = 1
         presentScene()
-        btnReplayGame.isHidden = true
+        buttonView.btnReplayGame.isHidden = true
     }
 
     private func presentScene() {

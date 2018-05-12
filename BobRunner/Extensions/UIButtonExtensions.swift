@@ -9,6 +9,31 @@
 import SpriteKit
 
 extension UIButton {
+
+    static func makeLoadNext() -> UIButton {
+        let button = UIButton(frame: Button.Frame.narrow)
+        button.setDefaultAttributes(title: "Start Next Stage")
+        button.tag = Button.NextStage.tag
+
+        return button
+    }
+
+    static func makeReload() -> UIButton {
+        let button = UIButton(frame: Button.Frame.narrow)
+        button.setDefaultAttributes(title: "Retry stage!")
+        button.tag = Button.ReloadStage.tag
+
+        return button
+    }
+
+    static func makeReplayGame() -> UIButton {
+        let button = UIButton(frame: Button.Frame.wide)
+        button.setDefaultAttributes(title: "Replay game from Stage 1!")
+        button.tag = Button.ReplayGame.tag
+
+        return button
+    }
+
     func alignCenter(in view: SKView?) {
         self.frame.origin.x = (view?.center.x)! - self.frame.size.width / 2
         self.frame.origin.y = (view?.center.y)! - self.frame.size.height / 2

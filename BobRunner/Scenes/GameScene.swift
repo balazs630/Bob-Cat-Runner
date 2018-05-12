@@ -278,7 +278,9 @@ extension GameScene {
         if Stage.isAllCompleted() {
             self.view?.viewWithTag(Button.ReplayGame.tag)?.isHidden = false
         } else {
-            self.view?.viewWithTag(Button.NextStage.tag)?.isHidden = false
+            let button = self.view?.viewWithTag(Button.NextStage.tag) as? UIButton
+            button?.setTitle("Start Stage \(Stage.current + 1)!", for: .normal)
+            button?.isHidden = false
         }
     }
 
