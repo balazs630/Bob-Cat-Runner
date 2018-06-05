@@ -38,12 +38,12 @@ public extension SKView {
         let iphoneXAspectRatio = screenHeight / screenWidth
 
         let aspectRatio = Double(self.frame.width/self.frame.height)
-        return (aspectRatio == iphoneXAspectRatio) ? true : false
+        return aspectRatio == iphoneXAspectRatio
     }
 
     func isIPad() -> Bool {
         let aspectRatio = self.frame.width/self.frame.height
-        return aspectRatio < 1.5 ? true : false
+        return aspectRatio < 1.5
     }
 
     func addSubviews(_ subviews: [UIView]) {

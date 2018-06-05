@@ -61,7 +61,7 @@ class Cat: SKSpriteNode {
     }
 
     func isAlive() -> Bool {
-        return lifes > 0 ? true : false
+        return lifes > 0
     }
 
     func die() {

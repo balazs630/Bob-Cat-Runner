@@ -45,7 +45,7 @@ struct Stage {
     }
 
     static func isAllCompleted() -> Bool {
-        return Stage.current == Stage.maxCount ? true : false
+        return Stage.current == Stage.maxCount
     }
 
 }
