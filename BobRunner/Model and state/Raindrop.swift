@@ -45,11 +45,11 @@ class Raindrop: SKSpriteNode {
     }
 
     private class func dropRaindrop(from cloud: SKSpriteNode, in gameScene: GameScene) {
-        let cloudRadius = Int(cloud.size.width/2) - 20
+        let cloudRadius = cloud.size.width / 2 - 20
 
         // Drop raindrops randomly according to cloud width
         var droppingPoint = cloud.position
-        droppingPoint.x += CGFloat(Util.generateRandomNumber(range: -1 * cloudRadius...cloudRadius))
+        droppingPoint.x += CGFloat.random(in: -cloudRadius...cloudRadius)
 
         var raindrop = Raindrop()
         let raindropScene = SKScene(fileNamed: Scene.raindrop)

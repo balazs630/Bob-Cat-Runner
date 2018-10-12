@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     // MARK: - Scene lifecycle
     override func didMove(to view: SKView) {
-        self.physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self
         Audio.setBackgroundMusic(for: self)
 
         initCommonStageNodes()
@@ -41,21 +41,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func initCommonStageNodes() {
-        if let camNode = self.childNode(withName: Node.camera) as? SKCameraNode {
+        if let camNode = childNode(withName: Node.camera) as? SKCameraNode {
             cam = camNode
         }
 
-        if let catNode = self.childNode(withName: Node.cat) as? Cat {
+        if let catNode = childNode(withName: Node.cat) as? Cat {
             cat = catNode
         }
 
         for cloudName in Stage.clouds {
-            self.childNode(withName: cloudName)
+            childNode(withName: cloudName)
         }
 
-        if let backgroundNode = self.childNode(withName: Node.Layer.background),
-            let midgroundNode = self.childNode(withName: Node.Layer.midground),
-            let foregroundNode = self.childNode(withName: Node.Layer.foreground) {
+        if let backgroundNode = childNode(withName: Node.Layer.background),
+            let midgroundNode = childNode(withName: Node.Layer.midground),
+            let foregroundNode = childNode(withName: Node.Layer.foreground) {
             graphicsLayers.append(backgroundNode)
             graphicsLayers.append(midgroundNode)
             graphicsLayers.append(foregroundNode)
@@ -63,11 +63,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func initHud(on view: SKView) {
-        if view.isIphoneX() {
+        if view.hasTopNotch {
             hud = SKReferenceNode(fileNamed: Scene.hudIphoneX)
         } else {
             hud = SKReferenceNode(fileNamed: Scene.hudStandard)
-            if view.isIPad() {
+            if view.isIPad {
                 let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
                 hud.position = iPadHudPos
             }
@@ -133,11 +133,7 @@ extension GameScene {
             switch otherCategory {
             case PhysicsCategory.raindrop.rawValue:
                 Raindrop.explode(raindrop: other, in: self)
-                if cat.isProtected {
-                    run(cat.raindropHitUmbrellaSound)
-                } else {
-                    catHitByRaindrop()
-                }
+                cat.isProtected ? run(cat.raindropHitUmbrellaSound) : catHitByRaindrop()
 
             case PhysicsCategory.umbrella.rawValue:
                 cat.collect(umbrella: other)
@@ -162,7 +158,6 @@ extension GameScene {
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         // Tells this object that one or more new touches occurred in a view or window
-
         if canMove {
             touchActive = true
             for touch in touches {
@@ -175,10 +170,8 @@ extension GameScene {
                 if cat.contains(location) {
                     cat.jumpUp()
                     isJumpingWhileMoving = true
-                } else if location.x < (cam.position.x - Constant.cameraOffset) {
-                    isMoveLeft = true
                 } else {
-                    isMoveLeft = false
+                    isMoveLeft = location.x < (cam.position.x - Constant.cameraOffset)
                 }
             }
         }
@@ -260,14 +253,9 @@ extension GameScene {
     }
 
     private func gameOver(type: GameOverType) {
-        if type == .drown {
-            cat.drown()
-        } else {
-            cat.die()
-        }
-
+        type == .drown ? cat.drown() : cat.die()
         canMove = false
-        self.view?.viewWithTag(Button.ReloadStage.tag)?.isHidden = false
+        view?.viewWithTag(Button.ReloadStage.tag)?.isHidden = false
     }
 
     private func completeActualStage() {
@@ -276,16 +264,16 @@ extension GameScene {
         cat.celebrate()
 
         if Stage.isAllCompleted() {
-            self.view?.viewWithTag(Button.ReplayGame.tag)?.isHidden = false
+            view?.viewWithTag(Button.ReplayGame.tag)?.isHidden = false
         } else {
-            let button = self.view?.viewWithTag(Button.NextStage.tag) as? UIButton
+            let button = view?.viewWithTag(Button.NextStage.tag) as? UIButton
             button?.setTitle("Start Stage \(Stage.current + 1)!", for: .normal)
             button?.isHidden = false
         }
     }
 
     private func reloadStage() {
-        self.view?.presentScene(SKScene(fileNamed: Stage.name))
+        view?.presentScene(SKScene(fileNamed: Stage.name))
     }
 
 }

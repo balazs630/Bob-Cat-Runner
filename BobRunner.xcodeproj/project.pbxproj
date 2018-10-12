@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AC0890C51ED64EE800CB1833 /* RaindropExplosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */; };
 		AC1A69FB1F87F8AA0066CED5 /* Stage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1A69FA1F87F8AA0066CED5 /* Stage.swift */; };
-		AC1E39261EF9612000C59751 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1E39251EF9612000C59751 /* Util.swift */; };
 		AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC312DEB1EF4586E004CBBA0 /* Cat.swift */; };
 		AC3CA8BD1F9D44E9007C12EC /* Raindrop.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */; };
 		AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606C91EE17AD5009FEE41 /* background_music.m4a */; };
@@ -41,7 +40,6 @@
 /* Begin PBXFileReference section */
 		AC0890C41ED64EE800CB1833 /* RaindropExplosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = RaindropExplosion.sks; sourceTree = "<group>"; };
 		AC1A69FA1F87F8AA0066CED5 /* Stage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stage.swift; sourceTree = "<group>"; };
-		AC1E39251EF9612000C59751 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		AC312DEB1EF4586E004CBBA0 /* Cat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cat.swift; sourceTree = "<group>"; };
 		AC3CA8BC1F9D44E9007C12EC /* Raindrop.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Raindrop.sks; sourceTree = "<group>"; };
 		AC7606C91EE17AD5009FEE41 /* background_music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = background_music.m4a; sourceTree = "<group>"; };
@@ -192,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				AC98E78C1EE367A70009DD66 /* Audio.swift */,
-				AC1E39251EF9612000C59751 /* Util.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -354,7 +351,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC903D221ED31F150016910C /* GameScene.swift in Sources */,
-				AC1E39261EF9612000C59751 /* Util.swift in Sources */,
 				AC1A69FB1F87F8AA0066CED5 /* Stage.swift in Sources */,
 				AC903D241ED31F150016910C /* GameViewController.swift in Sources */,
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
@@ -513,7 +509,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -529,7 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

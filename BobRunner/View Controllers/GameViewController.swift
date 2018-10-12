@@ -16,10 +16,16 @@ class GameViewController: UIViewController {
     // MARK: - View lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureSelf()
+    }
+}
 
-        guard let view = self.view as? SKView else { return }
+// MARK: - Screen configuration
+extension GameViewController {
+    private func configureSelf() {
+        guard let view = view as? SKView else { return }
         guard let scene = SKScene(fileNamed: Stage.name) else { return }
-        scene.scaleMode = view.isIphoneX() ? .resizeFill : .aspectFill
+        scene.scaleMode = view.hasTopNotch ? .resizeFill : .aspectFill
 
         buttonView.alignCenter(in: view)
         buttonView.setActions(for: self)
@@ -29,10 +35,7 @@ class GameViewController: UIViewController {
         view.ignoresSiblingOrder = true
         view.isDebugEnabled(false)
     }
-}
 
-// MARK: - Screen configuration
-extension GameViewController {
     override var shouldAutorotate: Bool {
         return true
     }
@@ -67,7 +70,7 @@ extension GameViewController {
     }
 
     private func presentScene() {
-        if let view = self.view as? SKView {
+        if let view = view as? SKView {
             view.presentScene(SKScene(fileNamed: Stage.name))
         }
     }

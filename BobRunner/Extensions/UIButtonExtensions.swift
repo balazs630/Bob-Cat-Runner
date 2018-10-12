@@ -35,14 +35,14 @@ extension UIButton {
     }
 
     func alignCenter(in view: SKView?) {
-        self.frame.origin.x = (view?.center.x)! - self.frame.size.width / 2
-        self.frame.origin.y = (view?.center.y)! - self.frame.size.height / 2
+        frame.origin.x = (view?.center.x)! - frame.size.width / 2
+        frame.origin.y = (view?.center.y)! - frame.size.height / 2
     }
 
     func setDefaultAttributes(title: String) {
-        self.layer.cornerRadius = 5
-        self.backgroundColor = .black
-        self.setTitle(title, for: .normal)
-        self.isHidden = true
+        layer.cornerRadius = 5
+        backgroundColor = .black
+        setTitle(title, for: .normal)
+        isHidden = true
     }
 }

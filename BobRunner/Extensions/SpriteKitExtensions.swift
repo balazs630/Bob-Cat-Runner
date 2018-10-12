@@ -23,32 +23,37 @@ public extension SKAction {
 public extension SKView {
     func isDebugEnabled(_ state: Bool) {
         if state {
-            self.showsFPS = true
-            self.showsNodeCount = true
-            self.showsDrawCount = true
-            self.showsQuadCount = true
-            self.showsPhysics = true
-            self.showsFields = true
+            showsFPS = true
+            showsNodeCount = true
+            showsDrawCount = true
+            showsQuadCount = true
+            showsPhysics = true
+            showsFields = true
         }
     }
 
-    func isIphoneX() -> Bool {
-        let screenHeight = 2436.0
-        let screenWidth = 1125.0
-        let iphoneXAspectRatio = screenHeight / screenWidth
-
-        let aspectRatio = Double(self.frame.width/self.frame.height)
-        return aspectRatio == iphoneXAspectRatio
+    var isLandscape: Bool {
+        return UIDevice.current.orientation.isLandscape
     }
 
-    func isIPad() -> Bool {
-        let aspectRatio = self.frame.width/self.frame.height
-        return aspectRatio < 1.5
+    var hasTopNotch: Bool {
+        // iPhone XR, X-XS, XS Max
+        let screenHeights = [1792, 2436, 2688]
+
+        if isLandscape {
+            return screenHeights.contains(Int(UIScreen.main.nativeBounds.width))
+        } else {
+            return screenHeights.contains(Int(UIScreen.main.nativeBounds.height))
+        }
+    }
+
+    var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
     }
 
     func addSubviews(_ subviews: [UIView]) {
         for view in subviews {
-            self.addSubview(view)
+            addSubview(view)
         }
     }
 }
