@@ -81,11 +81,10 @@ class Cat: SKSpriteNode {
         let jumpAction = SKAction.applyForce(CGVector(dx: 0, dy: 800), duration: TimeInterval(1.5))
         var jumpSequence = [SKAction]()
 
-        for _ in 0...4 {
+        (1...5).forEach { _ in
             jumpSequence.append(jumpAction)
         }
 
-        // Jump up 5 times
         run(SKAction.sequence(jumpSequence))
     }
 }

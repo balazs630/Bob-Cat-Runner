@@ -10,7 +10,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
     func application(_ application: UIApplication,
@@ -32,8 +31,8 @@ extension AppDelegate {
                 UserDefaults.Key.actualStage: 1
             ]
 
-            for item in firstTimeLaunchDefaults {
-                defaults.set(item.value, forKey: item.key)
+            firstTimeLaunchDefaults.forEach {
+                defaults.set($0.value, forKey: $0.key)
             }
 
             defaults.synchronize()

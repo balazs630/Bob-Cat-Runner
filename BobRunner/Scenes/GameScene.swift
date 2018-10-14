@@ -20,7 +20,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var isMoveLeft = false
     var isJumpingWhileMoving = false
 
-    var hud = SKReferenceNode()
     var lblLifeCounter: SKLabelNode?
     var lblUmbrellaCountDown: SKLabelNode?
 
@@ -30,17 +29,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Scene lifecycle
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
+        setupCommonNodes()
+    }
+}
+
+// MARK: Setup nodes
+extension GameScene {
+    private func setupCommonNodes() {
         Audio.setBackgroundMusic(for: self)
 
-        initCommonStageNodes()
-        initHud(on: view)
-
-        cam.addChild(hud)
-        initHudChildNodes()
-        updateLifeCounter()
-    }
-
-    private func initCommonStageNodes() {
         if let camNode = childNode(withName: Node.camera) as? SKCameraNode {
             cam = camNode
         }
@@ -49,9 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cat = catNode
         }
 
-        for cloudName in Stage.clouds {
-            childNode(withName: cloudName)
-        }
+        Stage.clouds.forEach { childNode(withName: $0) }
 
         if let backgroundNode = childNode(withName: Node.Layer.background),
             let midgroundNode = childNode(withName: Node.Layer.midground),
@@ -60,23 +55,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             graphicsLayers.append(midgroundNode)
             graphicsLayers.append(foregroundNode)
         }
+
+        let hudLeft = prepareTopLeftHUD()
+        let hudRight = prepareTopRightHUD()
+        cam.addChilds([hudLeft, hudRight])
+        updateLifeCounter()
     }
 
-    private func initHud(on view: SKView) {
-        if view.hasTopNotch {
-            hud = SKReferenceNode(fileNamed: Scene.hudIphoneX)
-        } else {
-            hud = SKReferenceNode(fileNamed: Scene.hudStandard)
-            if view.isIPad {
-                let iPadHudPos = CGPoint(x: view.frame.width / 2 - 260, y: view.frame.height / 2 - 200)
-                hud.position = iPadHudPos
-            }
-        }
+    private func prepareTopLeftHUD() -> SKNode {
+        let topLeftHUDScene = SKScene(fileNamed: Scene.topLeftHUD)
+        guard let topLeftHUD = topLeftHUDScene?.childNode(withName: Node.Layer.hud) else { return SKNode() }
+        topLeftHUD.removeFromParent()
+        topLeftHUD.position = (self.view?.topLeftCorner)!
+
+        return topLeftHUD
     }
 
-    private func initHudChildNodes() {
-        if let lifeCounter = hud.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
-            let umbrellaCountDown = hud.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
+    private func prepareTopRightHUD() -> SKNode {
+        let topRightHUDScene = SKScene(fileNamed: Scene.topRightHUD)
+
+        if let lifeCounter = topRightHUDScene?.childNode(withName: Node.Lbl.lifeCounter) as? SKLabelNode,
+            let umbrellaCountDown = topRightHUDScene?.childNode(withName: Node.Lbl.umbrellaCountDown) as? SKLabelNode {
             lblLifeCounter = lifeCounter
 
             lblUmbrellaCountDown = umbrellaCountDown
@@ -84,6 +83,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             lblUmbrellaCountDown?.text = String(Constant.countDownInitialSeconds)
             countDownSeconds = Constant.countDownInitialSeconds
         }
+
+        guard let topRightHUD = topRightHUDScene?.childNode(withName: Node.Layer.hud) else { return SKNode() }
+        topRightHUD.removeFromParent()
+        topRightHUD.position = (self.view?.topRightCorner)!
+
+        return topRightHUD
     }
 }
 
@@ -160,7 +165,7 @@ extension GameScene {
         // Tells this object that one or more new touches occurred in a view or window
         if canMove {
             touchActive = true
-            for touch in touches {
+            touches.forEach { touch in
                 let location = touch.location(in: self)
 
                 if self.atPoint(location).name == Button.ReloadStage.name {
@@ -206,7 +211,7 @@ extension GameScene {
     }
 
     private func adjustParallaxBackgroundLayers() {
-        for layer in graphicsLayers {
+        graphicsLayers.forEach { layer in
             if let movementMultiplier = layer.userData?.value(forKey: UserData.Key.movementMultiplier) as? CGFloat {
                 let adjustedPosition = cat.position.x * (1 - movementMultiplier)
                 layer.position.x = adjustedPosition

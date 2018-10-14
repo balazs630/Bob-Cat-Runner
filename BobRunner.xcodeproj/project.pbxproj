@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,7 @@
 		AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CA1EE17AD5009FEE41 /* gameover.m4a */; };
 		AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */; };
 		AC8B5818209E651400DBBC25 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */; };
-		AC8B581A209EED6100DBBC25 /* SpriteKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */; };
+		AC8B581A209EED6100DBBC25 /* SKViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B5819209EED6100DBBC25 /* SKViewExtensions.swift */; };
 		AC8B5820209F2ECB00DBBC25 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */; };
 		AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC903D1B1ED31F150016910C /* AppDelegate.swift */; };
 		AC903D1E1ED31F150016910C /* Stage1.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC903D1D1ED31F150016910C /* Stage1.sks */; };
@@ -24,6 +24,9 @@
 		AC903D271ED31F150016910C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC903D251ED31F150016910C /* Main.storyboard */; };
 		AC903D291ED31F150016910C /* ImageAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC903D281ED31F150016910C /* ImageAssets.xcassets */; };
 		AC903D2C1ED31F150016910C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AC903D2A1ED31F150016910C /* LaunchScreen.storyboard */; };
+		AC9048BB2173DAF6001F370A /* SKTextureExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9048BA2173DAF6001F370A /* SKTextureExtension.swift */; };
+		AC9048BD2173DB09001F370A /* SKActionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9048BC2173DB09001F370A /* SKActionExtensions.swift */; };
+		AC9048BF2173DB1E001F370A /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9048BE2173DB1E001F370A /* SKNodeExtension.swift */; };
 		AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC98E78C1EE367A70009DD66 /* Audio.swift */; };
 		AC9CF9A81F04202100843236 /* Stage2.sks in Resources */ = {isa = PBXBuildFile; fileRef = AC9CF9A71F04202100843236 /* Stage2.sks */; };
 		ACC19D1D1FA608150026D272 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACC19D1C1FA608150026D272 /* Constants.swift */; };
@@ -33,8 +36,8 @@
 		ACE9277520A648E300E2B627 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE9277420A648E300E2B627 /* ButtonView.swift */; };
 		ACE9277920A773C000E2B627 /* raindrop_hit_umbrella.m4a in Resources */ = {isa = PBXBuildFile; fileRef = ACE9277820A7736800E2B627 /* raindrop_hit_umbrella.m4a */; };
 		ACE9277B20A77DB800E2B627 /* collect_umbrella.m4a in Resources */ = {isa = PBXBuildFile; fileRef = ACE9277A20A77DAE00E2B627 /* collect_umbrella.m4a */; };
-		ACEA3DF21FF7119A00781556 /* HUD-IPhoneX.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */; };
-		ACEA9C8B1FB397BB002A5074 /* HUD-Standard.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */; };
+		ACFEBC792172BB5100572F6D /* topLeftHUD.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACFEBC782172BB5100572F6D /* topLeftHUD.sks */; };
+		ACFEBC7B217331F100572F6D /* topRightHUD.sks in Resources */ = {isa = PBXBuildFile; fileRef = ACFEBC7A217331F100572F6D /* topRightHUD.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +49,7 @@
 		AC7606CA1EE17AD5009FEE41 /* gameover.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = gameover.m4a; sourceTree = "<group>"; };
 		AC7606CB1EE17AD5009FEE41 /* raindrop_hit_cat.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_cat.m4a; sourceTree = "<group>"; };
 		AC8B5817209E651400DBBC25 /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
-		AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteKitExtensions.swift; sourceTree = "<group>"; };
+		AC8B5819209EED6100DBBC25 /* SKViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKViewExtensions.swift; sourceTree = "<group>"; };
 		AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
 		AC903D181ED31F150016910C /* BobRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BobRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC903D1B1ED31F150016910C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +60,9 @@
 		AC903D281ED31F150016910C /* ImageAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImageAssets.xcassets; sourceTree = "<group>"; };
 		AC903D2B1ED31F150016910C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AC903D2D1ED31F150016910C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC9048BA2173DAF6001F370A /* SKTextureExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKTextureExtension.swift; sourceTree = "<group>"; };
+		AC9048BC2173DB09001F370A /* SKActionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKActionExtensions.swift; sourceTree = "<group>"; };
+		AC9048BE2173DB1E001F370A /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 		AC98E78C1EE367A70009DD66 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		AC9CF9A71F04202100843236 /* Stage2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Stage2.sks; sourceTree = "<group>"; };
 		ACC19D1C1FA608150026D272 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -66,8 +72,8 @@
 		ACE9277420A648E300E2B627 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		ACE9277820A7736800E2B627 /* raindrop_hit_umbrella.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = raindrop_hit_umbrella.m4a; sourceTree = "<group>"; };
 		ACE9277A20A77DAE00E2B627 /* collect_umbrella.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = collect_umbrella.m4a; sourceTree = "<group>"; };
-		ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "HUD-IPhoneX.sks"; sourceTree = "<group>"; };
-		ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = "HUD-Standard.sks"; sourceTree = "<group>"; };
+		ACFEBC782172BB5100572F6D /* topLeftHUD.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = topLeftHUD.sks; sourceTree = "<group>"; };
+		ACFEBC7A217331F100572F6D /* topRightHUD.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = topRightHUD.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +112,8 @@
 		AC8B580A209E605400DBBC25 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
-				ACEA9C8A1FB397BB002A5074 /* HUD-Standard.sks */,
-				ACEA3DF11FF7119A00781556 /* HUD-IPhoneX.sks */,
+				ACFEBC782172BB5100572F6D /* topLeftHUD.sks */,
+				ACFEBC7A217331F100572F6D /* topRightHUD.sks */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -197,7 +203,10 @@
 		AC8B5814209E646500DBBC25 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				AC8B5819209EED6100DBBC25 /* SpriteKitExtensions.swift */,
+				AC9048BC2173DB09001F370A /* SKActionExtensions.swift */,
+				AC9048BE2173DB1E001F370A /* SKNodeExtension.swift */,
+				AC9048BA2173DAF6001F370A /* SKTextureExtension.swift */,
+				AC8B5819209EED6100DBBC25 /* SKViewExtensions.swift */,
 				AC8B581F209F2ECB00DBBC25 /* UIButtonExtensions.swift */,
 			);
 			path = Extensions;
@@ -285,7 +294,7 @@
 				};
 			};
 			buildConfigurationList = AC903D131ED31F150016910C /* Build configuration list for PBXProject "BobRunner" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -307,12 +316,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACFEBC7B217331F100572F6D /* topRightHUD.sks in Resources */,
 				ACE9277B20A77DB800E2B627 /* collect_umbrella.m4a in Resources */,
 				ACE9277920A773C000E2B627 /* raindrop_hit_umbrella.m4a in Resources */,
 				ACC261421FB0FD8E00700A73 /* Stage3.sks in Resources */,
-				ACEA3DF21FF7119A00781556 /* HUD-IPhoneX.sks in Resources */,
 				ACD8B76C1F4A2748001CA3AC /* crowd_celebrate.m4a in Resources */,
-				ACEA9C8B1FB397BB002A5074 /* HUD-Standard.sks in Resources */,
 				AC903D271ED31F150016910C /* Main.storyboard in Resources */,
 				AC903D1E1ED31F150016910C /* Stage1.sks in Resources */,
 				AC9CF9A81F04202100843236 /* Stage2.sks in Resources */,
@@ -320,6 +328,7 @@
 				AC7606CD1EE17AD5009FEE41 /* gameover.m4a in Resources */,
 				AC7606CC1EE17AD5009FEE41 /* background_music.m4a in Resources */,
 				AC3CA8BD1F9D44E9007C12EC /* Raindrop.sks in Resources */,
+				ACFEBC792172BB5100572F6D /* topLeftHUD.sks in Resources */,
 				AC903D2C1ED31F150016910C /* LaunchScreen.storyboard in Resources */,
 				AC0890C51ED64EE800CB1833 /* RaindropExplosion.sks in Resources */,
 				AC7606CE1EE17AD5009FEE41 /* raindrop_hit_cat.m4a in Resources */,
@@ -353,6 +362,7 @@
 				AC903D221ED31F150016910C /* GameScene.swift in Sources */,
 				AC1A69FB1F87F8AA0066CED5 /* Stage.swift in Sources */,
 				AC903D241ED31F150016910C /* GameViewController.swift in Sources */,
+				AC9048BF2173DB1E001F370A /* SKNodeExtension.swift in Sources */,
 				AC903D1C1ED31F150016910C /* AppDelegate.swift in Sources */,
 				AC312DEC1EF4586E004CBBA0 /* Cat.swift in Sources */,
 				AC98E78D1EE367A70009DD66 /* Audio.swift in Sources */,
@@ -361,7 +371,9 @@
 				ACE9277520A648E300E2B627 /* ButtonView.swift in Sources */,
 				AC8B5820209F2ECB00DBBC25 /* UIButtonExtensions.swift in Sources */,
 				ACC19D1D1FA608150026D272 /* Constants.swift in Sources */,
-				AC8B581A209EED6100DBBC25 /* SpriteKitExtensions.swift in Sources */,
+				AC9048BD2173DB09001F370A /* SKActionExtensions.swift in Sources */,
+				AC8B581A209EED6100DBBC25 /* SKViewExtensions.swift in Sources */,
+				AC9048BB2173DAF6001F370A /* SKTextureExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,7 +504,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -505,7 +518,10 @@
 				DEVELOPMENT_TEAM = UW8QF9DSWQ;
 				INFOPLIST_FILE = "$(SRCROOT)/BobRunner/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -521,7 +537,10 @@
 				DEVELOPMENT_TEAM = UW8QF9DSWQ;
 				INFOPLIST_FILE = "$(SRCROOT)/BobRunner/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = balazs630.BobRunner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;

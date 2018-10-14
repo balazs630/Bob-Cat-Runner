@@ -9,7 +9,6 @@
 import SpriteKit
 
 extension UIButton {
-
     static func makeLoadNext() -> UIButton {
         let button = UIButton(frame: Button.Frame.narrow)
         button.setDefaultAttributes(title: "Start Next Stage")
@@ -39,7 +38,7 @@ extension UIButton {
         frame.origin.y = (view?.center.y)! - frame.size.height / 2
     }
 
-    func setDefaultAttributes(title: String) {
+    private func setDefaultAttributes(title: String) {
         layer.cornerRadius = 5
         backgroundColor = .black
         setTitle(title, for: .normal)

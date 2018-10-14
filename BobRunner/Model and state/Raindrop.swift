@@ -35,8 +35,8 @@ class Raindrop: SKSpriteNode {
             return
         } else {
             // Drop raindrops from each cloud added to the given stage
-            for cloudName in Stage.clouds {
-                if let cloud = gameScene.childNode(withName: cloudName) as? SKSpriteNode {
+            Stage.clouds.forEach {
+                if let cloud = gameScene.childNode(withName: $0) as? SKSpriteNode {
                     dropRaindrop(from: cloud, in: gameScene)
                 }
             }

@@ -9,7 +9,6 @@
 import SpriteKit
 
 class GameViewController: UIViewController {
-
     // MARK: Properties
     let buttonView = ButtonView()
 
@@ -51,7 +50,6 @@ extension GameViewController {
 
 // MARK: - Button actions
 extension GameViewController {
-
     @objc func loadNextStage() {
         Stage.current += 1
         presentScene()

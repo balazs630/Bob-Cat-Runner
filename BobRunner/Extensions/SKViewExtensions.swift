@@ -1,5 +1,5 @@
 //
-//  SpriteKitExtensions.swift
+//  SKViewExtensions.swift
 //  BobRunner
 //
 //  Created by Horváth Balázs on 2018. 05. 06..
@@ -8,28 +8,14 @@
 
 import SpriteKit
 
-public extension SKTexture {
-    convenience internal init!(assetIdentifier: ImageAssetIdentifier) {
-        self.init(imageNamed: assetIdentifier.rawValue)
-    }
-}
-
-public extension SKAction {
-    internal class func playSound(assetIdentifier: SoundAssetIdentifier) -> SKAction {
-        return SKAction.playSoundFileNamed(assetIdentifier.rawValue, waitForCompletion: false)
-    }
-}
-
-public extension SKView {
+extension SKView {
     func isDebugEnabled(_ state: Bool) {
-        if state {
-            showsFPS = true
-            showsNodeCount = true
-            showsDrawCount = true
-            showsQuadCount = true
-            showsPhysics = true
-            showsFields = true
-        }
+        showsFPS = state
+        showsNodeCount = state
+        showsDrawCount = state
+        showsQuadCount = state
+        showsPhysics = state
+        showsFields = state
     }
 
     var isLandscape: Bool {
@@ -52,8 +38,16 @@ public extension SKView {
     }
 
     func addSubviews(_ subviews: [UIView]) {
-        for view in subviews {
-            addSubview(view)
-        }
+        subviews.forEach { addSubview($0) }
+    }
+
+    var topLeftCorner: CGPoint {
+        return CGPoint(x: -1 * self.frame.width / 2,
+                       y: self.frame.height / 2)
+    }
+
+    var topRightCorner: CGPoint {
+        return CGPoint(x: self.frame.width / 2,
+                       y: self.frame.height / 2)
     }
 }

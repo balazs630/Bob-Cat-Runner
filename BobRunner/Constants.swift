@@ -6,8 +6,7 @@
 //  Copyright © 2017. Horváth Balázs. All rights reserved.
 //
 
-import Foundation
-import CoreGraphics
+import UIKit
 
 struct Constant {
     static let standardCatTextureScale = CGFloat(1.0)
@@ -33,13 +32,12 @@ struct Constant {
 struct Scene {
     static let raindrop = "Raindrop"
     static let raindropExplosion = "RaindropExplosion"
-    static let hudStandard = "HUD-Standard"
-    static let hudIphoneX = "HUD-IPhoneX"
+    static let topLeftHUD = "topLeftHUD"
+    static let topRightHUD = "topRightHUD"
 }
 
 struct Node {
     static let camera = "camera"
-    static let hud = "hud"
     static let cat = "cat"
     static let raindrop = "raindrop"
 
@@ -49,6 +47,7 @@ struct Node {
     }
 
     struct Layer {
+        static let hud = "hud"
         static let background = "background-layer"
         static let midground = "mid-layer"
         static let foreground = "foreground-layer"

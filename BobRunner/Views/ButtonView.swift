@@ -9,7 +9,6 @@
 import SpriteKit
 
 class ButtonView: UIView {
-
     // MARK: Properties
     let btnLoadNextStage = UIButton.makeLoadNext()
     let btnReloadStage = UIButton.makeReload()
@@ -32,9 +31,7 @@ class ButtonView: UIView {
 // MARK: - Button configuration
 extension ButtonView {
     func alignCenter(in view: SKView) {
-        for button in buttons {
-            button.alignCenter(in: view)
-        }
+        buttons.forEach { $0.alignCenter(in: view) }
     }
 
     func setActions(for gameVC: GameViewController) {

@@ -33,7 +33,7 @@ struct Stage {
 
     static var clouds: [String] {
         var currentClouds = [String]()
-        for index in 1...Constant.clouds[current]! {
+        (1...Constant.clouds[current]!).forEach { index in
             currentClouds.append("cloud\(index)")
         }
 
@@ -47,5 +47,4 @@ struct Stage {
     static func isAllCompleted() -> Bool {
         return Stage.current == Stage.maxCount
     }
-
 }
